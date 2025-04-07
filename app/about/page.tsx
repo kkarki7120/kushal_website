@@ -5,6 +5,55 @@ import { ArrowRight, Github, Twitter, Linkedin, Calendar, GraduationCap, Briefca
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 
+const experiences = [
+  {
+    title: "DevOps Engineer",
+    company: "Cloudlaya LLC",
+    duration: "August 2024 - present",
+    responsibilities: [
+      "Played a key role in SysOps tasks, including server provisioning, configuration management, and troubleshooting system-level issues to maintain optimal performance.",
+      "Designed and implemented projects leveraging Docker, Nginx, Apache, and AWS services such as EC2, IAM, and S3 within a Linux environment, ensuring scalability and reliability.",
+      "Gained hands-on experience with monitoring and visualization tools like Grafana, enabling proactive system performance tracking and issue resolution.",
+      "Ensured consistency, quality, and adherence to best practices across all projects, successfully integrating cloud technologies into business operations."
+    ]
+  },
+  {
+    title: "Intern - DevOps Engineer",
+    company: "Cloudlaya LLC",
+    duration: "June 2024 - August 2024",
+    responsibilities: [
+      "Played a key role in SysOps tasks, including server provisioning, configuration management, and troubleshooting system-level issues to maintain optimal performance.",
+      "Designed and implemented projects leveraging Docker, Nginx, Apache, and AWS services such as EC2, IAM, and S3 within a Linux environment, ensuring scalability and reliability.",
+      "Gained hands-on experience with monitoring and visualization tools like Grafana, enabling proactive system performance tracking and issue resolution.",
+      "Ensured consistency, quality, and adherence to best practices across all projects, successfully integrating cloud technologies into business operations."
+    ]
+  },
+  {
+    title: "Full-stack Web Developer",
+    company: "KSW Techzone",
+    duration: "October 2023 - February 2024",
+    responsibilities: [
+      "Retained as a Junior Developer following the internship, recognizing consistent performance and contributions to project success.",
+      "Maintained code quality across front-end (HTML/CSS) and back-end (Django), ensuring CI/CD readiness and seamless integration.",
+      "Developed and maintained web applications using Python and Django, delivering scalable and efficient solutions.",
+      "Managed web hosting using shared hosting platforms, including domain configurations, email setup, and server maintenance.",
+      "Performed system administration tasks such as managing Linux servers, troubleshooting hosting issues, and ensuring server reliability."
+    ]
+  },
+  {
+    title: "Intern - Web Development",
+    company: "KSW Techzone Ltd.",
+    duration: "August 2023 - October 2024",
+    responsibilities: [
+      "Maintained code quality across front-end (HTML/CSS) and back-end (Django).",
+      "Acted as project lead, managed tasks, and ensured timely completion of goals.",
+      "Collaborated with designers and developers to deliver cohesive design and functionality.",
+      "Used Git and GitHub for collaborative development and deployment practices, improving team workflow efficiency."
+    ]
+  }
+];
+
+
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -89,20 +138,13 @@ export default function AboutPage() {
                 <div className="space-y-2">
                   <h2 className="text-3xl font-bold">Who Am I?</h2>
                   <p className="text-muted-foreground">
-                    I'm Kushal Karki, a passionate DevOps Engineer with over 5 years of experience in designing,
-                    implementing, and managing cloud infrastructure and CI/CD pipelines. My journey in DevOps began
-                    during my time as a system administrator when I discovered my passion for automation and
-                    infrastructure as code.
+                  "I'm Kushal Karki, a passionate DevOps Engineer with 1 year of experience in automation and infrastructure management, alongside 1 year as a full-stack developer. My journey in tech began as a web developer, where I created functional and engaging digital experiences, while also managing system administration tasks like Linux servers, shared hosting, emails, and domains. This combination of roles ignited my passion for automation and infrastructure as code, leading me to pursue a career in DevOps.
                   </p>
                   <p className="text-muted-foreground">
-                    After transitioning to a DevOps role, I've worked with several tech companies where I've built and
-                    optimized infrastructure on AWS, Azure, and GCP. I've implemented CI/CD pipelines that reduced
-                    deployment times from days to minutes and increased the reliability of production systems.
+                  In my DevOps journey, I’ve primarily worked on projects leveraging AWS, utilizing a wide range of its services to build and optimize cloud infrastructure. While I have minimal experience with GCP and Azure, the majority of my expertise lies in AWS, where I’ve implemented CI/CD pipelines, automated deployments, and enhanced system reliability. My hands-on experience spans services like EC2, S3, RDS, Lambda, and more, enabling me to deliver scalable and efficient solutions.
                   </p>
                   <p className="text-muted-foreground">
-                    What drives me is the ability to bridge the gap between development and operations, creating
-                    efficient, scalable, and reliable systems. I love solving complex infrastructure challenges and
-                    enabling teams to deliver software faster and more reliably.
+                  What drives me is the opportunity to bridge the gap between development and operations, crafting reliable, scalable systems. I thrive on solving complex infrastructure challenges and empowering teams to deliver software faster and more effectively."
                   </p>
                 </div>
 
@@ -444,97 +486,56 @@ export default function AboutPage() {
         </section>
 
         <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
-          <div className="container">
-            <div className="text-center mb-16">
-              <Badge className="mb-2 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
-                Experience
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Work{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-                  Experience
-                </span>
-              </h2>
-              <p className="max-w-[700px] mx-auto text-muted-foreground">
-                My professional journey and the companies I've worked with.
-              </p>
-            </div>
+  <div className="container">
+    <div className="text-center mb-16">
+      <Badge className="mb-2 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
+        Experience
+      </Badge>
+      <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        Work{" "}
+        <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
+          Experience
+        </span>
+      </h2>
+      <p className="max-w-[700px] mx-auto text-muted-foreground">
+        My professional journey and the companies I've worked with.
+      </p>
+    </div>
 
-            <div className="relative border-l-2 border-blue-600 ml-3 md:ml-0 md:mx-auto md:max-w-3xl pl-8 md:pl-0">
-              <div className="mb-12 md:grid md:grid-cols-5 md:gap-6">
-                <div className="md:col-span-2 md:text-right md:pr-8">
-                  <div className="flex items-center md:justify-end">
-                    <Briefcase className="h-5 w-5 text-blue-600 mr-2 md:order-last md:ml-2 md:mr-0" />
-                    <h3 className="text-xl font-bold">Senior DevOps Engineer</h3>
-                  </div>
-                  <p className="text-muted-foreground">Cloud Infrastructure Inc.</p>
-                  <div className="flex items-center md:justify-end mt-1">
-                    <Calendar className="h-4 w-4 text-blue-600 mr-1 md:order-last md:ml-1 md:mr-0" />
-                    <p className="text-sm text-muted-foreground">January 2021 - Present</p>
-                  </div>
-                </div>
-                <div className="mt-4 md:mt-0 md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md relative">
-                  <div className="absolute top-1/2 -left-10 transform -translate-y-1/2 w-4 h-4 rounded-full bg-blue-600 border-4 border-blue-100 dark:border-blue-900 md:left-0 md:-translate-x-1/2"></div>
-                  <ul className="space-y-2 list-disc list-inside text-muted-foreground">
-                    <li>Lead a team of 5 DevOps engineers managing cloud infrastructure across AWS and Azure</li>
-                    <li>Implemented infrastructure as code using Terraform, reducing provisioning time by 70%</li>
-                    <li>Designed and built CI/CD pipelines with Jenkins and GitHub Actions for 20+ microservices</li>
-                    <li>Migrated legacy applications to Kubernetes, improving scalability and reducing costs by 40%</li>
-                    <li>Implemented comprehensive monitoring with Prometheus, Grafana, and ELK stack</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mb-12 md:grid md:grid-cols-5 md:gap-6">
-                <div className="md:col-span-2 md:text-right md:pr-8">
-                  <div className="flex items-center md:justify-end">
-                    <Briefcase className="h-5 w-5 text-blue-600 mr-2 md:order-last md:ml-2 md:mr-0" />
-                    <h3 className="text-xl font-bold">DevOps Engineer</h3>
-                  </div>
-                  <p className="text-muted-foreground">TechSolutions Co.</p>
-                  <div className="flex items-center md:justify-end mt-1">
-                    <Calendar className="h-4 w-4 text-blue-600 mr-1 md:order-last md:ml-1 md:mr-0" />
-                    <p className="text-sm text-muted-foreground">June 2018 - December 2020</p>
-                  </div>
-                </div>
-                <div className="mt-4 md:mt-0 md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md relative">
-                  <div className="absolute top-1/2 -left-10 transform -translate-y-1/2 w-4 h-4 rounded-full bg-blue-600 border-4 border-blue-100 dark:border-blue-900 md:left-0 md:-translate-x-1/2"></div>
-                  <ul className="space-y-2 list-disc list-inside text-muted-foreground">
-                    <li>Managed AWS infrastructure including EC2, S3, RDS, and Lambda services</li>
-                    <li>Implemented Docker containerization for applications and services</li>
-                    <li>Built and maintained CI/CD pipelines using Jenkins and GitLab CI</li>
-                    <li>Automated infrastructure provisioning with Terraform and CloudFormation</li>
-                    <li>Implemented monitoring and alerting solutions using Datadog and PagerDuty</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="md:grid md:grid-cols-5 md:gap-6">
-                <div className="md:col-span-2 md:text-right md:pr-8">
-                  <div className="flex items-center md:justify-end">
-                    <Briefcase className="h-5 w-5 text-blue-600 mr-2 md:order-last md:ml-2 md:mr-0" />
-                    <h3 className="text-xl font-bold">Systems Administrator</h3>
-                  </div>
-                  <p className="text-muted-foreground">Digital Creations Ltd.</p>
-                  <div className="flex items-center md:justify-end mt-1">
-                    <Calendar className="h-4 w-4 text-blue-600 mr-1 md:order-last md:ml-1 md:mr-0" />
-                    <p className="text-sm text-muted-foreground">January 2017 - May 2018</p>
-                  </div>
-                </div>
-                <div className="mt-4 md:mt-0 md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md relative">
-                  <div className="absolute top-1/2 -left-10 transform -translate-y-1/2 w-4 h-4 rounded-full bg-blue-600 border-4 border-blue-100 dark:border-blue-900 md:left-0 md:-translate-x-1/2"></div>
-                  <ul className="space-y-2 list-disc list-inside text-muted-foreground">
-                    <li>Managed on-premises Linux and Windows servers</li>
-                    <li>Implemented backup and disaster recovery solutions</li>
-                    <li>Automated routine tasks using Bash and PowerShell scripts</li>
-                    <li>Migrated services to AWS cloud infrastructure</li>
-                    <li>Implemented monitoring using Nagios and Zabbix</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+    <div className="relative border-l-2 border-blue-600 mx-auto md:max-w-3xl pl-8 md:pl-0">
+      {
+        experiences.map((experience,index) => {
+          return (
+            <div className="mb-12 md:grid md:grid-cols-5 md:gap-6 md:px-5 relative " key={index}>
+        <div className="md:col-span-2 md:text-right md:mx-auto flex flex-col items-center justify-center ">
+          <div className="flex items-center md:justify-end">
+            <Briefcase className="h-5 w-5 text-blue-600 mr-2 md:order-last md:ml-2 md:mr-0" />
+            <h3 className="text-xl font-bold">{experience.title}</h3>
           </div>
-        </section>
+          <p className="text-muted-foreground flex md:justify-start">{experience.company}</p>
+          <div className="flex items-center md:justify-start mt-1">
+            <Calendar className="h-4 w-4 text-blue-600 mr-1 md:order-last md:ml-1 md:mr-0" />
+            <p className="text-sm text-muted-foreground flex">{experience.duration}</p>
+          </div>
+        </div>
+        <div className="mt-4 md:mt-0 md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 w-4 h-4 rounded-full bg-blue-600 border-4 border-blue-100 dark:border-blue-900 md:left-0 md:-translate-x-1/2"></div>
+          <ul className="space-y-2 list-disc list-inside text-muted-foreground">
+          {
+            experience.responsibilities.map((list)=>{
+              return <li key={list}>{list}</li>
+            })
+          }
+          </ul>
+        </div>
+      </div>
+          )
+        })
+      }
+    </div>
+  </div>
+</section>
+
 
         <section className="py-20 container">
           <div className="text-center mb-16">

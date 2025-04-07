@@ -59,7 +59,7 @@ export default function Home() {
               <div className="relative flex justify-center">
                 <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl animate-float">
                   <Image
-                    src="/kushal_pic.JPG"
+                    src="/kushal.png"
                     alt="Portrait of Kushal Karki"
                     fill
                     className="object-cover"
@@ -111,9 +111,7 @@ export default function Home() {
               <div className="space-y-2">
                 <h3 className="text-2xl font-bold">My Background</h3>
                 <p className="text-muted-foreground">
-                  I'm a full-stack developer with 5+ years of experience creating digital experiences that are both
-                  beautiful and functional. My journey in web development started when I built my first website at 16,
-                  and I've been passionate about coding ever since.
+                "I’m a DevOps Engineer with 1 year of experience in automation and infrastructure, paired with 1 year as a full-stack developer crafting seamless digital experiences. My love for technology began at 16 when I built my first website, and it continues to drive my work today."
                 </p>
               </div>
 
