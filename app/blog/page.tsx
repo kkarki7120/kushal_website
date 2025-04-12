@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Github, Twitter, Linkedin, Search, Calendar } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
 export default function BlogPage() {
   // Blog posts data
@@ -14,10 +15,9 @@ export default function BlogPage() {
       excerpt:
         "Essential configurations and strategies for running reliable Kubernetes clusters in production, including resource management, security, and high availability.",
       date: "June 15, 2023",
-      image: "/placeholder.svg?  security, and high availability.",
-      date: "June 15, 2023",
       image: "/placeholder.svg?height=300&width=600&text=Kubernetes",
       category: "DevOps",
+      categories: ["development", "technology"],
       readTime: "10 min read",
     },
     {
@@ -28,6 +28,7 @@ export default function BlogPage() {
       date: "May 22, 2023",
       image: "/placeholder.svg?height=300&width=600&text=IaC",
       category: "Cloud",
+      categories: ["development", "technology"],
       readTime: "8 min read",
     },
     {
@@ -38,6 +39,7 @@ export default function BlogPage() {
       date: "April 10, 2023",
       image: "/placeholder.svg?height=300&width=600&text=DevSecOps",
       category: "Security",
+      categories: ["development", "technology"],
       readTime: "12 min read",
     },
     {
@@ -48,6 +50,7 @@ export default function BlogPage() {
       date: "March 15, 2023",
       image: "/placeholder.svg?height=300&width=600&text=Monitoring",
       category: "DevOps",
+      categories: ["development", "technology"],
       readTime: "10 min read",
     },
     {
@@ -58,6 +61,7 @@ export default function BlogPage() {
       date: "February 28, 2023",
       image: "/placeholder.svg?height=300&width=600&text=Container+Security",
       category: "Security",
+      categories: ["development", "technology"],
       readTime: "15 min read",
     },
     {
@@ -68,6 +72,7 @@ export default function BlogPage() {
       date: "February 10, 2023",
       image: "/placeholder.svg?height=300&width=600&text=GitOps",
       category: "DevOps",
+      categories: ["development", "technology"],
       readTime: "9 min read",
     },
     {
@@ -78,6 +83,7 @@ export default function BlogPage() {
       date: "January 25, 2023",
       image: "/placeholder.svg?height=300&width=600&text=Cost+Optimization",
       category: "Cloud",
+      categories: ["development", "career"],
       readTime: "7 min read",
     },
   ]
@@ -163,114 +169,312 @@ export default function BlogPage() {
             </div>
 
             <div className="flex justify-center mb-12">
-              <div className="inline-flex bg-white dark:bg-gray-800 p-1 rounded-lg shadow-md">
-                <Button variant="ghost" className="rounded-md hover:bg-blue-100 dark:hover:bg-blue-900">
-                  All
-                </Button>
-                <Button variant="ghost" className="rounded-md hover:bg-blue-100 dark:hover:bg-blue-900">
-                  Development
-                </Button>
-                <Button variant="ghost" className="rounded-md hover:bg-blue-100 dark:hover:bg-blue-900">
-                  Design
-                </Button>
-                <Button variant="ghost" className="rounded-md hover:bg-blue-100 dark:hover:bg-blue-900">
-                  Career
-                </Button>
-                <Button variant="ghost" className="rounded-md hover:bg-blue-100 dark:hover:bg-blue-900">
-                  Technology
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-12 mb-16">
-              <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                <div className="md:flex">
-                  <div className="md:w-1/3 relative">
-                    <Image
-                      src="/placeholder.svg?height=400&width=600&text=Featured+Post"
-                      alt="Featured Post"
-                      width={600}
-                      height={400}
-                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
+              <Tabs defaultValue="all" className="w-full max-w-3xl">
+                <TabsList className="grid grid-cols-5 bg-white dark:bg-gray-800 p-1 rounded-lg shadow-md">
+                  <TabsTrigger
+                    value="all"
+                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                  >
+                    All
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="development"
+                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                  >
+                    Development
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="design"
+                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                  >
+                    Design
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="career"
+                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                  >
+                    Career
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="technology"
+                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                  >
+                    Technology
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="all">
+              <div className="grid grid-cols-1 gap-12 mb-16">
+                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+                  <div className="md:flex">
+                    <div className="md:w-1/3 relative">
+                      <Image
+                        src="/placeholder.svg?height=400&width=600&text=Featured+Post"
+                        alt="Featured Post"
+                        width={600}
+                        height={400}
+                        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-8 md:w-2/3">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Badge
-                        variant="outline"
-                        className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                    <div className="p-8 md:w-2/3">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Badge
+                          variant="outline"
+                          className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                        >
+                          {blogPosts[0].category}
+                        </Badge>
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <Calendar className="h-3 w-3 mr-1" />
+                          {blogPosts[0].date}
+                        </div>
+                      </div>
+                      <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {blogPosts[0].title}
+                      </h2>
+                      <p className="text-muted-foreground mb-6">
+                        {blogPosts[0].excerpt} Learn how to avoid common pitfalls and optimize your deployments.
+                      </p>
+                      <Button
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                        asChild
                       >
-                        DevOps
-                      </Badge>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        June 15, 2023
-                      </div>
+                        <Link href={`/blog/${blogPosts[0].slug}`}>
+                          Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
                     </div>
-                    <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      Kubernetes Best Practices for Production Environments
-                    </h2>
-                    <p className="text-muted-foreground mb-6">
-                      Essential configurations and strategies for running reliable Kubernetes clusters in production,
-                      including resource management, security, and high availability. Learn how to avoid common pitfalls
-                      and optimize your deployments.
-                    </p>
-                    <Button
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                      asChild
-                    >
-                      <Link href={`/blog/kubernetes-best-practices`}>
-                        Read Article <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
                   </div>
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogPosts.slice(1).map((post) => (
+                  <div
+                    key={post.slug}
+                    className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                  >
+                    <div className="relative aspect-[16/9] overflow-hidden">
+                      <Image
+                        src={post.image || "/placeholder.svg"}
+                        alt={post.title}
+                        width={600}
+                        height={300}
+                        className="object-cover transition-all duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <div className="flex justify-between items-center mb-2">
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <Calendar className="h-3 w-3 mr-1" />
+                          {post.date}
+                        </div>
+                        <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {post.title}
+                      </h3>
+                      <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                      >
+                        Read More <ArrowRight className="ml-1 h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="development">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogPosts
+                  .filter((post) => post.categories.includes("development"))
+                  .map((post) => (
+                    <div
+                      key={post.slug}
+                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                    >
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <Image
+                          src={post.image || "/placeholder.svg"}
+                          alt={post.title}
+                          width={600}
+                          height={300}
+                          className="object-cover transition-all duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-center mb-2">
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {post.date}
+                          </div>
+                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                        >
+                          Read More <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="design">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogPosts
+                  .filter((post) => post.categories.includes("design"))
+                  .map((post) => (
+                    <div
+                      key={post.slug}
+                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                    >
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <Image
+                          src={post.image || "/placeholder.svg"}
+                          alt={post.title}
+                          width={600}
+                          height={300}
+                          className="object-cover transition-all duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-center mb-2">
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {post.date}
+                          </div>
+                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                        >
+                          Read More <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="career">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogPosts
+                  .filter((post) => post.categories.includes("career"))
+                  .map((post) => (
+                    <div
+                      key={post.slug}
+                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                    >
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <Image
+                          src={post.image || "/placeholder.svg"}
+                          alt={post.title}
+                          width={600}
+                          height={300}
+                          className="object-cover transition-all duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-center mb-2">
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {post.date}
+                          </div>
+                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                        >
+                          Read More <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="technology">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogPosts
+                  .filter((post) => post.categories.includes("technology"))
+                  .map((post) => (
+                    <div
+                      key={post.slug}
+                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                    >
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <Image
+                          src={post.image || "/placeholder.svg"}
+                          alt={post.title}
+                          width={600}
+                          height={300}
+                          className="object-cover transition-all duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-center mb-2">
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {post.date}
+                          </div>
+                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                        >
+                          Read More <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </TabsContent>
+              </Tabs>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.slice(1).map((post) => (
-                <div
-                  key={post.slug}
-                  className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                >
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={post.image || "/placeholder.svg"}
-                      alt={post.title}
-                      width={600}
-                      height={300}
-                      className="object-cover transition-all duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        {post.date}
-                      </div>
-                      <div className="text-sm text-muted-foreground">{post.readTime}</div>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                    >
-                      Read More <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+          
 
             <div className="flex justify-center mt-16">
               <div className="inline-flex items-center space-x-2">

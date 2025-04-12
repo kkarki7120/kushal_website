@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Github, Twitter, Linkedin, Mail, Phone, MapPin, Clock, MessageSquare, Send } from "lucide-react"
+import { ArrowRight, Github, Twitter, Linkedin, Mail, Phone, MapPin, Clock, MessageSquare, Send, Instagram } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -141,7 +141,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg">Email</h3>
-                        <p className="text-muted-foreground">kushal.karki@example.com</p>
+                        <p className="text-muted-foreground">hello@kushal-karki.com.np</p>
                         <Link
                           href="mailto:kushal.karki@example.com"
                           className="text-blue-600 dark:text-blue-400 text-sm hover:underline inline-flex items-center mt-1"
@@ -157,7 +157,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg">Phone</h3>
-                        <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                        <p className="text-muted-foreground">+977 9843587829</p>
                         <Link
                           href="tel:+15551234567"
                           className="text-blue-600 dark:text-blue-400 text-sm hover:underline inline-flex items-center mt-1"
@@ -173,9 +173,9 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg">Location</h3>
-                        <p className="text-muted-foreground">San Francisco, California</p>
+                        <p className="text-muted-foreground">Kathmandu, Nepal</p>
                         <Link
-                          href="https://maps.google.com"
+                          href="https://maps.app.goo.gl/nohnxmVbe7JAXpD16"
                           target="_blank"
                           className="text-blue-600 dark:text-blue-400 text-sm hover:underline inline-flex items-center mt-1"
                         >
@@ -218,8 +218,8 @@ export default function ContactPage() {
                       rel="noreferrer"
                       className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                     >
-                      <Twitter className="h-8 w-8 mb-2" />
-                      <span className="text-sm font-medium">Twitter</span>
+                      <Instagram className="h-8 w-8 mb-2" />
+                      <span className="text-sm font-medium">Instagram</span>
                     </Link>
                     <Link
                       href="https://linkedin.com"
@@ -329,7 +329,7 @@ export default function ContactPage() {
                 </span>
               </h2>
               <p className="max-w-[700px] mx-auto text-muted-foreground">
-                Based in San Francisco, but working with clients worldwide.
+                Based in Kathmandu, but working with clients worldwide.
               </p>
             </div>
 
@@ -344,17 +344,17 @@ export default function ContactPage() {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md">
                   <h3 className="font-bold text-lg mb-2">Kushal Karki</h3>
                   <p className="text-muted-foreground mb-4">
-                    123 Tech Street
+                    Mulpani
                     <br />
-                    San Francisco, CA 94105
+                    Kathmandu
                     <br />
-                    United States
+                    Nepal
                   </p>
                   <Button
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                     asChild
                   >
-                    <Link href="https://maps.google.com" target="_blank">
+                    <Link href="https://maps.app.goo.gl/nohnxmVbe7JAXpD16" target="_blank">
                       <MapPin className="mr-2 h-4 w-4" />
                       Get Directions
                     </Link>

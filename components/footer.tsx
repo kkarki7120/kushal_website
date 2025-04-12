@@ -4,7 +4,7 @@ import type React from "react"
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Github, Twitter, Linkedin } from "lucide-react"
+import { Github, Twitter, Linkedin, Instagram } from "lucide-react"
 import { useState } from "react"
 
 export function Footer() {
@@ -45,7 +45,7 @@ export function Footer() {
                 className="rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
                 asChild
               >
-                <Link href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub profile">
+                <Link href="https://github.com/kkarki7120" target="_blank" rel="noreferrer" aria-label="GitHub profile">
                   <Github className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
@@ -55,8 +55,8 @@ export function Footer() {
                 className="rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
                 asChild
               >
-                <Link href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter profile">
-                  <Twitter className="h-5 w-5" aria-hidden="true" />
+                <Link href="https://www.instagram.com/kusalkarki/" target="_blank" rel="noreferrer" aria-label="Twitter profile">
+                  <Instagram className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
               <Button
@@ -65,7 +65,7 @@ export function Footer() {
                 className="rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
                 asChild
               >
-                <Link href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">
+                <Link href="https://www.linkedin.com/in/kushal-karki-47b408218/" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">
                   <Linkedin className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>

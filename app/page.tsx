@@ -89,8 +89,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="max-w-[700px] mx-auto text-muted-foreground">
-              A passionate developer with a keen eye for design and a commitment to creating exceptional user
-              experiences.
+            A passionate DevOps engineer with a focus on automation, scalability, and delivering seamless infrastructure solutions.
             </p>
           </div>
 
@@ -523,7 +522,7 @@ export default function Home() {
                       </div>
                       <div>
                         <h4 className="font-medium text-blue-100">Email</h4>
-                        <p className="text-white">kushal.karki@example.com</p>
+                        <p className="text-white">hello@kushal-karki.com.np</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-4">
@@ -532,7 +531,7 @@ export default function Home() {
                       </div>
                       <div>
                         <h4 className="font-medium text-blue-100">LinkedIn</h4>
-                        <p className="text-white">linkedin.com/in/johndoe</p>
+                        <p className="text-white">linkedin.com/in/kushal-karki-47b408218</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-4">
@@ -541,7 +540,7 @@ export default function Home() {
                       </div>
                       <div>
                         <h4 className="font-medium text-blue-100">GitHub</h4>
-                        <p className="text-white">github.com/johndoe</p>
+                        <p className="text-white">github.com/kkarki7120</p>
                       </div>
                     </div>
                   </div>

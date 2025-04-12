@@ -512,15 +512,15 @@ export default function AboutPage() {
             <Briefcase className="h-5 w-5 text-blue-600 mr-2 md:order-last md:ml-2 md:mr-0" />
             <h3 className="text-xl font-bold">{experience.title}</h3>
           </div>
-          <p className="text-muted-foreground flex md:justify-start">{experience.company}</p>
+          <p className="text-foreground flex md:justify-start">{experience.company}</p>
           <div className="flex items-center md:justify-start mt-1">
             <Calendar className="h-4 w-4 text-blue-600 mr-1 md:order-last md:ml-1 md:mr-0" />
-            <p className="text-sm text-muted-foreground flex">{experience.duration}</p>
+            <p className="text-sm text-foreground flex">{experience.duration}</p>
           </div>
         </div>
         <div className="mt-4 md:mt-0 md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 w-4 h-4 rounded-full bg-blue-600 border-4 border-blue-100 dark:border-blue-900 md:left-0 md:-translate-x-1/2"></div>
-          <ul className="space-y-2 list-disc list-inside text-muted-foreground">
+          <ul className="space-y-2 list-disc list-inside text-justify ">
           {
             experience.responsibilities.map((list)=>{
               return <li key={list}>{list}</li>

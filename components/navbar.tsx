@@ -111,7 +111,7 @@ export function Navbar() {
               className="rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               asChild
             >
-              <Link href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub profile">
+              <Link href="https://github.com/kkarki7120" target="_blank" rel="noreferrer" aria-label="GitHub profile">
                 <Github className="h-5 w-5" aria-hidden="true" />
               </Link>
             </Button>
@@ -121,8 +121,8 @@ export function Navbar() {
               className="rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               asChild
             >
-              <Link href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter profile">
-                <Twitter className="h-5 w-5" aria-hidden="true" />
+              <Link href="https://www.instagram.com/kusalkarki/" target="_blank" rel="noreferrer" aria-label="Twitter profile">
+                <Instagram className="h-5 w-5" aria-hidden="true" />
               </Link>
             </Button>
             <Button
@@ -131,7 +131,7 @@ export function Navbar() {
               className="rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               asChild
             >
-              <Link href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">
+              <Link href="https://www.linkedin.com/in/kushal-karki-47b408218/" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">
                 <Linkedin className="h-5 w-5" aria-hidden="true" />
               </Link>
             </Button>
