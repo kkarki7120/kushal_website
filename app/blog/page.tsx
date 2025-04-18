@@ -5,8 +5,9 @@ import { ArrowRight, Github, Twitter, Linkedin, Search, Calendar } from "lucide-
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { db } from "@/lib/db"
 
-export default function BlogPage() {
+export default async function BlogPage() {
   // Blog posts data
   const blogPosts = [
     {
@@ -87,6 +88,12 @@ export default function BlogPage() {
       readTime: "7 min read",
     },
   ]
+
+  const featuredBlogPost = await db.post.findMany({
+    where: {
+      featured: true,
+    }
+  })
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -203,278 +210,278 @@ export default function BlogPage() {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="all">
-              <div className="grid grid-cols-1 gap-12 mb-16">
-                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                  <div className="md:flex">
-                    <div className="md:w-1/3 relative">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600&text=Featured+Post"
-                        alt="Featured Post"
-                        width={600}
-                        height={400}
-                        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
-                      </div>
-                    </div>
-                    <div className="p-8 md:w-2/3">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Badge
-                          variant="outline"
-                          className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                        >
-                          {blogPosts[0].category}
-                        </Badge>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="h-3 w-3 mr-1" />
-                          {blogPosts[0].date}
+                  <div className="grid grid-cols-1 gap-12 mb-16">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+                      <div className="md:flex">
+                        <div className="md:w-1/3 relative">
+                          <Image
+                            src="/placeholder.svg?height=400&width=600&text=Featured+Post"
+                            alt="Featured Post"
+                            width={600}
+                            height={400}
+                            className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute top-4 left-4">
+                            <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
+                          </div>
+                        </div>
+                        <div className="p-8 md:w-2/3">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Badge
+                              variant="outline"
+                              className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                            >
+                              {blogPosts[0].category}
+                            </Badge>
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Calendar className="h-3 w-3 mr-1" />
+                              {blogPosts[0].date}
+                            </div>
+                          </div>
+                          <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            {blogPosts[0].title}
+                          </h2>
+                          <p className="text-muted-foreground mb-6">
+                            {blogPosts[0].excerpt} Learn how to avoid common pitfalls and optimize your deployments.
+                          </p>
+                          <Button
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                            asChild
+                          >
+                            <Link href={`/blog/${blogPosts[0].slug}`}>
+                              Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                          </Button>
                         </div>
                       </div>
-                      <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {blogPosts[0].title}
-                      </h2>
-                      <p className="text-muted-foreground mb-6">
-                        {blogPosts[0].excerpt} Learn how to avoid common pitfalls and optimize your deployments.
-                      </p>
-                      <Button
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                        asChild
-                      >
-                        <Link href={`/blog/${blogPosts[0].slug}`}>
-                          Read Article <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogPosts.slice(1).map((post) => (
-                  <div
-                    key={post.slug}
-                    className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                  >
-                    <div className="relative aspect-[16/9] overflow-hidden">
-                      <Image
-                        src={post.image || "/placeholder.svg"}
-                        alt={post.title}
-                        width={600}
-                        height={300}
-                        className="object-cover transition-all duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="h-3 w-3 mr-1" />
-                          {post.date}
-                        </div>
-                        <div className="text-sm text-muted-foreground">{post.readTime}</div>
-                      </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {blogPosts.slice(1).map((post) => (
+                      <div
+                        key={post.slug}
+                        className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
-                        Read More <ArrowRight className="ml-1 h-4 w-4" />
-                      </Link>
-                    </div>
+                        <div className="relative aspect-[16/9] overflow-hidden">
+                          <Image
+                            src={post.image || "/placeholder.svg"}
+                            alt={post.title}
+                            width={600}
+                            height={300}
+                            className="object-cover transition-all duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute top-4 left-4">
+                            <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                          </div>
+                        </div>
+                        <div className="p-6">
+                          <div className="flex justify-between items-center mb-2">
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Calendar className="h-3 w-3 mr-1" />
+                              {post.date}
+                            </div>
+                            <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                          </div>
+                          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            {post.title}
+                          </h3>
+                          <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                          <Link
+                            href={`/blog/${post.slug}`}
+                            className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                          >
+                            Read More <ArrowRight className="ml-1 h-4 w-4" />
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </TabsContent>
+                </TabsContent>
 
-            <TabsContent value="development">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogPosts
-                  .filter((post) => post.categories.includes("development"))
-                  .map((post) => (
-                    <div
-                      key={post.slug}
-                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                    >
-                      <div className="relative aspect-[16/9] overflow-hidden">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          width={600}
-                          height={300}
-                          className="object-cover transition-all duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <div className="flex justify-between items-center mb-2">
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-3 w-3 mr-1" />
-                            {post.date}
-                          </div>
-                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                <TabsContent value="development">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {blogPosts
+                      .filter((post) => post.categories.includes("development"))
+                      .map((post) => (
+                        <div
+                          key={post.slug}
+                          className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                         >
-                          Read More <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </TabsContent>
+                          <div className="relative aspect-[16/9] overflow-hidden">
+                            <Image
+                              src={post.image || "/placeholder.svg"}
+                              alt={post.title}
+                              width={600}
+                              height={300}
+                              className="object-cover transition-all duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                            </div>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex justify-between items-center mb-2">
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-3 w-3 mr-1" />
+                                {post.date}
+                              </div>
+                              <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                              {post.title}
+                            </h3>
+                            <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                            >
+                              Read More <ArrowRight className="ml-1 h-4 w-4" />
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </TabsContent>
 
-            <TabsContent value="design">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogPosts
-                  .filter((post) => post.categories.includes("design"))
-                  .map((post) => (
-                    <div
-                      key={post.slug}
-                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                    >
-                      <div className="relative aspect-[16/9] overflow-hidden">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          width={600}
-                          height={300}
-                          className="object-cover transition-all duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <div className="flex justify-between items-center mb-2">
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-3 w-3 mr-1" />
-                            {post.date}
-                          </div>
-                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                <TabsContent value="design">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {blogPosts
+                      .filter((post) => post.categories.includes("design"))
+                      .map((post) => (
+                        <div
+                          key={post.slug}
+                          className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                         >
-                          Read More <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </TabsContent>
+                          <div className="relative aspect-[16/9] overflow-hidden">
+                            <Image
+                              src={post.image || "/placeholder.svg"}
+                              alt={post.title}
+                              width={600}
+                              height={300}
+                              className="object-cover transition-all duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                            </div>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex justify-between items-center mb-2">
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-3 w-3 mr-1" />
+                                {post.date}
+                              </div>
+                              <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                              {post.title}
+                            </h3>
+                            <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                            >
+                              Read More <ArrowRight className="ml-1 h-4 w-4" />
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </TabsContent>
 
-            <TabsContent value="career">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogPosts
-                  .filter((post) => post.categories.includes("career"))
-                  .map((post) => (
-                    <div
-                      key={post.slug}
-                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                    >
-                      <div className="relative aspect-[16/9] overflow-hidden">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          width={600}
-                          height={300}
-                          className="object-cover transition-all duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <div className="flex justify-between items-center mb-2">
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-3 w-3 mr-1" />
-                            {post.date}
-                          </div>
-                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                <TabsContent value="career">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {blogPosts
+                      .filter((post) => post.categories.includes("career"))
+                      .map((post) => (
+                        <div
+                          key={post.slug}
+                          className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                         >
-                          Read More <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </TabsContent>
+                          <div className="relative aspect-[16/9] overflow-hidden">
+                            <Image
+                              src={post.image || "/placeholder.svg"}
+                              alt={post.title}
+                              width={600}
+                              height={300}
+                              className="object-cover transition-all duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                            </div>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex justify-between items-center mb-2">
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-3 w-3 mr-1" />
+                                {post.date}
+                              </div>
+                              <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                              {post.title}
+                            </h3>
+                            <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                            >
+                              Read More <ArrowRight className="ml-1 h-4 w-4" />
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </TabsContent>
 
-            <TabsContent value="technology">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogPosts
-                  .filter((post) => post.categories.includes("technology"))
-                  .map((post) => (
-                    <div
-                      key={post.slug}
-                      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                    >
-                      <div className="relative aspect-[16/9] overflow-hidden">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          width={600}
-                          height={300}
-                          className="object-cover transition-all duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <div className="flex justify-between items-center mb-2">
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-3 w-3 mr-1" />
-                            {post.date}
-                          </div>
-                          <div className="text-sm text-muted-foreground">{post.readTime}</div>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                <TabsContent value="technology">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {blogPosts
+                      .filter((post) => post.categories.includes("technology"))
+                      .map((post) => (
+                        <div
+                          key={post.slug}
+                          className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                         >
-                          Read More <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </TabsContent>
+                          <div className="relative aspect-[16/9] overflow-hidden">
+                            <Image
+                              src={post.image || "/placeholder.svg"}
+                              alt={post.title}
+                              width={600}
+                              height={300}
+                              className="object-cover transition-all duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-blue-600 hover:bg-blue-700">{post.category}</Badge>
+                            </div>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex justify-between items-center mb-2">
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-3 w-3 mr-1" />
+                                {post.date}
+                              </div>
+                              <div className="text-sm text-muted-foreground">{post.readTime}</div>
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                              {post.title}
+                            </h3>
+                            <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                            >
+                              Read More <ArrowRight className="ml-1 h-4 w-4" />
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </TabsContent>
               </Tabs>
             </div>
 
-          
+
 
             <div className="flex justify-center mt-16">
               <div className="inline-flex items-center space-x-2">

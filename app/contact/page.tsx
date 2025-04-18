@@ -334,7 +334,8 @@ export default function ContactPage() {
             </div>
 
             <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
-              <iframe className="w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3521.2010901448025!2d84.86708492618955!3d28.048884010343805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995323a592b3eed%3A0xc3fb0260aeb223a4!2sMulpani%2045100!5e0!3m2!1sen!2snp!4v1744969506968!5m2!1sen!2snp" width="600" height="450" allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+              {/* <iframe className="w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3521.2010901448025!2d84.86708492618955!3d28.048884010343805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995323a592b3eed%3A0xc3fb0260aeb223a4!2sMulpani%2045100!5e0!3m2!1sen!2snp!4v1744969506968!5m2!1sen!2snp" width="600" height="450" allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe> */}
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d520.5191158506345!2d85.39763914100143!3d27.71001191932582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2snp!4v1744973549885!5m2!1sen!2snp" width="600" height="450" allowFullScreen={true} loading="lazy" className="w-full" referrerPolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
         </section>
