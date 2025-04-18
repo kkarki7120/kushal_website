@@ -334,33 +334,7 @@ export default function ContactPage() {
             </div>
 
             <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
-              <Image
-                src="/placeholder.svg?height=400&width=1200&text=Map+Location"
-                alt="Map Location"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md">
-                  <h3 className="font-bold text-lg mb-2">Kushal Karki</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Mulpani
-                    <br />
-                    Kathmandu
-                    <br />
-                    Nepal
-                  </p>
-                  <Button
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                    asChild
-                  >
-                    <Link href="https://maps.app.goo.gl/nohnxmVbe7JAXpD16" target="_blank">
-                      <MapPin className="mr-2 h-4 w-4" />
-                      Get Directions
-                    </Link>
-                  </Button>
-                </div>
-              </div>
+              <iframe className="w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3521.2010901448025!2d84.86708492618955!3d28.048884010343805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995323a592b3eed%3A0xc3fb0260aeb223a4!2sMulpani%2045100!5e0!3m2!1sen!2snp!4v1744969506968!5m2!1sen!2snp" width="600" height="450" allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
         </section>
