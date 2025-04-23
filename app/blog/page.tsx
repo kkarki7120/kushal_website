@@ -9,6 +9,7 @@ import { db } from "@/lib/db"
 
 export default async function BlogPage() {
   // Blog posts data
+  const blogs = await db.post.findMany({})
   const blogPosts = [
     {
       slug: "kubernetes-best-practices",
@@ -242,7 +243,7 @@ export default async function BlogPage() {
                             {blogPosts[0].title}
                           </h2>
                           <p className="text-muted-foreground mb-6">
-                            {blogPosts[0].excerpt} Learn how to avoid common pitfalls and optimize your deployments.
+                            {blogPosts[0].excerpt}
                           </p>
                           <Button
                             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
@@ -258,14 +259,14 @@ export default async function BlogPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogPosts.slice(1).map((post) => (
+                    {blogs.slice(1).map((post) => (
                       <div
                         key={post.slug}
                         className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
                         <div className="relative aspect-[16/9] overflow-hidden">
                           <Image
-                            src={post.image || "/placeholder.svg"}
+                            src={post.image[0] || "/placeholder.svg"}
                             alt={post.title}
                             width={600}
                             height={300}
