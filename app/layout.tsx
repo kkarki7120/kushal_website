@@ -4,6 +4,8 @@ import { Inter, Playfair_Display } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SkipLink } from "@/components/skip-link"
 import { BackToTop } from "@/components/back-to-top"
+import { GoogleTagManager } from '@next/third-parties/google'
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +38,7 @@ export default function RootLayout({
           <BackToTop />
         </ThemeProvider>
       </body>
+      <GoogleTagManager gtmId={"G-6FGREXSXS4"} />
     </html>
   )
 }

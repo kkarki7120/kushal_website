@@ -94,6 +94,13 @@ export default async function BlogPage() {
       featured: true,
     }
   })
+  const fb= featuredBlogPost.slice(0,1)
+  console.log(fb)
+  const blogPost = await db.post.findMany({
+    where: {
+      type:"blog"
+    }
+  })
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -258,14 +265,14 @@ export default async function BlogPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogPosts.slice(1).map((post) => (
+                    {blogPost.slice(1).map((post) => (
                       <div
                         key={post.slug}
                         className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
                         <div className="relative aspect-[16/9] overflow-hidden">
                           <Image
-                            src={post.image || "/placeholder.svg"}
+                            src={post.image[0] || "/placeholder.svg"}
                             alt={post.title}
                             width={600}
                             height={300}
@@ -301,8 +308,7 @@ export default async function BlogPage() {
 
                 <TabsContent value="development">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogPosts
-                      .filter((post) => post.categories.includes("development"))
+                    {blogPost
                       .map((post) => (
                         <div
                           key={post.slug}
