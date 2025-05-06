@@ -6,53 +6,13 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Github, Twitter, Linkedin, Mail, Phone, MapPin, Clock, MessageSquare, Send, Instagram } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Footer } from "@/components/footer"
+import { Navbar } from "@/components/navbar"
 
 export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-          <div className="flex gap-6 md:gap-10">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-1.5 rounded-md">
-                <span className="font-bold text-sm">KK</span>
-              </div>
-              <span className="inline-block font-bold">Kushal Karki</span>
-            </Link>
-            <nav className="hidden md:flex gap-6">
-              <Link href="/" className="flex items-center text-sm font-medium text-muted-foreground relative group">
-                Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/about"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                About
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/projects"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                Projects
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/blog" className="flex items-center text-sm font-medium text-muted-foreground relative group">
-                Blog
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/contact" className="flex items-center text-sm font-medium text-foreground relative group">
-                Contact
-                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600"></span>
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center">
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      < Navbar/>
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
@@ -340,139 +300,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-1.5 rounded-md">
-                  <span className="font-bold text-sm">KK</span>
-                </div>
-                <span className="inline-block font-bold">Kushal Karki</span>
-              </Link>
-              <p className="text-gray-400">Creating exceptional digital experiences through modern web development.</p>
-              <div className="flex space-x-4">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  asChild
-                >
-                  <Link href="https://github.com" target="_blank" rel="noreferrer">
-                    <Github className="h-5 w-5" />
-                    <span className="sr-only">GitHub</span>
-                  </Link>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  asChild
-                >
-                  <Link href="https://twitter.com" target="_blank" rel="noreferrer">
-                    <Twitter className="h-5 w-5" />
-                    <span className="sr-only">Twitter</span>
-                  </Link>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  asChild
-                >
-                  <Link href="https://linkedin.com" target="_blank" rel="noreferrer">
-                    <Linkedin className="h-5 w-5" />
-                    <span className="sr-only">LinkedIn</span>
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/projects" className="text-gray-400 hover:text-white transition-colors">
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Services</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    UI/UX Design
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Mobile Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Consulting
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Newsletter</h4>
-              <p className="text-gray-400 mb-4">Subscribe to my newsletter for the latest updates.</p>
-              <form className="flex space-x-2">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex-1"
-                />
-                <Button
-                  type="submit"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Subscribe
-                </Button>
-              </form>
-            </div>
-          </div>
-          <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400">© {new Date().getFullYear()} Kushal Karki. All rights reserved.</p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Privacy Policy
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Terms of Service
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+       <Footer />
     </div>
   )
 }

@@ -37,7 +37,7 @@ export function Footer() {
               </div>
               <span className="inline-block font-bold">Kushal Karki</span>
             </Link>
-            <p className="text-gray-400">Creating exceptional digital experiences through modern web development.</p>
+            <p className="text-gray-400">Enabling exceptional digital experiences through reliable and automated DevOps engineering.</p>
             <div className="flex space-x-4">
               <Button
                 variant="ghost"
@@ -126,7 +126,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-md inline-block"
                 >
-                  UI/UX Design
+                  CI/CD Pipeline Development
                 </Link>
               </li>
               <li>
@@ -134,7 +134,8 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-md inline-block"
                 >
-                  Mobile Development
+                 
+                Cloud Infrastructure Automation
                 </Link>
               </li>
               <li>
@@ -142,7 +143,23 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-md inline-block"
                 >
-                  Consulting
+                 Monitoring & Logging Solutions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-md inline-block"
+                >
+                 Security & Compliance Integration
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-md inline-block"
+                >
+                 DevOps Consulting
                 </Link>
               </li>
             </ul>
