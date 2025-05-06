@@ -6,9 +6,12 @@ import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { db } from "@/lib/db"
+import { Footer } from "@/components/footer"
+import { Navbar } from "@/components/navbar"
 
 export default async function BlogPage() {
   // Blog posts data
+  const blogs = await db.post.findMany({})
   const blogPosts = [
     {
       slug: "kubernetes-best-practices",
@@ -94,62 +97,17 @@ export default async function BlogPage() {
       featured: true,
     }
   })
-  const fb= featuredBlogPost.slice(0,1)
+  const fb = featuredBlogPost.slice(0, 1)
   console.log(fb)
   const blogPost = await db.post.findMany({
     where: {
-      type:"blog"
+      type: "blog"
     }
   })
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-          <div className="flex gap-6 md:gap-10">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-1.5 rounded-md">
-                <span className="font-bold text-sm">KK</span>
-              </div>
-              <span className="inline-block font-bold">Kushal Karki</span>
-            </Link>
-            <nav className="hidden md:flex gap-6">
-              <Link href="/" className="flex items-center text-sm font-medium text-muted-foreground relative group">
-                Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/about"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                About
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/projects"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                Projects
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/blog" className="flex items-center text-sm font-medium text-foreground relative group">
-                Blog
-                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600"></span>
-              </Link>
-              <Link
-                href="/contact"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                Contact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center">
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      <Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
@@ -218,61 +176,76 @@ export default async function BlogPage() {
                 </TabsList>
                 <TabsContent value="all">
                   <div className="grid grid-cols-1 gap-12 mb-16">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                      <div className="md:flex">
-                        <div className="md:w-1/3 relative">
-                          <Image
-                            src="/placeholder.svg?height=400&width=600&text=Featured+Post"
-                            alt="Featured Post"
-                            width={600}
-                            height={400}
-                            className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
-                          </div>
-                        </div>
-                        <div className="p-8 md:w-2/3">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Badge
-                              variant="outline"
-                              className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                            >
-                              {blogPosts[0].category}
-                            </Badge>
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {blogPosts[0].date}
+                    {
+                      fb.map((post: any, index: number) => {
+                        console.log("featured post ", post)
+                        const images = post.image ? JSON.parse(post.image) : [];
+const imageUrl = images[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post";
+
+                        return (
+                          <div key={index} className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+                            <div className="md:flex">
+                              <div className="md:w-1/3 relative">
+                                <Image
+                                  src={imageUrl || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
+                                  alt="Featured Post"
+                                  width={600}
+                                  height={400}
+                                  className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                                />
+                                <div className="absolute top-4 left-4">
+                                  <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
+                                </div>
+                              </div>
+                              <div className="p-8 md:w-2/3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                                  >
+                                    {post?.category || "Deveops"}
+                                  </Badge>
+                                  <div className="flex items-center text-sm text-muted-foreground">
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                    {new Date(post.createdAt).toLocaleDateString(undefined, {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric"
+                                    })}
+                                  </div>
+                                </div>
+                                <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                  {post.title}
+                                </h2>
+                                <p className="text-muted-foreground mb-6">
+                                  {blogPosts[0].excerpt}
+                                </p>
+                                <Button
+                                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                                  asChild
+                                >
+                                  <Link href={`/blog/${post.slug}`}>
+                                    Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                                  </Link>
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                          <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                            {blogPosts[0].title}
-                          </h2>
-                          <p className="text-muted-foreground mb-6">
-                            {blogPosts[0].excerpt} Learn how to avoid common pitfalls and optimize your deployments.
-                          </p>
-                          <Button
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                            asChild
-                          >
-                            <Link href={`/blog/${blogPosts[0].slug}`}>
-                              Read Article <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
+                        )
+                      })
+                    }
+
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogPost.slice(1).map((post) => (
+                    {blogs.slice(1).map((post: any) => (
                       <div
                         key={post.slug}
                         className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
                         <div className="relative aspect-[16/9] overflow-hidden">
                           <Image
-                            src={post.image[0] || "/placeholder.svg"}
+                            src={post?.image[0] || "/placeholder.svg"}
                             alt={post.title}
                             width={600}
                             height={300}
@@ -309,7 +282,7 @@ export default async function BlogPage() {
                 <TabsContent value="development">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {blogPost
-                      .map((post) => (
+                      .map((post: any) => (
                         <div
                           key={post.slug}
                           className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
@@ -708,139 +681,7 @@ export default async function BlogPage() {
           </div>
         </section>
       </main>
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-1.5 rounded-md">
-                  <span className="font-bold text-sm">KK</span>
-                </div>
-                <span className="inline-block font-bold">Kushal Karki</span>
-              </Link>
-              <p className="text-gray-400">Creating exceptional digital experiences through modern web development.</p>
-              <div className="flex space-x-4">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  asChild
-                >
-                  <Link href="https://github.com" target="_blank" rel="noreferrer">
-                    <Github className="h-5 w-5" />
-                    <span className="sr-only">GitHub</span>
-                  </Link>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  asChild
-                >
-                  <Link href="https://twitter.com" target="_blank" rel="noreferrer">
-                    <Twitter className="h-5 w-5" />
-                    <span className="sr-only">Twitter</span>
-                  </Link>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  asChild
-                >
-                  <Link href="https://linkedin.com" target="_blank" rel="noreferrer">
-                    <Linkedin className="h-5 w-5" />
-                    <span className="sr-only">LinkedIn</span>
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/projects" className="text-gray-400 hover:text-white transition-colors">
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Services</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    UI/UX Design
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Mobile Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Consulting
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Newsletter</h4>
-              <p className="text-gray-400 mb-4">Subscribe to my newsletter for the latest updates.</p>
-              <form className="flex space-x-2">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex-1"
-                />
-                <Button
-                  type="submit"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Subscribe
-                </Button>
-              </form>
-            </div>
-          </div>
-          <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400">© {new Date().getFullYear()} Kushal Karki. All rights reserved.</p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Privacy Policy
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Terms of Service
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      < Footer />
     </div>
   )
 }

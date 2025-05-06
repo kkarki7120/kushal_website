@@ -178,3 +178,27 @@ model EmailLog {
   @@index([status], map: "idx_email_logs_status")
   @@map("email_logs")
 }
+
+model Tutorial {
+  id          String   @id
+  title       String
+  description String
+  difficulty  String
+  duration    String
+  image       String
+  featured    Boolean
+  category    String
+  tags        String[] // You can use a string array for tags
+
+  authorId    String
+  author      Author   @relation(fields: [authorId], references: [id])
+}
+
+model Author {
+  id      String   @id @default(cuid())
+  name    String
+  avatar  String
+
+  tutorials Tutorial[]
+}
+

@@ -21,7 +21,7 @@ export const metadata = {
   title: "Kushal Karki - DevOps Engineer",
   description:
     "Personal portfolio website of Kushal Karki, a DevOps Engineer specializing in cloud infrastructure, CI/CD, and Kubernetes.",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -31,6 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+      <GoogleTagManager gtmId={"G-6FGREXSXS4"} />
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <SkipLink />
@@ -38,7 +39,6 @@ export default function RootLayout({
           <BackToTop />
         </ThemeProvider>
       </body>
-      <GoogleTagManager gtmId={"G-6FGREXSXS4"} />
     </html>
   )
 }
