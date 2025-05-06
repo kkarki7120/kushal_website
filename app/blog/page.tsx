@@ -97,10 +97,17 @@ export default async function BlogPage() {
       featured: true,
     }
   })
+  const fb = featuredBlogPost.slice(0, 1)
+  console.log(fb)
+  const blogPost = await db.post.findMany({
+    where: {
+      type: "blog"
+    }
+  })
 
   return (
     <div className="flex flex-col min-h-screen">
-     <Navbar />
+      <Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
@@ -169,61 +176,76 @@ export default async function BlogPage() {
                 </TabsList>
                 <TabsContent value="all">
                   <div className="grid grid-cols-1 gap-12 mb-16">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                      <div className="md:flex">
-                        <div className="md:w-1/3 relative">
-                          <Image
-                            src="/placeholder.svg?height=400&width=600&text=Featured+Post"
-                            alt="Featured Post"
-                            width={600}
-                            height={400}
-                            className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
-                          </div>
-                        </div>
-                        <div className="p-8 md:w-2/3">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Badge
-                              variant="outline"
-                              className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                            >
-                              {blogPosts[0].category}
-                            </Badge>
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {blogPosts[0].date}
+                    {
+                      fb.map((post: any, index: number) => {
+                        console.log("featured post ", post)
+                        const images = post.image ? JSON.parse(post.image) : [];
+const imageUrl = images[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post";
+
+                        return (
+                          <div key={index} className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+                            <div className="md:flex">
+                              <div className="md:w-1/3 relative">
+                                <Image
+                                  src={imageUrl || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
+                                  alt="Featured Post"
+                                  width={600}
+                                  height={400}
+                                  className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                                />
+                                <div className="absolute top-4 left-4">
+                                  <Badge className="bg-blue-600 hover:bg-blue-700">Featured</Badge>
+                                </div>
+                              </div>
+                              <div className="p-8 md:w-2/3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                                  >
+                                    {post?.category || "Deveops"}
+                                  </Badge>
+                                  <div className="flex items-center text-sm text-muted-foreground">
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                    {new Date(post.createdAt).toLocaleDateString(undefined, {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric"
+                                    })}
+                                  </div>
+                                </div>
+                                <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                  {post.title}
+                                </h2>
+                                <p className="text-muted-foreground mb-6">
+                                  {blogPosts[0].excerpt}
+                                </p>
+                                <Button
+                                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                                  asChild
+                                >
+                                  <Link href={`/blog/${post.slug}`}>
+                                    Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                                  </Link>
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                          <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                            {blogPosts[0].title}
-                          </h2>
-                          <p className="text-muted-foreground mb-6">
-                            {blogPosts[0].excerpt}
-                          </p>
-                          <Button
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                            asChild
-                          >
-                            <Link href={`/blog/${blogPosts[0].slug}`}>
-                              Read Article <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
+                        )
+                      })
+                    }
+
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogs.slice(1).map((post) => (
+                    {blogs.slice(1).map((post: any) => (
                       <div
                         key={post.slug}
                         className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
                         <div className="relative aspect-[16/9] overflow-hidden">
                           <Image
-                            src={post.image[0] || "/placeholder.svg"}
+                            src={post?.image[0] || "/placeholder.svg"}
                             alt={post.title}
                             width={600}
                             height={300}
@@ -259,9 +281,8 @@ export default async function BlogPage() {
 
                 <TabsContent value="development">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {blogPosts
-                      .filter((post) => post.categories.includes("development"))
-                      .map((post) => (
+                    {blogPost
+                      .map((post: any) => (
                         <div
                           key={post.slug}
                           className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
@@ -660,7 +681,7 @@ export default async function BlogPage() {
           </div>
         </section>
       </main>
-      < Footer/>
+      < Footer />
     </div>
   )
 }

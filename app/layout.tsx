@@ -4,6 +4,8 @@ import { Inter, Playfair_Display } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SkipLink } from "@/components/skip-link"
 import { BackToTop } from "@/components/back-to-top"
+import { GoogleTagManager } from '@next/third-parties/google'
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,7 +21,7 @@ export const metadata = {
   title: "Kushal Karki - DevOps Engineer",
   description:
     "Personal portfolio website of Kushal Karki, a DevOps Engineer specializing in cloud infrastructure, CI/CD, and Kubernetes.",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -29,6 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+      <GoogleTagManager gtmId={"G-6FGREXSXS4"} />
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <SkipLink />
