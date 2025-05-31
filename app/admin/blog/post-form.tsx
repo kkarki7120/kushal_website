@@ -45,7 +45,7 @@ const postSchema = z.object({
   published: z.boolean().default(false),
   featured: z.boolean().default(false), // Add featured field to schema
   slug: z.string().optional(),
-  link: z.string().optional()
+  blogLink: z.string().optional()
 })
 
 type PostFormValues = z.infer<typeof postSchema>
@@ -99,7 +99,7 @@ export function PostForm({ post }: PostFormProps) {
     categories: post?.categories || [],
     published: post?.published || false,
     featured: post?.featured || false, // Add featured to defaultValues
-    // link:  post.link || "",
+    blogLink:  post?.blogLink || "",
   }
 
   const form = useForm<PostFormValues>({
@@ -330,13 +330,27 @@ export function PostForm({ post }: PostFormProps) {
 
         <FormField
           control={form.control}
+          name="blogLink"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Link</FormLabel>
+              <FormControl>
+                <Input placeholder="https://www.google.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
                 <RichTextEditor
-                  value={field.value}
+                  value={field.value || ""}
                   onChange={field.onChange}
                   placeholder="Full content of the blog post..."
                 />

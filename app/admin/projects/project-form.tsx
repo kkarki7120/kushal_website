@@ -44,6 +44,7 @@ const projectSchema = z.object({
   solution: z.string().optional(),
   projectLink: z.string().optional(),
   demoUrl: z.string().optional(),
+  difficulty: z.enum(["beginner", "intermediate", "advanced"]).optional(),
 })
 
 type ProjectFormValues = z.infer<typeof projectSchema>
@@ -102,6 +103,8 @@ export function ProjectForm({ project }: ProjectFormProps) {
     clientNeed: project?.details?.clientNeed || "",
     solution: project?.details?.solution || "",
     projectLink: project?.details?.projectLink || "",
+    demoUrl: project?.details?.demoUrl || "",
+    difficulty: project?.difficulty || "beginner",
   }
 
   const form = useForm<ProjectFormValues>({
@@ -139,6 +142,7 @@ export function ProjectForm({ project }: ProjectFormProps) {
           solution: data.solution,
           projectLink: data.projectLink,
           demoUrl: data.demoUrl,
+          difficulty: data.difficulty,
         },
       }
 
@@ -342,6 +346,32 @@ export function ProjectForm({ project }: ProjectFormProps) {
             )}
           />
         </div>
+
+
+          <FormField
+            control={form.control}
+            name="difficulty"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Difficulty</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select difficulty" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="beginner">Beginner</SelectItem>
+                      <SelectItem value="intermediate">Intermediate</SelectItem>
+                      <SelectItem value="advanced">Advanced</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
         {/* client need */}
         <FormField
@@ -547,20 +577,6 @@ export function ProjectForm({ project }: ProjectFormProps) {
                 <FormLabel>Estimated Time</FormLabel>
                 <FormControl>
                   <Input placeholder="In Progress (Started August 2023)" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="specialty"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Specialty</FormLabel>
-                <FormControl>
-                  <Input placeholder="Biggest Dam Project of Nepal, 140 meter high dam" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
