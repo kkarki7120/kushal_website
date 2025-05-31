@@ -32,6 +32,7 @@ model Category {
   type        String?        @default("uncategorized")
   posts       PostCategory[]
   projects    Project[]
+  blogLinks   BlogLinkCategory[]  
 
   @@map("categories")
 }
@@ -53,7 +54,8 @@ model Post {
   title      String
   slug       String         @unique
   excerpt    String?
-  content    String
+  content    String?
+  blogLink   String?
   image      Json?
   published  Boolean?       @default(false)
   createdAt  DateTime?      @default(now()) @db.Timestamptz(6)
@@ -201,4 +203,35 @@ model Author {
 
   tutorials Tutorial[]
 }
+
+model BlogLinkCategory {
+  blogLinkId String
+  categoryId String
+
+  blogLink   BlogLink @relation(fields: [blogLinkId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([blogLinkId, categoryId])
+  @@map("blog_link_categories")
+}
+
+model BlogLink {
+  id          String             @id @default(cuid())
+  title       String
+  slug        String             @unique
+  excerpt     String?
+  content     String?
+  image       Json?
+  url         String
+  type        String             @default("blog")
+  description String?
+  published   Boolean            @default(true)
+  featured    Boolean?           @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  categories  BlogLinkCategory[] 
+
+  @@map("blog_links")
+}
+
 

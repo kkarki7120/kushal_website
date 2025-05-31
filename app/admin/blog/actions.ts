@@ -32,7 +32,8 @@ export async function createPost(data: any) {
             },
           })),
         },
-        featured: data.featured || false
+        featured: data.featured || false,
+        blogLink: data.link || null
       },
     })
     

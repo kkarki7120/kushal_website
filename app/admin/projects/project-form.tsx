@@ -38,10 +38,12 @@ const projectSchema = z.object({
   }),
   image: z.string().optional(),
   type: z.string().default("notable"),
-  client: z.string().optional(),
-  cost: z.string().optional(),
-  completion: z.string().optional(),
-  specialty: z.string().optional(),
+  estimatedCost: z.string().optional(),
+  estimatedTime: z.string().optional(),
+  clientNeed: z.string().optional(),
+  solution: z.string().optional(),
+  projectLink: z.string().optional(),
+  demoUrl: z.string().optional(),
 })
 
 type ProjectFormValues = z.infer<typeof projectSchema>
@@ -94,10 +96,12 @@ export function ProjectForm({ project }: ProjectFormProps) {
     description: project?.description || "",
     image: project?.image || "",
     type: project?.type || "notable",
-    client: project?.details?.client || "",
-    cost: project?.details?.cost || "",
-    completion: project?.details?.completion || "",
-    specialty: project?.details?.specialty || "",
+    // client: project?.details?.client || "",
+    estimatedCost: project?.details?.estimatedCost || "",
+    estimatedTime: project?.details?.estimatedTime || "",
+    clientNeed: project?.details?.clientNeed || "",
+    solution: project?.details?.solution || "",
+    projectLink: project?.details?.projectLink || "",
   }
 
   const form = useForm<ProjectFormValues>({
@@ -129,10 +133,12 @@ export function ProjectForm({ project }: ProjectFormProps) {
         ...data,
         image: imageValue,
         details: {
-          client: data.client,
-          cost: data.cost,
-          completion: data.completion,
-          specialty: data.specialty,
+          estimatedCost: data.estimatedCost,
+          estimatedTime: data.estimatedTime,
+          clientNeed: data.clientNeed,
+          solution: data.solution,
+          projectLink: data.projectLink,
+          demoUrl: data.demoUrl,
         },
       }
 
@@ -337,6 +343,45 @@ export function ProjectForm({ project }: ProjectFormProps) {
           />
         </div>
 
+        {/* client need */}
+        <FormField
+          control={form.control}
+          name="clientNeed"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Client Need</FormLabel>
+              <FormControl>
+              <RichTextEditor
+                  value={field.value || ""}
+                  onChange={field.onChange}
+                  placeholder="A short description of the client's need for the project..."
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* solution */}
+        <FormField
+          control={form.control}
+          name="solution"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Solution</FormLabel>
+              <FormControl>
+                <RichTextEditor
+                  value={field.value || ""}
+                  onChange={field.onChange}
+                  placeholder="A short description of the solution for the client's need..."
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* description */}
         <FormField
           control={form.control}
           name="description"
@@ -355,6 +400,35 @@ export function ProjectForm({ project }: ProjectFormProps) {
           )}
         />
 
+        {/* demo url  */}
+        <FormField
+          control={form.control}
+          name="demoUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Demo URL</FormLabel>
+              <FormControl>
+                <Input placeholder="https://www.google.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* project link */}
+        <FormField
+          control={form.control}
+          name="projectLink"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Project Link</FormLabel>
+              <FormControl>
+                <Input placeholder="https://www.google.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {/* Images Section */}
         <div className="space-y-4">
           <div>
@@ -437,7 +511,7 @@ export function ProjectForm({ project }: ProjectFormProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="client"
             render={({ field }) => (
@@ -449,14 +523,14 @@ export function ProjectForm({ project }: ProjectFormProps) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <FormField
             control={form.control}
-            name="cost"
+            name="estimatedCost"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cost</FormLabel>
+                <FormLabel>Estimated Cost</FormLabel>
                 <FormControl>
                   <Input placeholder="USD 179 Million" {...field} />
                 </FormControl>
@@ -467,10 +541,10 @@ export function ProjectForm({ project }: ProjectFormProps) {
 
           <FormField
             control={form.control}
-            name="completion"
+            name="estimatedTime"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Completion</FormLabel>
+                <FormLabel>Estimated Time</FormLabel>
                 <FormControl>
                   <Input placeholder="In Progress (Started August 2023)" {...field} />
                 </FormControl>
