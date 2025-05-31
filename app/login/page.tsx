@@ -3,7 +3,7 @@ import { getSession } from "@/lib/auth"
 import { redirect } from "next/navigation"
 
 export const metadata = {
-    title: "Login | Construction CMS",
+    title: "Login | Kushal Karki DevOps Engineer",
     description: "Login to your account",
 }
 

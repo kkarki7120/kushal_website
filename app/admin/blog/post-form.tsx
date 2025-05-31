@@ -38,13 +38,14 @@ const postSchema = z.object({
   excerpt: z.string().optional(),
   content: z.string().min(10, {
     message: "Content must be at least 10 characters.",
-  }),
+  }).optional(),
   image: z.string().optional(),
   type: z.string().default("blog"),
   categories: z.array(z.string()).optional(),
   published: z.boolean().default(false),
   featured: z.boolean().default(false), // Add featured field to schema
   slug: z.string().optional(),
+  link: z.string().optional()
 })
 
 type PostFormValues = z.infer<typeof postSchema>
@@ -98,6 +99,7 @@ export function PostForm({ post }: PostFormProps) {
     categories: post?.categories || [],
     published: post?.published || false,
     featured: post?.featured || false, // Add featured to defaultValues
+    // link:  post.link || "",
   }
 
   const form = useForm<PostFormValues>({
@@ -286,6 +288,8 @@ export function PostForm({ post }: PostFormProps) {
               </FormItem>
             )}
           />
+
+          
 
           <FormField
             control={form.control}
