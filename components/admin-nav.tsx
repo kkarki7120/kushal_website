@@ -56,11 +56,6 @@ export function AdminNav() {
       icon: FileText,
     },
     {
-      title: "Blog Link",
-      href: "/admin/blog-link",
-      icon: FileText,
-    },
-    {
       title: "Users",
       href: "/admin/users",
       icon: Users,
