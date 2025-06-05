@@ -32,7 +32,6 @@ model Category {
   type        String?        @default("uncategorized")
   posts       PostCategory[]
   projects    Project[]
-  blogLinks   BlogLinkCategory[]  
 
   @@map("categories")
 }
@@ -204,15 +203,6 @@ model Author {
   tutorials Tutorial[]
 }
 
-model BlogLinkCategory {
-  blogLinkId String
-  categoryId String
 
-  blogLink   BlogLink @relation(fields: [blogLinkId], references: [id], onDelete: Cascade)
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  @@id([blogLinkId, categoryId])
-  @@map("blog_link_categories")
-}
 
 
