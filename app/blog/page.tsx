@@ -49,43 +49,9 @@ export default async function BlogPage() {
 
   console.log("blog links", blogLinks)
 
-  // Fetch featured external blog links
-  const featuredLinks = await db.blogLink.findMany({
-    where: {
-      featured: true,
-      published: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      categories: {
-        include: {
-          category: true,
-        },
-      },
-    },
-  })
 
-  // Fetch regular external blog links
-  const regularLinks = await db.blogLink.findMany({
-    where: {
-      featured: false,
-      published: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      categories: {
-        include: {
-          category: true,
-        },
-      },
-    },
-  })
 
-  console.log("regular links", regularLinks)
+
 
   // Fetch all categories for filtering
   const categories = await db.category.findMany({
@@ -229,60 +195,7 @@ export default async function BlogPage() {
                       </div>
                     )}
 
-                    {featuredLinks.length > 0 && (
-                      <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div className="md:flex">
-                          <div className="md:w-1/3 relative">
-                            <Image
-                              src={
-                                featuredLinks[0].image
-                                  ? (featuredLinks[0].image as any).url ||
-                                    "/placeholder.svg?height=400&width=600&text=Featured+Link"
-                                  : "/placeholder.svg?height=400&width=600&text=Featured+Link"
-                              }
-                              alt="Featured Link"
-                              width={600}
-                              height={400}
-                              className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute top-4 left-4">
-                              <Badge className="bg-purple-600 hover:bg-purple-700">Featured Link</Badge>
-                            </div>
-                          </div>
-                          <div className="p-8 md:w-2/3">
-                            <div className="flex items-center space-x-2 mb-2">
-                              <Badge
-                                variant="outline"
-                                className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
-                              >
-                                {featuredLinks[0].type}
-                              </Badge>
-                              <div className="flex items-center text-sm text-muted-foreground">
-                                <Calendar className="h-3 w-3 mr-1" />
-                                {new Date(featuredLinks[0].createdAt).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                })}
-                              </div>
-                            </div>
-                            <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                              {featuredLinks[0].title}
-                            </h2>
-                            <p className="text-muted-foreground mb-6">{featuredLinks[0].excerpt}</p>
-                            <Button
-                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-                              asChild
-                            >
-                              <a href={featuredLinks[0].url} target="_blank" rel="noopener noreferrer">
-                                Visit Link <ExternalLink className="ml-2 h-4 w-4" />
-                              </a>
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
+                    
                     {
                       blogLinks.length > 0 && (
                         blogLinks.map((link:any) => (
@@ -392,66 +305,8 @@ export default async function BlogPage() {
                       </div>
                     ))}
 
-                    {/* Regular Blog Links */}
-                    {regularLinks.map((link) => (
-                      <div
-                        key={link.id}
-                        className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                      >
-                        <div className="relative aspect-[16/9] overflow-hidden">
-                          <Image
-                            src={
-                              link.image
-                                ? (link.image as any).url || "/placeholder.svg?height=300&width=600&text=External+Link"
-                                : "/placeholder.svg?height=300&width=600&text=External+Link"
-                            }
-                            alt={link.title}
-                            width={600}
-                            height={300}
-                            className="object-cover transition-all duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <Badge className="bg-purple-600 hover:bg-purple-700">External Link</Badge>
-                          </div>
-                        </div>
-                        <div className="p-6">
-                          <div className="flex justify-between items-center mb-2">
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {new Date(link.createdAt).toLocaleDateString(undefined, {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                            </div>
-                            <Badge variant="outline">{link.type}</Badge>
-                          </div>
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                            {link.title}
-                          </h3>
-                          <p className="text-muted-foreground mb-4">{link.excerpt}</p>
-
-                          {link.categories.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mb-3">
-                              {link.categories.map((cat) => (
-                                <Badge key={cat.categoryId} variant="secondary" className="text-xs">
-                                  {cat.category.name}
-                                </Badge>
-                              ))}
-                            </div>
-                          )}
-
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-purple-600 dark:text-purple-400 font-medium hover:underline"
-                          >
-                            Visit Link <ExternalLink className="ml-1 h-4 w-4" />
-                          </a>
-                        </div>
-                      </div>
-                    ))}
+                   
+                         
                   </div>
                 </TabsContent>
 
@@ -512,67 +367,7 @@ export default async function BlogPage() {
                 {/* Links Only Tab */}
                 <TabsContent value="links">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[...featuredLinks, ...regularLinks].map((link) => (
-                      <div
-                        key={link.id}
-                        className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                      >
-                        <div className="relative aspect-[16/9] overflow-hidden">
-                          <Image
-                            src={
-                              link.image
-                                ? (link.image as any).url || "/placeholder.svg?height=300&width=600&text=External+Link"
-                                : "/placeholder.svg?height=300&width=600&text=External+Link"
-                            }
-                            alt={link.title}
-                            width={600}
-                            height={300}
-                            className="object-cover transition-all duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <Badge className="bg-purple-600 hover:bg-purple-700">
-                              {link.featured ? "Featured Link" : "External Link"}
-                            </Badge>
-                          </div>
-                        </div>
-                        <div className="p-6">
-                          <div className="flex justify-between items-center mb-2">
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {new Date(link.createdAt).toLocaleDateString(undefined, {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                            </div>
-                            <Badge variant="outline">{link.type}</Badge>
-                          </div>
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                            {link.title}
-                          </h3>
-                          <p className="text-muted-foreground mb-4">{link.excerpt}</p>
-
-                          {link.categories.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mb-3">
-                              {link.categories.map((cat) => (
-                                <Badge key={cat.categoryId} variant="secondary" className="text-xs">
-                                  {cat.category.name}
-                                </Badge>
-                              ))}
-                            </div>
-                          )}
-
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-purple-600 dark:text-purple-400 font-medium hover:underline"
-                          >
-                            Visit Link <ExternalLink className="ml-1 h-4 w-4" />
-                          </a>
-                        </div>
-                      </div>
-                    ))}
+               
                   </div>
                 </TabsContent>
 
