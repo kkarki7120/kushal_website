@@ -130,18 +130,7 @@ export default async function BlogPage() {
                   >
                     All
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="articles"
-                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
-                  >
-                    Articles
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="links"
-                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
-                  >
-                    Links
-                  </TabsTrigger>
+  
                   {categories.slice(0, 3).map((category) => (
                     <TabsTrigger
                       key={category.id}
@@ -240,7 +229,7 @@ export default async function BlogPage() {
                               <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                                 {link.title}
                               </h2>
-                              <p className="text-muted-foreground mb-6">{link.excerpt}</p>
+                              <p className="text-muted-foreground mb-6">{link.excerpt.slice(0,100)}...</p>
                               <Button
                                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
                                 asChild
@@ -257,7 +246,7 @@ export default async function BlogPage() {
                     )
                   }
 
-                  {
+                  {/* {
                     blogPostWithLink.length > 0 && (
                       blogPostWithLink.map((post:any) => (
                         <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
@@ -311,7 +300,7 @@ export default async function BlogPage() {
                       </div>
                       ))
                     )
-                  }
+                  } */}
                     
                   </div>
 
@@ -354,7 +343,7 @@ export default async function BlogPage() {
                           <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             {post.title}
                           </h3>
-                          <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                          <p className="text-muted-foreground mb-4">{post.excerpt?.slice(0,100)}...</p>
                           <Link
                             href={`/blog/${post.slug}`}
                             className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
@@ -466,7 +455,7 @@ export default async function BlogPage() {
                          <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                            {post.title}
                          </h2>
-                         <p className="text-muted-foreground mb-6">{post.excerpt}</p>
+                         <p className="text-muted-foreground mb-6">{post.excerpt?.slice(0, 100)}...</p>
                          <Button
                            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
                            asChild

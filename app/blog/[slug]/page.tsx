@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   // In a real application, you would fetch the post data based on the slug
   // For now, we'll simulate this with a mock post
+  const {slug} = params
   const post = {
     slug: params.slug,
     title: "The Future of React: What's Coming in 2023 and Beyond",
