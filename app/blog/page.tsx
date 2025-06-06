@@ -24,6 +24,17 @@ export default async function BlogPage() {
     },
   })
 
+  console.log("featured posts", featuredPosts)
+
+  // fetch blog post with link
+  const blogPostWithLink = await db.post.findMany({
+    where: {
+      type: "link",
+      published: true,
+    },
+  })
+  console.log("blog post with link", blogPostWithLink)
+
   // Fetch regular blog posts
   const regularPosts = await db.post.findMany({
     where: {
@@ -35,6 +46,7 @@ export default async function BlogPage() {
       createdAt: "desc",
     },
   })
+
 
   // fetch blog links 
   const blogLinks = await db.post.findMany({
@@ -48,8 +60,6 @@ export default async function BlogPage() {
   })
 
   console.log("blog links", blogLinks)
-
-
 
 
 
@@ -112,7 +122,7 @@ export default async function BlogPage() {
             </div>
 
             <div className="flex justify-center mb-12">
-              <Tabs defaultValue="all" className="w-full max-w-3xl">
+              <Tabs defaultValue="all" className="w-full max-w-5xl">
                 <TabsList className="grid grid-cols-6 bg-white dark:bg-gray-800 p-1 rounded-lg shadow-md">
                   <TabsTrigger
                     value="all"
@@ -146,18 +156,13 @@ export default async function BlogPage() {
                 {/* All Content Tab */}
                 <TabsContent value="all">
                   {/* Featured Content */}
-                  <div className="grid grid-cols-1 gap-12 mb-16">
+                  <div className="grid grid-cols-1 gap-12 py-4">
                     {featuredPosts.length > 0 && (
                       <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
                         <div className="md:flex">
                           <div className="md:w-1/3 relative">
                             <Image
-                              src={
-                                featuredPosts[0].image
-                                  ? JSON.parse(featuredPosts[0].image as string)[0] ||
-                                    "/placeholder.svg?height=400&width=600&text=Featured+Post"
-                                  : "/placeholder.svg?height=400&width=600&text=Featured+Post"
-                              }
+                              src={parseImages(featuredPosts[0].image)[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
                               alt="Featured Post"
                               width={600}
                               height={400}
@@ -195,7 +200,6 @@ export default async function BlogPage() {
                       </div>
                     )}
 
-                    
                     {
                       blogLinks.length > 0 && (
                         blogLinks.map((link:any) => (
@@ -250,6 +254,62 @@ export default async function BlogPage() {
                         </div>
                         )
                       )
+                    )
+                  }
+
+                  {
+                    blogPostWithLink.length > 0 && (
+                      blogPostWithLink.map((post:any) => (
+                        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+                        <div className="md:flex">
+                          <div className="md:w-1/3 relative">
+                            <Image
+                              src={
+                                parseImages(post.image)[0] ||
+                                  "/placeholder.svg?height=400&width=600&text=Featured+Link"
+                              }
+                              alt="Featured Link"
+                              width={600}
+                              height={400}
+                              className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-purple-600 hover:bg-purple-700">Link</Badge>
+                            </div>
+                          </div>
+                          <div className="p-8 md:w-2/3">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <Badge
+                                variant="outline"
+                                className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
+                              >
+                                {post.type}
+                              </Badge>
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="h-3 w-3 mr-1" />
+                                {new Date(post.createdAt).toLocaleDateString(undefined, {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                })}
+                              </div>
+                            </div>
+                            <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                              {post.title}
+                            </h2>
+                            <p className="text-muted-foreground mb-6">{post.excerpt}</p>
+                            <Button
+                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+                              asChild
+                            >
+                              <a href={post.blogLink} target="_blank" rel="noopener noreferrer">
+                                Visit Link <ExternalLink className="ml-2 h-4 w-4" />
+                              </a>
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      ))
                     )
                   }
                     
@@ -307,12 +367,13 @@ export default async function BlogPage() {
 
                    
                          
+                    {/* Regular Blog Links */}
                   </div>
                 </TabsContent>
 
                 {/* Articles Only Tab */}
                 <TabsContent value="articles">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
                     {[...featuredPosts, ...regularPosts].map((post) => (
                       <div
                         key={post.id}
@@ -366,8 +427,58 @@ export default async function BlogPage() {
 
                 {/* Links Only Tab */}
                 <TabsContent value="links">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-               
+                  <div className="grid grid-cols-1 gap-8 py-4">
+                    {blogPostWithLink.map((post:any) => (
+                     <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group ">
+                     <div className="md:flex">
+                       <div className="md:w-1/3 relative">
+                         <Image
+                           src={
+                             parseImages(post.image)[0] ||
+                               "/placeholder.svg?height=400&width=600&text=Featured+Link"
+                           }
+                           alt="Featured Link"
+                           width={600}
+                           height={400}
+                           className="h-full w-full object-contain transition-all duration-500 group-hover:scale-105"
+                         />
+                         <div className="absolute top-4 left-4">
+                           <Badge className="bg-purple-600 hover:bg-purple-700">Link</Badge>
+                         </div>
+                       </div>
+                       <div className="p-8 md:w-2/3">
+                         <div className="flex items-center space-x-2 mb-2">
+                           <Badge
+                             variant="outline"
+                             className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
+                           >
+                             {post.type}
+                           </Badge>
+                           <div className="flex items-center text-sm text-muted-foreground">
+                             <Calendar className="h-3 w-3 mr-1" />
+                             {new Date(post.createdAt).toLocaleDateString(undefined, {
+                               year: "numeric",
+                               month: "long",
+                               day: "numeric",
+                             })}
+                           </div>
+                         </div>
+                         <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                           {post.title}
+                         </h2>
+                         <p className="text-muted-foreground mb-6">{post.excerpt}</p>
+                         <Button
+                           className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+                           asChild
+                         >
+                           <a href={post.blogLink} target="_blank" rel="noopener noreferrer">
+                             Visit Link <ExternalLink className="ml-2 h-4 w-4" />
+                           </a>
+                         </Button>
+                       </div>
+                     </div>
+                   </div>
+                    ))}
                   </div>
                 </TabsContent>
 
