@@ -38,6 +38,7 @@ export const authOptions = {
           email: user.email,
           name: user.name,
           role: user.role,
+          profile_image: user.profile_image || "",
         }
       },
     }),
@@ -47,6 +48,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id
         token.role = user.role
+        token.profile_image = user.profile_image
       }
       return token
     },
@@ -54,6 +56,8 @@ export const authOptions = {
       if (session.user) {
         session.user.id = token.id as string
         session.user.role = token.role as string
+        session.user.profile_image = token.profile_image as string
+
       }
       return session
     },
