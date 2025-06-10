@@ -3,9 +3,27 @@
 import { revalidatePath } from "next/cache"
 import { db } from "@/lib/db"
 import { Prisma } from "@prisma/client"
+import { getSession } from "@/lib/auth"
 
 export async function createPost(data: any) {
   try {
+
+      const session = await getSession()
+
+    if (!session || !session.user?.email) {
+      return { success: false, error: "Unauthorized" }
+    }
+
+    // Get user from DB (if you store by email)
+    const user = await db.user.findUnique({
+      where: { email: session.user.email },
+    })
+
+    console.log("User:", user)
+
+    if (!user) {
+      return { success: false, error: "User not found" }
+    }
     const existingPost = await db.post.findUnique({
       where: { slug: data.slug },
     })
@@ -16,27 +34,30 @@ export async function createPost(data: any) {
 
     console.log(data)
 
-    await db.post.create({
-      data: {
-        title: data.title,
-        slug: data.slug,
-        excerpt: data.excerpt,
-        content: data.content,
-        image: data.image,
-        type: data.type || "blog",
-        published: data.published || false,
-        categories: {
-          create: data.categories.map((categoryId: string) => ({
-            category: {
-              connect: { id: categoryId },
-            },
-          })),
+    if(user){
+      await db.post.create({
+        data: {
+          title: data.title,
+          slug: data.slug,
+          excerpt: data.excerpt,
+          content: data.content,
+          image: data.image,
+          type: data.type || "blog",
+          published: data.published || false,
+          categories: {
+            create: data.categories.map((categoryId: string) => ({
+              category: {
+                connect: { id: categoryId },
+              },
+            })),
+          },
+          featured: data.featured || false,
+          blogLink: data.link || null,
+          userId: user?.id || "", 
         },
-        featured: data.featured || false,
-        blogLink: data.link || null
-      },
-    })
-    
+      })
+    }
+
 
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
@@ -51,6 +72,25 @@ export async function createPost(data: any) {
 
 export async function updatePost(id: string, data: any) {
   try {
+
+    //  const session = await getServerSession(authOptions)
+
+      const session = await getSession()
+
+    if (!session || !session.user?.email) {
+      return { success: false, error: "Unauthorized" }
+    }
+
+    // Get user from DB (if you store by email)
+    const user = await db.user.findUnique({
+      where: { email: session.user.email },
+    })
+
+    console.log("User:", user)
+
+    if (!user) {
+      return { success: false, error: "User not found" }
+    }
     const existingPost = await db.post.findUnique({
       where: { id },
     })
@@ -76,7 +116,11 @@ export async function updatePost(id: string, data: any) {
             },
           })),
         },
-        featured: data.featured || false
+        featured: data.featured || false,
+        userId: session.user.id, // Use the user ID from the session,
+        // user: {
+        //   connect: { id: user.id }, // Connect the user to the post
+        // },
       },
     })
 

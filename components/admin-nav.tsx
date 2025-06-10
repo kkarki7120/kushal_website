@@ -7,7 +7,7 @@ import { Building, Award, FileText, Home, Settings, Users, FolderTree, ChevronDo
 import { useSession, signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,7 @@ export function AdminNav() {
   const { data: session } = useSession()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
 
+  console.log("session", session)
   const navItems = [
     {
       title: "Dashboard",
@@ -79,6 +80,8 @@ export function AdminNav() {
 
   // Get user initials for avatar
   const getUserInitials = () => {
+    // return the profile image if it exists
+    // if (session?.user?.profile_image) return <Image src={session.user.profile_image} alt="User" width={32} height={32} />
     if (!session?.user?.name) return "U"
     return session.user.name
       .split(" ")
@@ -115,10 +118,13 @@ export function AdminNav() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="w-full justify-start px-2">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback>{getUserInitials()}</AvatarFallback>
-                </Avatar>
+              <div className="flex items-center gap-2 h-10 w-10 relative">
+              <Avatar className="h-10 w-10">
+                              <AvatarImage src={session?.user?.profile_image || undefined} />
+                              <AvatarFallback className="text-lg">
+                                {session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email.charAt(0).toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
                 <div className="flex flex-col items-start text-sm">
                   <span className="font-medium truncate max-w-[120px]">{session?.user?.name || "User"}</span>
                   <span className="text-xs text-muted-foreground truncate max-w-[120px]">{session?.user?.email}</span>
@@ -128,8 +134,8 @@ export function AdminNav() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+            {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem asChild>
               <Link href="/admin/profile">Profile Settings</Link>
             </DropdownMenuItem>

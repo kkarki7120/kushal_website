@@ -4,121 +4,31 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Github, Twitter, Linkedin, Calendar, Clock, Share2, Bookmark, ThumbsUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { db } from "@/lib/db"
+import { parseImages } from "@/utils"
 
 // This is a more SEO-friendly approach using slug instead of id
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  // In a real application, you would fetch the post data based on the slug
-  // For now, we'll simulate this with a mock post
-  const {slug} = params
-  const post = {
-    slug: params.slug,
-    title: "The Future of React: What's Coming in 2023 and Beyond",
-    excerpt:
-      "React continues to evolve with exciting new features on the horizon. In this comprehensive guide, we'll explore the upcoming changes in React's roadmap for 2023, including Server Components, Suspense improvements, and more.",
-    content: `
-      <p>React has been at the forefront of frontend development for years, and its evolution continues with exciting new features on the horizon. In this article, we'll dive deep into what's coming in React's roadmap for 2023 and beyond.</p>
-      
-      <h2>React Server Components</h2>
-      
-      <p>One of the most anticipated features is React Server Components (RSC). This paradigm shift allows components to render on the server, reducing the JavaScript bundle size sent to the client and improving performance.</p>
-      
-      <p>Server Components can:</p>
-      <ul>
-        <li>Access server-side resources directly</li>
-        <li>Reduce bundle size by keeping server-only code on the server</li>
-        <li>Improve initial load performance</li>
-        <li>Seamlessly integrate with client components</li>
-      </ul>
-      
-      <p>Here's a simple example of how Server Components might be used:</p>
-      
-      <pre><code>// ServerComponent.js - This never gets sent to the client
-import { db } from './database';
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
 
-async function ServerComponent() {
-  const data = await db.query('SELECT * FROM users');
-  
-  return (
-    <div>
-      <h1>User List</h1>
-      <ul>
-        {data.map(user => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default ServerComponent;</code></pre>
-
-      <h2>Improved Suspense</h2>
-      
-      <p>Suspense, introduced a few years ago, is getting significant improvements. It allows components to "wait" for something before rendering, showing a fallback UI during the waiting period.</p>
-      
-      <p>The new Suspense improvements will make it easier to:</p>
-      <ul>
-        <li>Handle loading states more gracefully</li>
-        <li>Coordinate multiple async dependencies</li>
-        <li>Create smoother user experiences during data fetching</li>
-        <li>Reduce "waterfall" requests</li>
-      </ul>
-      
-      <p>Here's how you might use the improved Suspense:</p>
-      
-      <pre><code>// App.js
-import { Suspense } from 'react';
-import UserProfile from './UserProfile';
-import UserPosts from './UserPosts';
-
-function App() {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading profile...</div>}>
-        <UserProfile />
-      </Suspense>
-      
-      <Suspense fallback={<div>Loading posts...</div>}>
-        <UserPosts />
-      </Suspense>
-    </div>
-  );
-}</code></pre>
-
-      <h2>Automatic Batching</h2>
-      
-      <p>React 18 introduced automatic batching, which groups multiple state updates into a single re-render for better performance. This feature will continue to be refined in upcoming versions.</p>
-      
-      <h2>Concurrent Features</h2>
-      
-      <p>Concurrent React allows rendering to be interrupted, paused, and resumed. This enables React to:</p>
-      
-      <ul>
-        <li>Respond to user input even during heavy rendering work</li>
-        <li>Keep the UI responsive during intensive operations</li>
-        <li>Prioritize more important updates over less important ones</li>
-      </ul>
-      
-      <h2>The New React Documentation</h2>
-      
-      <p>The React team has been working on a complete overhaul of the documentation, focusing on a more modern approach to teaching React with function components and hooks as the primary pattern.</p>
-      
-      <h2>Conclusion</h2>
-      
-      <p>React's future looks bright with these upcoming features. By focusing on performance, developer experience, and better abstractions, React continues to evolve in ways that benefit both developers and end users.</p>
-      
-      <p>As we move through 2023 and beyond, keep an eye on the official React blog and GitHub repository for the latest updates and release announcements.</p>
-    `,
-    date: "June 15, 2023",
-    author: {
-      name: "Kushal Karki",
-      avatar: "/placeholder.svg?height=100&width=100&text=KK",
-      bio: "Full Stack Developer with a passion for React and modern web technologies.",
-    },
-    category: "Development",
-    readTime: "8 min read",
-    tags: ["React", "JavaScript", "Web Development", "Frontend"],
-    image: "/placeholder.svg?height=600&width=1200&text=React+Future",
+  const {slug} = await params;
+  const blog = await db.post.findFirst({
+    where: { slug },
+    include:{
+      categories: true,
+      user: true,
+    }
+  })
+  console.log("Blog Post:", blog)
+  if (!blog) {
+    return (
+      <div className="container mx-auto py-16 text-center">
+        <h1 className="text-3xl font-bold mb-4">Post Not Found</h1>
+        <p className="text-muted-foreground">The blog post you are looking for does not exist.</p>
+        <Link href="/blog" className="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          Back to Blog
+        </Link>
+      </div>
+    )
   }
 
   return (
@@ -184,27 +94,31 @@ function App() {
 
               <div className="max-w-3xl mx-auto">
                 <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
-                  {post.category}
+                  {blog.categories.map((category) => category.name).join(", ")}
                 </Badge>
 
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in">{post.title}</h1>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in">{blog.title}</h1>
 
                 <div className="flex items-center space-x-4 mb-8">
                   <Image
-                    src={post.author.avatar || "/placeholder.svg"}
-                    alt={post.author.name}
+                    src={  parseImages(blog.image)[0] || "/placeholder.svg"}
+                    alt={blog.title}
                     width={50}
                     height={50}
                     className="rounded-full"
                   />
                   <div>
-                    <p className="font-medium">{post.author.name}</p>
+                    {/* <p className="font-medium">{post.author.name}</p> */}
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Calendar className="h-3 w-3 mr-1" />
-                      {post.date}
+                      {/* {blog.createdAt.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })} */}
                       <span className="mx-2">•</span>
                       <Clock className="h-3 w-3 mr-1" />
-                      {post.readTime}
+                      {/* {blog.readTime} */}
                     </div>
                   </div>
                 </div>
@@ -216,16 +130,16 @@ function App() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
               <div className="lg:col-span-8 lg:col-start-3">
                 <div className="relative aspect-[16/9] mb-8 rounded-xl overflow-hidden">
-                  <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
+                  {/* <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover" /> */}
                 </div>
 
                 <div
                   className="prose prose-lg dark:prose-invert max-w-none mb-12"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
+                  // dangerouslySetInnerHTML={{ __html: post.content }}
                 />
 
                 <div className="flex flex-wrap gap-2 mb-8">
-                  {post.tags.map((tag, index) => (
+                  {/* {post.tags.map((tag, index) => (
                     <Badge
                       key={index}
                       variant="outline"
@@ -233,7 +147,7 @@ function App() {
                     >
                       {tag}
                     </Badge>
-                  ))}
+                  ))} */}
                 </div>
 
                 <div className="flex justify-between items-center border-t border-b py-6 my-8">
@@ -267,16 +181,16 @@ function App() {
 
                 <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-8 mb-12">
                   <div className="flex items-start space-x-4">
-                    <Image
+                    {/* <Image
                       src={post.author.avatar || "/placeholder.svg"}
                       alt={post.author.name}
                       width={80}
                       height={80}
                       className="rounded-full"
-                    />
+                    /> */}
                     <div>
                       <h3 className="text-xl font-bold mb-2">About the Author</h3>
-                      <p className="text-muted-foreground mb-4">{post.author.bio}</p>
+                      {/* <p className="text-muted-foreground mb-4">{post.author.bio}</p> */}
                       <div className="flex space-x-2">
                         <Button size="sm" variant="outline" asChild>
                           <Link href="/about">View Profile</Link>

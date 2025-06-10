@@ -18,6 +18,8 @@ import { RichTextEditor } from "@/components/rich-text-editor"
 import { toast } from "react-toastify"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MultiSelect } from "@/components/ui/multi-select"
+import { getSession } from "@/lib/auth"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 const slugify = (text: string) => {
   return text

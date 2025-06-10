@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import type React from "react"
+
+import { useState, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -10,6 +12,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Upload, X, Camera } from "lucide-react"
 import { updatePassword, updateProfile } from "./action"
 
 const profileFormSchema = z.object({
@@ -19,6 +23,7 @@ const profileFormSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
+  profile_image: z.string().optional(),
 })
 
 const passwordFormSchema = z
@@ -47,11 +52,17 @@ interface ProfileFormProps {
     name?: string | null
     email: string
     role?: string | null
+    profile_image?: string | null
   }
 }
 
 export function ProfileForm({ user }: ProfileFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [imagePreview, setImagePreview] = useState<string | null>(user.profile_image || null)
+  const [isDragOver, setIsDragOver] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  console.log("user", user)
 
   // Profile form
   const profileForm = useForm<ProfileFormValues>({
@@ -59,6 +70,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
     defaultValues: {
       name: user.name || "",
       email: user.email,
+      profile_image: user.profile_image || "",
     },
   })
 
@@ -71,6 +83,66 @@ export function ProfileForm({ user }: ProfileFormProps) {
       confirmPassword: "",
     },
   })
+
+  const handleImageChange = (file: File) => {
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        toast({
+          title: "Invalid file type",
+          description: "Please select an image file.",
+          variant: "destructive",
+        })
+        return
+      }
+
+      // Validate file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Please select an image smaller than 5MB.",
+          variant: "destructive",
+        })
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const result = e.target?.result as string
+        setImagePreview(result)
+        profileForm.setValue("profile_image", result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+
+    const files = e.dataTransfer.files
+    if (files.length > 0) {
+      handleImageChange(files[0])
+    }
+  }
+
+  const removeImage = () => {
+    setImagePreview(null)
+    profileForm.setValue("profile_image", "")
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
 
   async function onProfileSubmit(data: ProfileFormValues) {
     setIsLoading(true)
@@ -130,6 +202,86 @@ export function ProfileForm({ user }: ProfileFormProps) {
           <Form {...profileForm}>
             <form onSubmit={profileForm.handleSubmit(onProfileSubmit)}>
               <CardContent className="space-y-6">
+                <FormField
+                  control={profileForm.control}
+                  name="profile_image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Profile Image</FormLabel>
+                      <FormControl>
+                        <div className="flex flex-col items-center space-y-4">
+                          {/* Current/Preview Image */}
+                          <div className="relative">
+                            <Avatar className="h-24 w-24">
+                              <AvatarImage src={user.profile_image || imagePreview || undefined} />
+                              <AvatarFallback className="text-lg">
+                                {user.name?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                            {imagePreview && (
+                              <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                                onClick={removeImage}
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            )}
+                          </div>
+
+                          {/* Upload Area */}
+                          <div
+                            className={`relative border-2 border-dashed rounded-lg p-6 w-full text-center transition-colors ${
+                              isDragOver
+                                ? "border-primary bg-primary/5"
+                                : "border-muted-foreground/25 hover:border-muted-foreground/50"
+                            }`}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                          >
+                            <input
+                              ref={fileInputRef}
+                              type="file"
+                              accept="image/*"
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0]
+                                if (file) handleImageChange(file)
+                              }}
+                            />
+                            <div className="flex flex-col items-center space-y-2">
+                              <div className="p-2 bg-muted rounded-full">
+                                <Upload className="h-4 w-4 text-muted-foreground" />
+                              </div>
+                              <div className="text-sm">
+                                <span className="font-medium text-primary">Click to upload</span>
+                                <span className="text-muted-foreground"> or drag and drop</span>
+                              </div>
+                              <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 5MB</p>
+                            </div>
+                          </div>
+
+                          {/* Alternative Upload Button */}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="w-full"
+                          >
+                            <Camera className="h-4 w-4 mr-2" />
+                            Choose Image
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormDescription>Upload a profile picture. Recommended size: 400x400px.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={profileForm.control}
                   name="name"
@@ -238,4 +390,3 @@ export function ProfileForm({ user }: ProfileFormProps) {
     </Tabs>
   )
 }
-
