@@ -18,8 +18,6 @@ import { RichTextEditor } from "@/components/rich-text-editor"
 import { toast } from "react-toastify"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MultiSelect } from "@/components/ui/multi-select"
-import { getSession } from "@/lib/auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 const slugify = (text: string) => {
   return text
@@ -38,9 +36,7 @@ const postSchema = z.object({
     message: "Title must be at least 3 characters.",
   }),
   excerpt: z.string().optional(),
-  content: z.string().min(10, {
-    message: "Content must be at least 10 characters.",
-  }).optional(),
+  content: z.string().optional(),
   image: z.string().optional(),
   type: z.string().default("blog"),
   categories: z.array(z.string()).optional(),
@@ -71,6 +67,8 @@ export function PostForm({ post }: PostFormProps) {
   const [allImages, setAllImages] = useState<string[]>(parseImages(post?.image))
   const [mainImageIndex, setMainImageIndex] = useState<number>(allImages.length > 0 ? 0 : -1)
   const [categories, setCategories] = useState<any[]>([])
+
+  console.log("post", post)
 
   useEffect(() => {
     async function fetchCategories() {
