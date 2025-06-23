@@ -6,10 +6,13 @@ import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { db } from "@/lib/db"
 import { parseImages } from "@/utils"
+import { getSession } from "@/lib/auth"
 
 // This is a more SEO-friendly approach using slug instead of id
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
 
+  const session = await getSession()
+  
   const {slug} = await params;
   const blog = await db.post.findFirst({
     where: { slug },
@@ -101,7 +104,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
                 <div className="flex items-center space-x-4 mb-8">
                   <Image
-                    src={  parseImages(blog.image)[0] || "/placeholder.svg"}
+                    src={  session?.user?.profile_image || "/placeholder.svg"}
                     alt={blog.title}
                     width={50}
                     height={50}

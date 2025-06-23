@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { db } from "@/lib/db"
 import { parseImages } from "@/utils"
+import { link } from "fs"
 
 export default async function BlogPage() {
   // Fetch featured blog posts (regular posts)
@@ -29,7 +30,9 @@ export default async function BlogPage() {
   // fetch blog post with link
   const blogPostWithLink = await db.post.findMany({
     where: {
-      type: "link",
+      blogLink: {
+        not: null,
+      },
       published: true,
     },
   })
@@ -51,17 +54,15 @@ export default async function BlogPage() {
   // fetch blog links 
   const blogLinks = await db.post.findMany({
     where: {
-      type: "link",
+      blogLink: {
+        not: null,
+      },
       published: true,
     },
     orderBy: {
       createdAt: "desc",
     },
   })
-
-  console.log("blog links", blogLinks)
-
-
 
   // Fetch all categories for filtering
   const categories = await db.category.findMany({
@@ -176,14 +177,28 @@ export default async function BlogPage() {
                               {featuredPosts[0].title}
                             </h2>
                             <p className="text-muted-foreground mb-6">{featuredPosts[0].excerpt}</p>
-                            <Button
+                            {
+                              featuredPosts[0].blogLink ? (
+                                <Button
                               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
                               asChild
                             >
-                              <Link href={`/blog/${featuredPosts[0].slug}`}>
+                              <Link href={`${featuredPosts[0].blogLink}`}>
                                 Read Article <ArrowRight className="ml-2 h-4 w-4" />
                               </Link>
                             </Button>
+                              ) : (
+                                <Button
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                                asChild
+                              >
+                                <Link href={`/blog/${featuredPosts[0].slug}`}>
+                                  Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                                </Link>
+                              </Button>
+                              )
+                            }
+                          
                           </div>
                         </div>
                       </div>

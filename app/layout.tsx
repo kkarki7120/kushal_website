@@ -35,6 +35,7 @@ export default function RootLayout({
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <SkipLink />
+          
           {children}
           <BackToTop />
         </ThemeProvider>

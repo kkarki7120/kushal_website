@@ -99,30 +99,30 @@ export async function updatePost(id: string, data: any) {
       return { success: false, error: "Post not found." }
     }
 
-    await db.post.update({
-      where: { id },
-      data: {
-        title: data.title,
-        slug: data.slug,
-        excerpt: data.excerpt,
-        content: data.content,
-        image: data.image,
-        type: data.type || "blog",
-        published: data.published || false,
-        categories: {
-          create: data.categories.map((categoryId: string) => ({
-            category: {
-              connect: { id: categoryId },
-            },
-          })),
+    if(user){      
+      await db.post.update({
+        where: { id },
+        data: {
+          title: data.title,
+          slug: data.slug,
+          excerpt: data.excerpt,
+          content: data.content,
+          image: data.image,
+          type: data.type || "blog",
+          published: data.published || false,
+          categories: {
+            create: data.categories.map((categoryId: string) => ({
+              category: {
+                connect: { id: categoryId },
+              },
+            })),
+          },
+          featured: data.featured || false,
+          userId: session.user.id, // Use the user ID from the session,
+  
         },
-        featured: data.featured || false,
-        userId: session.user.id, // Use the user ID from the session,
-        // user: {
-        //   connect: { id: user.id }, // Connect the user to the post
-        // },
-      },
-    })
+      })
+    }
 
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
