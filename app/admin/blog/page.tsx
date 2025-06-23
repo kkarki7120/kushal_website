@@ -13,6 +13,8 @@ export default async function BlogPage() {
     },
   })
 
+  console.log("posts", posts)
+
   // Count posts by type
   const blogCount = posts.filter((post) => post.type === "blog").length
   const noticeCount = posts.filter((post) => post.type === "notice").length

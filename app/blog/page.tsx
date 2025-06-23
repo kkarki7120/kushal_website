@@ -30,7 +30,9 @@ export default async function BlogPage() {
   // fetch blog post with link
   const blogPostWithLink = await db.post.findMany({
     where: {
-      type: "link",
+      blogLink: {
+        not: null,
+      },
       published: true,
     },
   })
@@ -52,17 +54,15 @@ export default async function BlogPage() {
   // fetch blog links 
   const blogLinks = await db.post.findMany({
     where: {
-      type: "link",
+      blogLink: {
+        not: null,
+      },
       published: true,
     },
     orderBy: {
       createdAt: "desc",
     },
   })
-
-  console.log("blog links", blogLinks)
-
-
 
   // Fetch all categories for filtering
   const categories = await db.category.findMany({
