@@ -16,10 +16,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const {slug} = await params;
   const blog = await db.post.findFirst({
     where: { slug },
-    include:{
-      categories: true,
-      user: true,
-    }
+    // include:{
+    //   categories: true,
+    //   user: true,
+    // }
   })
   console.log("Blog Post:", blog)
   if (!blog) {
@@ -97,14 +97,14 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
               <div className="max-w-3xl mx-auto">
                 <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
-                  {blog.categories.map((category) => category.name).join(", ")}
+                  {/* {blog.categories.map((category) => category.name).join(", ")} */}
                 </Badge>
 
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in">{blog.title}</h1>
 
                 <div className="flex items-center space-x-4 mb-8">
                   <Image
-                    src={  session?.user?.profile_image || "/placeholder.svg"}
+                    src={  session?.user?.image || "/placeholder.svg"}
                     alt={blog.title}
                     width={50}
                     height={50}

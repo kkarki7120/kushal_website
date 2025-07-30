@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
-import { Loader2 } from "lucide-react"
+import { Loader2 , Eye } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,7 +27,7 @@ export function LoginForm() {
   const callbackUrl = searchParams.get("callbackUrl") || "/admin"
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-
+  const [showPassword, setShowPassword] = useState(false)
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -92,7 +92,10 @@ export function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="••••••••" {...field} type="password" disabled={isLoading} />
+                  <div className="relative">
+                    <Input placeholder="••••••••" {...field} type={showPassword ? "text" : "password"} disabled={isLoading} />
+                    <Eye className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer" onClick={() => setShowPassword(!showPassword)} />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -9,14 +9,12 @@ import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
 import { db } from "@/lib/db"
 import { parseImages } from "@/utils"
-import { link } from "fs"
 
 export default async function BlogPage() {
   // Fetch featured blog posts (regular posts)
   const featuredPosts = await db.post.findMany({
     where: {
-      featured: true,
-      type: "blog",
+      // featured: true,
       published: true,
     },
     take: 1,
@@ -25,14 +23,9 @@ export default async function BlogPage() {
     },
   })
 
-  console.log("featured posts", featuredPosts)
-
   // fetch blog post with link
   const blogPostWithLink = await db.post.findMany({
     where: {
-      blogLink: {
-        not: null,
-      },
       published: true,
     },
   })
@@ -41,8 +34,7 @@ export default async function BlogPage() {
   // Fetch regular blog posts
   const regularPosts = await db.post.findMany({
     where: {
-      featured: false,
-      type: "blog",
+      // featured: false,
       published: true,
     },
     orderBy: {
@@ -53,12 +45,9 @@ export default async function BlogPage() {
 
   // fetch blog links 
   const blogLinks = await db.post.findMany({
-    where: {
-      blogLink: {
-        not: null,
-      },
-      published: true,
-    },
+    // where: {
+    //   published: true,
+    // },
     orderBy: {
       createdAt: "desc",
     },
@@ -93,7 +82,7 @@ export default async function BlogPage() {
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px] -z-10"></div>
+          <div className="absoluteblogPostWithLink inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px] -z-10"></div>
           <div className="container">
             <div className="text-center mb-16 animate-fade-in">
               <Badge className="mb-2 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
@@ -147,7 +136,7 @@ export default async function BlogPage() {
                 <TabsContent value="all">
                   {/* Featured Content */}
                   <div className="grid grid-cols-1 gap-12 py-4">
-                    {featuredPosts.length > 0 && (
+                    {/* {featuredPosts.length > 0 && (
                       <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
                         <div className="md:flex">
                           <div className="md:w-1/3 relative">
@@ -202,7 +191,7 @@ export default async function BlogPage() {
                           </div>
                         </div>
                       </div>
-                    )}
+                    )} */}
 
                     {
                       blogLinks.length > 0 && (
@@ -244,12 +233,12 @@ export default async function BlogPage() {
                               <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                                 {link.title}
                               </h2>
-                              <p className="text-muted-foreground mb-6">{link.excerpt.slice(0,100)}...</p>
+                              {/* <p className="text-muted-foreground mb-6">{link.excerpt.slice(0,100)}...</p> */}
                               <Button
                                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
                                 asChild
                               >
-                                <a href={link.blogLink} target="_blank" rel="noopener noreferrer">
+                                <a href={link.externalUrl} target="_blank" rel="noopener noreferrer">
                                   Visit Link <ExternalLink className="ml-2 h-4 w-4" />
                                 </a>
                               </Button>
@@ -328,7 +317,7 @@ export default async function BlogPage() {
                         className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
                         <div className="relative aspect-[16/9] overflow-hidden">
-                          <Image
+                          {/* <Image
                             src={
                               post.image
                                 ? JSON.parse(post.image as string)[0] ||
@@ -339,11 +328,11 @@ export default async function BlogPage() {
                             width={600}
                             height={300}
                             className="object-cover transition-all duration-500 group-hover:scale-105"
-                          />
+                          /> */}
                           <div className="absolute top-4 left-4">
                             <Badge className="bg-blue-600 hover:bg-blue-700">Article</Badge>
                           </div>
-                        </div>
+                        </div>blogPostWithLink
                         <div className="p-6">
                           <div className="flex justify-between items-center mb-2">
                             <div className="flex items-center text-sm text-muted-foreground">
@@ -358,7 +347,7 @@ export default async function BlogPage() {
                           <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             {post.title}
                           </h3>
-                          <p className="text-muted-foreground mb-4">{post.excerpt?.slice(0,100)}...</p>
+                          {/* <p className="text-muted-foreground mb-4">{post.excerpt?.slice(0,100)}...</p> */}
                           <Link
                             href={`/blog/${post.slug}`}
                             className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
@@ -416,9 +405,9 @@ export default async function BlogPage() {
                           <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             {post.title}
                           </h3>
-                          <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                          {/* <p className="text-muted-foreground mb-4">{post.excerpt}</p> */}
                           <Link
-                            href={`/blog/${post.slug}`}
+                            href={blogPostWithLink`/blog/${post.slug}`}
                             className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
                           >
                             Read More <ArrowRight className="ml-1 h-4 w-4" />
@@ -470,7 +459,7 @@ export default async function BlogPage() {
                          <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                            {post.title}
                          </h2>
-                         <p className="text-muted-foreground mb-6">{post.excerpt?.slice(0, 100)}...</p>
+                         {/* <p className="text-muted-foreground mb-6">{post.excerpt?.slice(0, 100)}...</p> */}
                          <Button
                            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
                            asChild
