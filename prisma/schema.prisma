@@ -30,11 +30,12 @@ model Category {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @default(now()) @updatedAt
   type        String?        @default("uncategorized")
-  posts       PostCategory[]
+  posts       Post[]         // ✅ add this
   projects    Project[]
-
+  postsMany   PostCategory[] // if you want to distinguish many-to-many
   @@map("categories")
 }
+
 
 model Award {
   id          String   @id @default(cuid())
@@ -49,25 +50,31 @@ model Award {
 }
 
 model Post {
-  id         String         @id @default(cuid())
-  title      String
-  slug       String         @unique
-  excerpt    String?
-  content    String?
-  blogLink   String?
-  image      Json?
-  published  Boolean?       @default(false)
-  createdAt  DateTime?      @default(now()) @db.Timestamptz(6)
-  updatedAt  DateTime?      @default(now()) @updatedAt @db.Timestamptz(6)
-  type       String         @default("blog")
-  featured   Boolean?       @default(false)
-  categories PostCategory[]
+  id           String     @id @default(cuid())
+  slug         String     @unique
+  title        String
+  content      String?
+  externalUrl  String?
+  isExternal   Boolean    @default(false)
+  tags         String[]
+  published    Boolean    @default(false)
+  focusKeyword String?
+  seoData      Json?
 
-  userId     String?
-  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId   String?
+  category     Category?  @relation(fields: [categoryId], references: [id])
+
+  userId       String?    // ✅ new
+  user         User?      @relation(fields: [userId], references: [id]) // ✅ new
+
+  postCategories PostCategory[] // ✅ new
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@map("posts")
 }
+
 
 model User {
   id        String    @id @default(cuid())
@@ -75,14 +82,15 @@ model User {
   email     String    @unique
   password  String
   role      String?   @default("user")
-  profile_image String?   @default("") // ✅ New optional field
+  profile_image String?   @default("")
   createdAt DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt DateTime? @default(now()) @updatedAt @db.Timestamptz(6)
 
-  posts     Post[]
+  posts     Post[] // ✅ works now
 
   @@map("users")
 }
+
 
 model Leadership {
   id        String   @id @default(cuid())
@@ -106,6 +114,7 @@ model PostCategory {
   @@id([postId, categoryId])
   @@map("post_categories")
 }
+
 
 model Feedback {
   id        Int      @id @default(autoincrement())
