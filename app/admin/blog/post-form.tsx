@@ -12,7 +12,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
-import { createPost, updatePost } from "./actions"
+import { createPost } from "./actions"
+import { updatePost as updatePostLib } from "@/lib/actions"
 import { UploadButton } from "@/components/upload-button"
 import { RichTextEditor } from "@/components/rich-text-editor"
 import { toast } from "react-toastify"
@@ -35,7 +36,7 @@ const postSchema = z.object({
   title: z.string().min(3, {
     message: "Title must be at least 3 characters.",
   }),
-  excerpt: z.string().optional(),
+  description: z.string().optional(),
   content: z.string().optional(),
   image: z.string().optional(),
   type: z.string().default("blog"),
@@ -43,7 +44,8 @@ const postSchema = z.object({
   published: z.boolean().default(false),
   featured: z.boolean().default(false), // Add featured field to schema
   slug: z.string().optional(),
-  blogLink: z.string().optional()
+  isExternal: z.boolean().default(false),
+  externalUrl: z.string().optional(),
 })
 
 type PostFormValues = z.infer<typeof postSchema>
@@ -92,14 +94,15 @@ export function PostForm({ post }: PostFormProps) {
   // Update the defaultValues to include the featured field
   const defaultValues: Partial<PostFormValues> = {
     title: post?.title || "",
-    excerpt: post?.excerpt || "",
+    description: post?.description || "",
     content: post?.content || "",
     image: post?.image || "",
     type: post?.type || "blog",
     categories: post?.categories || [],
     published: post?.published || false,
     featured: post?.featured || false, // Add featured to defaultValues
-    blogLink:  post?.blogLink || "",
+    isExternal: post?.isExternal || false,
+    externalUrl: post?.externalUrl || "",
   }
 
   const form = useForm<PostFormValues>({
@@ -109,6 +112,7 @@ export function PostForm({ post }: PostFormProps) {
 
   const title = form.watch("title")
   const slug = form.watch("slug")
+  const isExternal = form.watch("isExternal")
 
   useEffect(() => {
     if (title && !slug && !post) {
@@ -215,7 +219,14 @@ export function PostForm({ post }: PostFormProps) {
       }
 
       if (post) {
-        await updatePost(post.id, formData)
+        await updatePostLib(post.slug, {
+          title: formData.title || "",
+          description: formData.description || "",
+          content: formData.content || "",
+          externalUrl: formData.isExternal ? (formData.externalUrl || "") : "",
+          isExternal: !!formData.isExternal,
+          tags: [],
+        })
         toast.success("Post updated successfully.")
       } else {
         const result = await createPost(formData)
@@ -315,10 +326,10 @@ export function PostForm({ post }: PostFormProps) {
 
         <FormField
           control={form.control}
-          name="excerpt"
+          name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Excerpt</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea placeholder="A brief summary of the post..." className="min-h-20" {...field} />
               </FormControl>
@@ -328,19 +339,39 @@ export function PostForm({ post }: PostFormProps) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="blogLink"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Link</FormLabel>
-              <FormControl>
-                <Input placeholder="https://www.google.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="isExternal"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>External Post</FormLabel>
+                  <FormDescription>Link to an external article instead of hosting content</FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          {isExternal && (
+            <FormField
+              control={form.control}
+              name="externalUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>External URL</FormLabel>
+                  <FormControl>
+                    <Input type="url" placeholder="https://example.com/article" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           )}
-        />
+        </div>
 
         <FormField
           control={form.control}

@@ -37,5 +37,5 @@ export const useCategories = () => {
         fetchCategories()
     }, [])
 
-    return { categories, isLoading, error }
+    return { categories, isLoading, error , setCategories }
 }

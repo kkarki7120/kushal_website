@@ -406,12 +406,7 @@ export default async function BlogPage() {
                             {post.title}
                           </h3>
                           {/* <p className="text-muted-foreground mb-4">{post.excerpt}</p> */}
-                          <Link
-                            href={blogPostWithLink`/blog/${post.slug}`}
-                            className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                          >
-                            Read More <ArrowRight className="ml-1 h-4 w-4" />
-                          </Link>
+                         
                         </div>
                       </div>
                     ))}

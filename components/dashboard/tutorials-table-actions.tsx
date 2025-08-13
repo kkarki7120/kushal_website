@@ -9,38 +9,70 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Edit, Trash2, Eye, Copy } from "lucide-react"
+import { MoreHorizontal, Edit, Trash2, Eye, Copy, Star } from "lucide-react"
 import Link from "next/link"
-import { deletePost } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog"
 import { toast } from "react-toastify"
 
-interface PostsTableActionsProps {
-  post: any
+interface TutorialsTableActionsProps {
+  tutorial: any
 }
 
-export function PostsTableActions({ post }: PostsTableActionsProps) {
+export function TutorialsTableActions({ tutorial }: TutorialsTableActionsProps) {
   const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
-
-      try {
-        const result = await deletePost(post.slug)
-        if (result.success) {
-          router.refresh()
-        }
-      } catch (error) {
-        console.error("Error deleting post:", error)
-        toast.error("Failed to delete post")
-      } 
+    try {
+      const response = await fetch(`/api/tutorials/${tutorial.id}`, {
+        method: 'DELETE',
+      })
+      
+      const result = await response.json()
+      
+      if (result.success) {
+        toast.success('Tutorial deleted successfully')
+        router.refresh()
+      } else {
+        toast.error(result.message || 'Failed to delete tutorial')
+      }
+    } catch (error) {
+      console.error("Error deleting tutorial:", error)
+      toast.error("Failed to delete tutorial")
     }
+  }
 
   const handleDuplicate = () => {
     // TODO: Implement duplicate functionality
-    alert("Duplicate functionality coming soon!")
+    toast.info("Duplicate functionality coming soon!")
+  }
+
+  const handleToggleFeatured = async () => {
+    try {
+      const response = await fetch(`/api/tutorials/${tutorial.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          featured: !tutorial.featured,
+        }),
+      })
+      
+      const result = await response.json()
+      
+      if (result.success) {
+        toast.success(`Tutorial ${tutorial.featured ? 'unfeatured' : 'featured'} successfully`)
+        router.refresh()
+      } else {
+        toast.error(result.message || 'Failed to update tutorial')
+      }
+    } catch (error) {
+      console.error("Error updating tutorial:", error)
+      toast.error("Failed to update tutorial")
+    }
   }
 
   return (
@@ -56,16 +88,20 @@ export function PostsTableActions({ post }: PostsTableActionsProps) {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/blog/${post.slug}`}>
+          <Link href={`/tutorial/${tutorial.id}`}>
             <Eye className="mr-2 h-4 w-4" />
-            View Post
+            View Tutorial
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={`/admin/blog/${post.id}`}>
+          <Link href={`/admin/tutorials/${tutorial.id}`}>
             <Edit className="mr-2 h-4 w-4" />
-            Edit Post
+            Edit Tutorial
           </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleToggleFeatured}>
+          <Star className="mr-2 h-4 w-4" />
+          {tutorial.featured ? 'Unfeature' : 'Feature'}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDuplicate}>
           <Copy className="mr-2 h-4 w-4" />
@@ -91,4 +127,4 @@ export function PostsTableActions({ post }: PostsTableActionsProps) {
     </AlertDialog>
     </>
   )
-}
+} 

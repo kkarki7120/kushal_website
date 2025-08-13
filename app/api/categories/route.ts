@@ -26,4 +26,56 @@ export async function GET() {
   return NextResponse.json({ success: true, categories })
 }
 
+export async function POST(request: Request) {
+  try {
+    const body = await request.json()
+    const { name, description, type } = body
+
+    // Validate required field
+    if (!name || !name.trim()) {
+      return NextResponse.json(
+        { error: "Category name is required" },
+        { status: 400 }
+      )
+    }
+
+    // Check if category already exists (case-insensitive)
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        name: {
+          equals: name.trim(),
+          mode: 'insensitive'
+        }
+      }
+    })
+
+    if (existingCategory) {
+      return NextResponse.json(
+        { error: "Category already exists" },
+        { status: 409 }
+      )
+    }
+
+    // Create new category with optional fields
+    const category = await prisma.category.create({
+      data: {
+        name: name.trim(),
+        description: description?.trim() || null,
+        type: type || "uncategorized"
+      }
+    })
+
+    return NextResponse.json(
+      { success: true, category },
+      { status: 201 }
+    )
+  } catch (error) {
+    console.error("Error creating category:", error)
+    return NextResponse.json(
+      { error: "Failed to create category" },
+      { status: 500 }
+    )
+  }
+}
+
 

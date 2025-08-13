@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Building, Award, FileText, Home, Settings, Users, FolderTree, ChevronDown, LogOut, Users2 } from "lucide-react"
+import { Building, Award, FileText, Home, Settings, Users, FolderTree, ChevronDown, LogOut, Users2, BookOpen } from "lucide-react"
 import { useSession, signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -55,6 +55,11 @@ export function AdminNav() {
       title: "Blog",
       href: "/admin/blog",
       icon: FileText,
+    },
+    {
+      title: "Tutorials",
+      href: "/admin/tutorials",
+      icon: BookOpen,
     },
     {
       title: "Users",
@@ -120,7 +125,7 @@ export function AdminNav() {
             <Button variant="ghost" className="w-full justify-start px-2">
               <div className="flex items-center gap-2 h-10 w-10 relative">
               <Avatar className="h-10 w-10">
-                              <AvatarImage src={session?.user?.profile_image || undefined} />
+                              <AvatarImage src={(session?.user as any)?.profile_image || undefined} />
                               <AvatarFallback className="text-lg">
                                 {session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email.charAt(0).toUpperCase()}
                               </AvatarFallback>
