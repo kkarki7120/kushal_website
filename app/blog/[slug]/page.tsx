@@ -16,10 +16,14 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const {slug} = await params;
   const blog = await db.post.findFirst({
     where: { slug },
-    // include:{
-    //   categories: true,
-    //   user: true,
-    // }
+    include: {
+      category: true,
+      postCategories: {
+        include: {
+          category: true,
+        },
+      },
+    },
   })
   console.log("Blog Post:", blog)
   if (!blog) {
@@ -97,7 +101,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
               <div className="max-w-3xl mx-auto">
                 <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
-                  {/* {blog.categories.map((category) => category.name).join(", ")} */}
+                  {blog.postCategories?.map((pc: any) => pc.category.name).join(", ") || "Blog"}
                 </Badge>
 
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in">{blog.title}</h1>
@@ -114,14 +118,14 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                     {/* <p className="font-medium">{post.author.name}</p> */}
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Calendar className="h-3 w-3 mr-1" />
-                      {/* {blog.createdAt.toLocaleDateString("en-US", {
+                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
-                      })} */}
+                      })}
                       <span className="mx-2">•</span>
                       <Clock className="h-3 w-3 mr-1" />
-                      {/* {blog.readTime} */}
+                      {blog.content ? Math.ceil(blog.content.split(/\s+/).length / 200) : 0} min read
                     </div>
                   </div>
                 </div>
@@ -138,11 +142,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
                 <div
                   className="prose prose-lg dark:prose-invert max-w-none mb-12"
-                  // dangerouslySetInnerHTML={{ __html: post.content }}
+                  dangerouslySetInnerHTML={{ __html: blog.content || "" }}
                 />
 
                 <div className="flex flex-wrap gap-2 mb-8">
-                  {/* {post.tags.map((tag, index) => (
+                  {blog.tags?.map((tag: string, index: number) => (
                     <Badge
                       key={index}
                       variant="outline"
@@ -150,7 +154,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                     >
                       {tag}
                     </Badge>
-                  ))} */}
+                  ))}
                 </div>
 
                 <div className="flex justify-between items-center border-t border-b py-6 my-8">
