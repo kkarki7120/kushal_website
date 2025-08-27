@@ -81,51 +81,120 @@ export default async function BlogPage() {
       <Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
-          <div className="absoluteblogPostWithLink inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px] -z-10"></div>
+          {/* Modern background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-100 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
+          <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_20%_20%,#6366f1_0,transparent_40%),radial-gradient(circle_at_80%_80%,#a21caf_0,transparent_40%)] -z-10"></div>
           <div className="container">
+            {/* Header */}
             <div className="text-center mb-16 animate-fade-in">
-              <Badge className="mb-2 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
+              <Badge className="mb-2 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800">
                 Blog
               </Badge>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
                 My{" "}
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
                   Thoughts
                 </span>{" "}
                 & Insights
               </h1>
-              <p className="max-w-[700px] mx-auto text-muted-foreground">
+              <p className="max-w-[700px] mx-auto text-muted-foreground text-lg">
                 Exploring web development, design, and technology through articles, tutorials, and curated resources.
               </p>
             </div>
 
-            <div className="max-w-3xl mx-auto mb-12">
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto mb-12">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 h-6 w-6" />
                 <input
                   type="text"
-                  placeholder="Search articles and links..."
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800"
+                  placeholder="Search articles, categories, or topics..."
+                  className="w-full pl-14 pr-4 py-4 rounded-2xl border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-lg shadow-md"
                 />
               </div>
             </div>
 
+            {/* Featured Blog Card */}
+            {featuredPosts && featuredPosts.length > 0 && (
+              <div className="mb-16 flex flex-col md:flex-row items-center gap-8 bg-gradient-to-tr from-blue-100/60 to-purple-100/60 dark:from-blue-900/60 dark:to-purple-900/60 rounded-3xl shadow-xl p-6 md:p-10 transition-all hover:scale-[1.01]">
+                <div className="w-full md:w-2/5 aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
+                  <Image
+                    src={parseImages(featuredPosts[0].image)[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
+                    alt={featuredPosts[0].title}
+                    width={600}
+                    height={400}
+                    className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="flex-1 flex flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <Badge className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                      Featured
+                    </Badge>
+                    <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      {new Date(featuredPosts[0].createdAt as Date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-2 text-gray-900 dark:text-white">
+                    {featuredPosts[0].title}
+                  </h2>
+                  <p className="text-lg text-gray-700 dark:text-gray-300 mb-2 line-clamp-3">{featuredPosts[0].excerpt}</p>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {featuredPosts[0].categories?.map((cat: any) => (
+                      <span key={cat.id} className="bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs font-medium">
+                        {cat.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-4 mt-2">
+                    <Button
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-full text-base font-semibold shadow-lg"
+                      asChild
+                    >
+                      <Link href={featuredPosts[0].blogLink ? featuredPosts[0].blogLink : `/blog/${featuredPosts[0].slug}`}>
+                        Read Article <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <span className="text-sm text-gray-400 dark:text-gray-500">
+                      {featuredPosts[0].readingTime ? `${featuredPosts[0].readingTime} min read` : ""}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Tabs for All, Articles, Links, Categories */}
             <div className="flex justify-center mb-12">
-              <Tabs defaultValue="all" className="w-full max-w-5xl">
-                <TabsList className="grid grid-cols-6 bg-white dark:bg-gray-800 p-1 rounded-lg shadow-md">
+              <Tabs defaultValue="all" className="w-full max-w-6xl">
+                <TabsList className="flex flex-wrap items-center gap-2 bg-white dark:bg-gray-900 px-2 rounded-2xl shadow-lg justify-center">
                   <TabsTrigger
                     value="all"
-                    className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                    className="data-[state=active]:bg-blue-600 data-[state=active]:text-white px-5 py-2 rounded-full font-semibold transition"
                   >
                     All
                   </TabsTrigger>
-  
-                  {categories.slice(0, 3).map((category) => (
+                  <TabsTrigger
+                    value="articles"
+                    className="data-[state=active]:bg-blue-600 data-[state=active]:text-white px-5 py-2 rounded-full font-semibold transition"
+                  >
+                    Articles
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="links"
+                    className="data-[state=active]:bg-purple-600 data-[state=active]:text-white px-5 py-2 rounded-full font-semibold transition"
+                  >
+                    Links
+                  </TabsTrigger>
+                  {categories.slice(0, 4).map((category) => (
                     <TabsTrigger
                       key={category.id}
                       value={category.name.toLowerCase()}
-                      className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 dark:data-[state=active]:bg-blue-900 dark:data-[state=active]:text-blue-300"
+                      className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white px-5 py-2 rounded-full font-semibold transition"
                     >
                       {category.name}
                     </TabsTrigger>
@@ -134,284 +203,134 @@ export default async function BlogPage() {
 
                 {/* All Content Tab */}
                 <TabsContent value="all">
-                  {/* Featured Content */}
-                  <div className="grid grid-cols-1 gap-12 py-4">
-                    {/* {featuredPosts.length > 0 && (
-                      <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div className="md:flex">
-                          <div className="md:w-1/3 relative">
-                            <Image
-                              src={parseImages(featuredPosts[0].image)[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
-                              alt="Featured Post"
-                              width={600}
-                              height={400}
-                              className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute top-4 left-4">
-                              <Badge className="bg-blue-600 hover:bg-blue-700">Featured Article</Badge>
-                            </div>
-                          </div>
-                          <div className="p-8 md:w-2/3">
-                            <div className="flex items-center space-x-2 mb-2">
-                              <div className="flex items-center text-sm text-muted-foreground">
-                                <Calendar className="h-3 w-3 mr-1" />
-                                {new Date(featuredPosts[0].createdAt as Date).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                })}
-                              </div>
-                            </div>
-                            <h2 className="text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                              {featuredPosts[0].title}
-                            </h2>
-                            <p className="text-muted-foreground mb-6">{featuredPosts[0].excerpt}</p>
-                            {
-                              featuredPosts[0].blogLink ? (
-                                <Button
-                              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                              asChild
-                            >
-                              <Link href={`${featuredPosts[0].blogLink}`}>
-                                Read Article <ArrowRight className="ml-2 h-4 w-4" />
-                              </Link>
-                            </Button>
-                              ) : (
-                                <Button
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                                asChild
-                              >
-                                <Link href={`/blog/${featuredPosts[0].slug}`}>
-                                  Read Article <ArrowRight className="ml-2 h-4 w-4" />
-                                </Link>
-                              </Button>
-                              )
-                            }
-                          
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-
-                    {
-                      blogLinks.length > 0 && (
-                        blogLinks.map((link:any) => (
-                          <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                          <div className="md:flex">
-                            <div className="md:w-1/3 relative">
-                              <Image
-                                src={
-                                  parseImages(link.image)[0] ||
-                                    "/placeholder.svg?height=400&width=600&text=Featured+Link"
-                                }
-                                alt="Featured Link"
-                                width={600}
-                                height={400}
-                                className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                              />
-                              <div className="absolute top-4 left-4">
-                                <Badge className="bg-purple-600 hover:bg-purple-700">Link</Badge>
-                              </div>
-                            </div>
-                            <div className="p-8 md:w-2/3">
-                              <div className="flex items-center space-x-2 mb-2">
-                                <Badge
-                                  variant="outline"
-                                  className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
-                                >
-                                  {link.type}
-                                </Badge>
-                                <div className="flex items-center text-sm text-muted-foreground">
-                                  <Calendar className="h-3 w-3 mr-1" />
-                                  {new Date(link.createdAt).toLocaleDateString(undefined, {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                  })}
-                                </div>
-                              </div>
-                              <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                                {link.title}
-                              </h2>
-                              {/* <p className="text-muted-foreground mb-6">{link.excerpt.slice(0,100)}...</p> */}
-                              <Button
-                                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-                                asChild
-                              >
-                                <a href={link.externalUrl} target="_blank" rel="noopener noreferrer">
-                                  Visit Link <ExternalLink className="ml-2 h-4 w-4" />
-                                </a>
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                        )
-                      )
-                    )
-                  }
-
-                  {/* {
-                    blogPostWithLink.length > 0 && (
-                      blogPostWithLink.map((post:any) => (
-                        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div className="md:flex">
-                          <div className="md:w-1/3 relative">
-                            <Image
-                              src={
-                                parseImages(post.image)[0] ||
-                                  "/placeholder.svg?height=400&width=600&text=Featured+Link"
-                              }
-                              alt="Featured Link"
-                              width={600}
-                              height={400}
-                              className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute top-4 left-4">
-                              <Badge className="bg-purple-600 hover:bg-purple-700">Link</Badge>
-                            </div>
-                          </div>
-                          <div className="p-8 md:w-2/3">
-                            <div className="flex items-center space-x-2 mb-2">
-                              <Badge
-                                variant="outline"
-                                className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
-                              >
-                                {post.type}
-                              </Badge>
-                              <div className="flex items-center text-sm text-muted-foreground">
-                                <Calendar className="h-3 w-3 mr-1" />
-                                {new Date(post.createdAt).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                })}
-                              </div>
-                            </div>
-                            <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                              {post.title}
-                            </h2>
-                            <p className="text-muted-foreground mb-6">{post.excerpt}</p>
-                            <Button
-                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-                              asChild
-                            >
-                              <a href={post.blogLink} target="_blank" rel="noopener noreferrer">
-                                Visit Link <ExternalLink className="ml-2 h-4 w-4" />
-                              </a>
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                      ))
-                    )
-                  } */}
-                    
-                  </div>
-
-                  {/* Regular Content Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {/* Regular Blog Posts */}
-                    {regularPosts.map((post) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                    {[...regularPosts].map((post) => (
                       <div
                         key={post.id}
-                        className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                        className="group bg-white dark:bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
                       >
-                        <div className="relative aspect-[16/9] overflow-hidden">
-                          {/* <Image
+                        <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
+                          <Image
                             src={
                               post.image
-                                ? JSON.parse(post.image as string)[0] ||
+                                ? parseImages(post.image)[0] ||
                                   "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                             }
                             alt={post.title}
                             width={600}
                             height={300}
-                            className="object-cover transition-all duration-500 group-hover:scale-105"
-                          /> */}
+                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                          />
                           <div className="absolute top-4 left-4">
-                            <Badge className="bg-blue-600 hover:bg-blue-700">Article</Badge>
+                            <Badge className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                              Article
+                            </Badge>
                           </div>
-                        </div>blogPostWithLink
-                        <div className="p-6">
-                          <div className="flex justify-between items-center mb-2">
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3 mr-1" />
+                        </div>
+                        <div className="flex-1 flex flex-col p-6">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                              <Calendar className="h-3 w-3" />
                               {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
                                 year: "numeric",
-                                month: "long",
+                                month: "short",
                                 day: "numeric",
                               })}
-                            </div>
+                            </span>
+                            {post.readingTime && (
+                              <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                                • {post.readingTime} min read
+                              </span>
+                            )}
                           </div>
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                             {post.title}
                           </h3>
-                          {/* <p className="text-muted-foreground mb-4">{post.excerpt?.slice(0,100)}...</p> */}
-                          <Link
-                            href={`/blog/${post.slug}`}
-                            className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                          >
-                            Read More <ArrowRight className="ml-1 h-4 w-4" />
-                          </Link>
+                          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {post.categories?.map((cat: any) => (
+                              <span key={cat.id} className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs font-medium">
+                                {cat.name}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="mt-auto">
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                            >
+                              Read More <ArrowRight className="ml-1 h-4 w-4" />
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     ))}
-
-                   
-                         
-                    {/* Regular Blog Links */}
                   </div>
                 </TabsContent>
 
                 {/* Articles Only Tab */}
                 <TabsContent value="articles">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
                     {[...featuredPosts, ...regularPosts].map((post) => (
                       <div
                         key={post.id}
-                        className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                        className="group bg-white dark:bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
                       >
-                        <div className="relative aspect-[16/9] overflow-hidden">
+                        <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
                           <Image
                             src={
                               post.image
-                                ? JSON.parse(post.image as string)[0] ||
+                                ? parseImages(post.image)[0] ||
                                   "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                             }
                             alt={post.title}
                             width={600}
                             height={300}
-                            className="object-cover transition-all duration-500 group-hover:scale-105"
+                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                           />
                           <div className="absolute top-4 left-4">
-                            <Badge className="bg-blue-600 hover:bg-blue-700">
+                            <Badge className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
                               {post.featured ? "Featured" : "Article"}
                             </Badge>
                           </div>
                         </div>
-                        <div className="p-6">
-                          <div className="flex justify-between items-center mb-2">
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3 mr-1" />
+                        <div className="flex-1 flex flex-col p-6">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                              <Calendar className="h-3 w-3" />
                               {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
                                 year: "numeric",
-                                month: "long",
+                                month: "short",
                                 day: "numeric",
                               })}
-                            </div>
+                            </span>
+                            {post.readingTime && (
+                              <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                                • {post.readingTime} min read
+                              </span>
+                            )}
                           </div>
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                             {post.title}
                           </h3>
-                          {/* <p className="text-muted-foreground mb-4">{post.excerpt}</p> */}
-                          <Link
-                            href={blogPostWithLink`/blog/${post.slug}`}
-                            className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                          >
-                            Read More <ArrowRight className="ml-1 h-4 w-4" />
-                          </Link>
+                          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {post.categories?.map((cat: any) => (
+                              <span key={cat.id} className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs font-medium">
+                                {cat.name}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="mt-auto">
+                            <Link
+                              href={`/blog/${post.slug}`}
+                              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                            >
+                              Read More <ArrowRight className="ml-1 h-4 w-4" />
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -420,96 +339,181 @@ export default async function BlogPage() {
 
                 {/* Links Only Tab */}
                 <TabsContent value="links">
-                  <div className="grid grid-cols-1 gap-8 py-4">
-                    {blogPostWithLink.map((post:any) => (
-                     <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group ">
-                     <div className="md:flex">
-                       <div className="md:w-1/3 relative">
-                         <Image
-                           src={
-                             parseImages(post.image)[0] ||
-                               "/placeholder.svg?height=400&width=600&text=Featured+Link"
-                           }
-                           alt="Featured Link"
-                           width={600}
-                           height={400}
-                           className="h-full w-full object-contain transition-all duration-500 group-hover:scale-105"
-                         />
-                         <div className="absolute top-4 left-4">
-                           <Badge className="bg-purple-600 hover:bg-purple-700">Link</Badge>
-                         </div>
-                       </div>
-                       <div className="p-8 md:w-2/3">
-                         <div className="flex items-center space-x-2 mb-2">
-                           <Badge
-                             variant="outline"
-                             className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
-                           >
-                             {post.type}
-                           </Badge>
-                           <div className="flex items-center text-sm text-muted-foreground">
-                             <Calendar className="h-3 w-3 mr-1" />
-                             {new Date(post.createdAt).toLocaleDateString(undefined, {
-                               year: "numeric",
-                               month: "long",
-                               day: "numeric",
-                             })}
-                           </div>
-                         </div>
-                         <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                           {post.title}
-                         </h2>
-                         {/* <p className="text-muted-foreground mb-6">{post.excerpt?.slice(0, 100)}...</p> */}
-                         <Button
-                           className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-                           asChild
-                         >
-                           <a href={post.blogLink} target="_blank" rel="noopener noreferrer">
-                             Visit Link <ExternalLink className="ml-2 h-4 w-4" />
-                           </a>
-                         </Button>
-                       </div>
-                     </div>
-                   </div>
-                    ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                    {blogLinks
+                      .filter((post: any) => post.type === "link" || post.blogLink)
+                      .map((post: any) => (
+                        <div
+                          key={post.id}
+                          className="group bg-white dark:bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
+                        >
+                          <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
+                            <Image
+                              src={
+                                post.image
+                                  ? parseImages(post.image)[0] ||
+                                    "/placeholder.svg?height=300&width=600&text=Blog+Link"
+                                  : "/placeholder.svg?height=300&width=600&text=Blog+Link"
+                              }
+                              alt={post.title}
+                              width={600}
+                              height={300}
+                              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                                Link
+                              </Badge>
+                            </div>
+                          </div>
+                          <div className="flex-1 flex flex-col p-6">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                <Calendar className="h-3 w-3" />
+                                {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </span>
+                              {post.readingTime && (
+                                <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                                  • {post.readingTime} min read
+                                </span>
+                              )}
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
+                              {post.title}
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {post.categories?.map((cat: any) => (
+                                <span key={cat.id} className="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs font-medium">
+                                  {cat.name}
+                                </span>
+                              ))}
+                            </div>
+                            <div className="mt-auto">
+                              <Button
+                                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-5 py-2 rounded-full text-base font-semibold shadow-lg"
+                                asChild
+                              >
+                                <a href={post.blogLink || post.externalUrl} target="_blank" rel="noopener noreferrer">
+                                  Visit Link <ExternalLink className="ml-2 h-4 w-4" />
+                                </a>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </TabsContent>
 
                 {/* Category Tabs */}
-                {categories.slice(0, 3).map((category) => (
+                {categories.slice(0, 4).map((category) => (
                   <TabsContent key={category.id} value={category.name.toLowerCase()}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {/* This would need a more complex query to filter by category */}
-                      <div className="col-span-full text-center py-10">
-                        <p className="text-muted-foreground">
-                          Showing content in the {category.name} category. This would require additional database
-                          queries.
-                        </p>
-                      </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                      {regularPosts
+                        .filter((post: any) =>
+                          post.categories?.some((cat: any) => cat.name.toLowerCase() === category.name.toLowerCase())
+                        )
+                        .map((post: any) => (
+                          <div
+                            key={post.id}
+                            className="group bg-white dark:bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
+                          >
+                            <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
+                              <Image
+                                src={
+                                  post.image
+                                    ? parseImages(post.image)[0] ||
+                                      "/placeholder.svg?height=300&width=600&text=Blog+Post"
+                                    : "/placeholder.svg?height=300&width=600&text=Blog+Post"
+                                }
+                                alt={post.title}
+                                width={600}
+                                height={300}
+                                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                              />
+                              <div className="absolute top-4 left-4">
+                                <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                                  {category.name}
+                                </Badge>
+                              </div>
+                            </div>
+                            <div className="flex-1 flex flex-col p-6">
+                              <div className="flex items-center gap-2 mb-2">
+                                <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                  <Calendar className="h-3 w-3" />
+                                  {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })}
+                                </span>
+                                {post.readingTime && (
+                                  <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                                    • {post.readingTime} min read
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                                {post.title}
+                              </h3>
+                              <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
+                              <div className="flex flex-wrap gap-2 mb-4">
+                                {post.categories?.map((cat: any) => (
+                                  <span key={cat.id} className="bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs font-medium">
+                                    {cat.name}
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="mt-auto">
+                                <Link
+                                  href={`/blog/${post.slug}`}
+                                  className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                                >
+                                  Read More <ArrowRight className="ml-1 h-4 w-4" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      {/* If no posts in category */}
+                      {regularPosts.filter((post: any) =>
+                        post.categories?.some((cat: any) => cat.name.toLowerCase() === category.name.toLowerCase())
+                      ).length === 0 && (
+                        <div className="col-span-full text-center py-10">
+                          <p className="text-muted-foreground">
+                            No posts found in the <span className="font-semibold">{category.name}</span> category.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </TabsContent>
                 ))}
               </Tabs>
             </div>
 
+            {/* Pagination (optional, can be improved with logic) */}
             <div className="flex justify-center mt-16">
               <div className="inline-flex items-center space-x-2">
-                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all">
+                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all rounded-full px-5 py-2">
                   Previous
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-2 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 transition-all"
+                  className="border-2 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 transition-all rounded-full px-5 py-2"
                 >
                   1
                 </Button>
-                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all">
+                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all rounded-full px-5 py-2">
                   2
                 </Button>
-                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all">
+                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all rounded-full px-5 py-2">
                   3
                 </Button>
-                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all">
+                <Button variant="outline" className="border-2 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all rounded-full px-5 py-2">
                   Next
                 </Button>
               </div>

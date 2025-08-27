@@ -6,17 +6,14 @@ import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
-    const projects = await db.project.findMany({
-      orderBy: {
-        title: "asc",
-      },
-      
+    const posts = await db.post.findMany({
+      orderBy: { createdAt: "desc" },
     })
 
-    return NextResponse.json(projects)
+    return NextResponse.json(posts)
   } catch (error) {
-    console.error("Error fetching categories:", error)
-    return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 })
+    console.error("Error fetching posts:", error)
+    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 })
   }
 }
 

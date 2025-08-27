@@ -135,13 +135,14 @@ interface PublishPostData {
   externalUrl?: string
   isExternal: boolean
   tags: string[]
+  categories?: string[]
   focusKeyword?: string
   seoData?: any
 }
 
 export async function publishPost(data: PublishPostData) {
   try {
-    const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData } = data
+    const { title, description, content, externalUrl, isExternal, tags, categories, focusKeyword, seoData } = data
     const slug = createSlug(title)
 
     // Save to database
@@ -253,7 +254,7 @@ export async function publishPost(data: PublishPostData) {
 
 export async function saveDraft(data: PublishPostData) {
   try {
-    const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData } = data
+    const { title, description, content, externalUrl, isExternal, tags, categories, focusKeyword, seoData } = data
     const slug = createSlug(title)
 
     // Save to database

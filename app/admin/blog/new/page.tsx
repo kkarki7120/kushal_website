@@ -87,7 +87,7 @@ export default function CreatePostPage(): ReactElement {
   const [tagInput, setTagInput] = useState("")
   const [tags, setTags] = useState<string[]>([])
   const [focusKeyword, setFocusKeyword] = useState("")
-  const [category, setCategory] = useState("")
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [publishDate, setPublishDate] = useState("")
   const [readingTime, setReadingTime] = useState(0)
   const [status, setStatus] = useState<"draft" | "published" | "scheduled">("draft")
@@ -119,7 +119,43 @@ export default function CreatePostPage(): ReactElement {
   const [isSEOPanelOpen, setIsSEOPanelOpen] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const router = useRouter()
-  const { categories, isLoading, error } = useCategories()
+  const { categories, isLoading, error , setCategories} = useCategories()
+  const [categoryInput, setCategoryInput] = useState("")
+  const [categoryError, setCategoryError] = useState("")
+
+  const addCategory = async () => {
+    if (!categoryInput.trim()) {
+      setCategoryError("Category name cannot be empty");
+      return;
+    }
+    // Check for duplicate category name (case-insensitive)
+    if (categories.some(cat => cat.name.toLowerCase() === categoryInput.trim().toLowerCase())) {
+      setCategoryError("Category already exists");
+      return;
+    }
+    // make an api call to create a new category
+    const response = await fetch("/api/categories", {
+      method: "POST",
+      body: JSON.stringify({ name: categoryInput.trim() }),
+    })
+    const data = await response.json()
+    setCategories(prev => [...prev, data.category])
+
+    
+    setCategoryInput("");
+    setCategoryError("");
+  };
+
+  const addSelectedCategory = (categoryId: string) => {
+    if (!selectedCategories.includes(categoryId)) {
+      setSelectedCategories([...selectedCategories, categoryId]);
+    }
+  };
+
+  const removeSelectedCategory = (categoryId: string) => {
+    setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+  };
+  
 
   // Calculate reading time
   useEffect(() => {
@@ -138,7 +174,7 @@ export default function CreatePostPage(): ReactElement {
 
       const checks = {
         title: {
-          passed: title.length >= 30 && title.length <= 60 && keywordInTitle,
+          passed: Boolean(title.length >= 30 && title.length <= 60 && keywordInTitle),
           message:
             title.length < 30
               ? "Title too short"
@@ -150,7 +186,7 @@ export default function CreatePostPage(): ReactElement {
           score: title.length >= 30 && title.length <= 60 ? (keywordInTitle ? 25 : 15) : 5,
         },
         metaDescription: {
-          passed: description.length >= 120 && description.length <= 160 && keywordInDescription,
+          passed: Boolean(description.length >= 120 && description.length <= 160 && keywordInDescription),
           message:
             description.length < 120
               ? "Description too short"
@@ -167,7 +203,7 @@ export default function CreatePostPage(): ReactElement {
           score: wordCount >= 1000 ? 25 : wordCount >= 500 ? 20 : wordCount >= 300 ? 15 : 5,
         },
         keywords: {
-          passed: keywordInContent && focusKeyword.length > 0,
+          passed: Boolean(keywordInContent && focusKeyword && focusKeyword.length > 0),
           message: !focusKeyword
             ? "Set focus keyword"
             : !keywordInContent
@@ -301,9 +337,9 @@ export default function CreatePostPage(): ReactElement {
         externalUrl: isExternalPost ? externalUrl.trim() : "",
         isExternal: isExternalPost,
         tags: [...tags, ...seoData.tags],
+        categories: selectedCategories,
         focusKeyword,
         seoData,
-        slug: draftSlug || undefined,
       })
 
       if (result.success) {
@@ -344,13 +380,14 @@ export default function CreatePostPage(): ReactElement {
           externalUrl: isExternalPost ? externalUrl.trim() : "",
           isExternal: isExternalPost,
           tags: [...tags, ...seoData.tags],
+          categories: selectedCategories,
           focusKeyword,
           seoData,
         }),
       })
 
       if (response.ok) {
-        router.push(`/dashboard/blog`)
+        router.push(`/admin/blog`)
       }
     } catch (error) {
       console.error("Error publishing post:", error)
@@ -453,7 +490,7 @@ export default function CreatePostPage(): ReactElement {
                       .toLowerCase()
                       .replace(/[^a-z0-9]+/g, "-")
                       .replace(/-+/g, "-")
-                      .trim("-")}
+                      .replace(/^-+|-+$/g, "")}
                   </span>
                 </div>
               )}
@@ -486,10 +523,14 @@ export default function CreatePostPage(): ReactElement {
                       {description && <p className="text-xl text-gray-600 mb-6">{description}</p>}
 
                       <div className="flex items-center gap-4 mb-8 text-sm text-gray-500">
-                        {category && (
+                        {selectedCategories.length > 0 && (
                           <div className="flex items-center gap-1">
                             <Hash className="w-4 h-4" />
-                            <span className="capitalize">{category}</span>
+                            <span className="capitalize">
+                              {selectedCategories.map(catId => 
+                                categories.find(cat => cat.id === catId)?.name
+                              ).filter(Boolean).join(", ")}
+                            </span>
                           </div>
                         )}
                         {readingTime > 0 && (
@@ -532,7 +573,7 @@ export default function CreatePostPage(): ReactElement {
                       ) : (
                         <div>
                           {content ? (
-                            <MarkdownRenderer content={content} generateIds={true} />
+                            <MarkdownRenderer content={content} />
                           ) : (
                             <p className="text-gray-500 italic text-center py-12">
                               Start writing your content to see the preview...
@@ -560,7 +601,7 @@ export default function CreatePostPage(): ReactElement {
                   </div>
                 ) : editorMode === "rich" ? (
                   <RichTextEditor
-                    content={htmlContent}
+                    value={htmlContent}
                     onChange={handleRichEditorChange}
                     placeholder="Start writing your post..."
                   />
@@ -696,22 +737,85 @@ export default function CreatePostPage(): ReactElement {
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <CardContent className="space-y-3">
-                    <Select value={category} onValueChange={setCategory}>
-                      <SelectTrigger className="h-8 text-sm">
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-600">Select Categories</Label>
+                      <div className="max-h-32 overflow-y-auto space-y-1">
                         {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
+                          <div key={category.id} className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              id={`category-${category.id}`}
+                              checked={selectedCategories.includes(category.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  addSelectedCategory(category.id);
+                                } else {
+                                  removeSelectedCategory(category.id);
+                                }
+                              }}
+                              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            />
+                            <label
+                              htmlFor={`category-${category.id}`}
+                              className="text-sm text-gray-700 cursor-pointer"
+                            >
+                              {category.name}
+                            </label>
+                          </div>
                         ))}
-                      </SelectContent>
-                    </Select>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-transparent">
-                      <Plus className="w-3 h-3 mr-1" />
-                      Add New Category
-                    </Button>
+                      </div>
+                    </div>
+
+                    {selectedCategories.length > 0 && (
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-gray-600">Selected Categories</Label>
+                        <div className="flex flex-wrap gap-1">
+                          {selectedCategories.map((categoryId) => {
+                            const category = categories.find(cat => cat.id === categoryId);
+                            return category ? (
+                              <Badge
+                                key={categoryId}
+                                variant="secondary"
+                                className="text-xs cursor-pointer hover:bg-red-100 flex items-center gap-1"
+                                onClick={() => removeSelectedCategory(categoryId)}
+                              >
+                                {category.name}
+                                <X className="w-3 h-3" />
+                              </Badge>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    <Separator />
+
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-600">Add New Category</Label>
+                      <div className="flex gap-1">
+                        <Input
+                          placeholder="New category name"
+                          value={categoryInput}
+                          onChange={(e) => setCategoryInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") addCategory()
+                          }}
+                          className="h-8 text-sm flex-1"
+                        />
+                        <Button
+                          onClick={addCategory}
+                          size="sm"
+                          className="h-8 px-3"
+                          variant="outline"
+                        >
+                          <Plus className="w-3 h-3 mr-1" />
+                          Add
+                        </Button>
+                      </div>
+                      {categoryError && (
+                        <p className="text-xs text-red-500">{categoryError}</p>
+                      )}
+                    </div>
                   </CardContent>
                 </CollapsibleContent>
               </Collapsible>
