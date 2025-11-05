@@ -23,6 +23,8 @@ export default async function BlogPage() {
     },
   })
 
+  console.log("featuredPosts", featuredPosts)
+
   // fetch blog post with link
   const blogPostWithLink = await db.post.findMany({
     where: {
@@ -119,7 +121,7 @@ export default async function BlogPage() {
               <div className="mb-16 flex flex-col md:flex-row items-center gap-8 bg-gradient-to-tr from-blue-100/60 to-purple-100/60 dark:from-blue-900/60 dark:to-purple-900/60 rounded-3xl shadow-xl p-6 md:p-10 transition-all hover:scale-[1.01]">
                 <div className="w-full md:w-2/5 aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
                   <Image
-                    src={parseImages(featuredPosts[0].image)[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
+                    src={parseImages(featuredPosts[0].featuredImage)[0] || "/placeholder.svg?height=400&width=600&text=Featured+Post"}
                     alt={featuredPosts[0].title}
                     width={600}
                     height={400}
@@ -212,8 +214,8 @@ export default async function BlogPage() {
                         <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
                           <Image
                             src={
-                              post.image
-                                ? parseImages(post.image)[0] ||
+                              post.featuredImage
+                                ? parseImages(post.featuredImage)[0] ||
                                   "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                             }
@@ -280,8 +282,8 @@ export default async function BlogPage() {
                         <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
                           <Image
                             src={
-                              post.image
-                                ? parseImages(post.image)[0] ||
+                              post.featuredImage
+                                ? parseImages(post.featuredImage)[0] ||
                                   "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                             }
@@ -354,58 +356,58 @@ export default async function BlogPage() {
                                   ? parseImages(post.image)[0] ||
                                     "/placeholder.svg?height=300&width=600&text=Blog+Link"
                                   : "/placeholder.svg?height=300&width=600&text=Blog+Link"
-                              }
-                              alt={post.title}
-                              width={600}
-                              height={300}
-                              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute top-4 left-4">
-                              <Badge className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
-                                Link
-                              </Badge>
-                            </div>
-                          </div>
-                          <div className="flex-1 flex flex-col p-6">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                                <Calendar className="h-3 w-3" />
-                                {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })}
-                              </span>
-                              {post.readingTime && (
-                                <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
-                                  • {post.readingTime} min read
-                                </span>
-                              )}
-                            </div>
-                            <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
-                              {post.title}
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              {post.categories?.map((cat: any) => (
-                                <span key={cat.id} className="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs font-medium">
-                                  {cat.name}
-                                </span>
-                              ))}
-                            </div>
-                            <div className="mt-auto">
-                              <Button
-                                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-5 py-2 rounded-full text-base font-semibold shadow-lg"
-                                asChild
-                              >
-                                <a href={post.blogLink || post.externalUrl} target="_blank" rel="noopener noreferrer">
-                                  Visit Link <ExternalLink className="ml-2 h-4 w-4" />
-                                </a>
-                              </Button>
-                            </div>
+                            }
+                            alt={post.title}
+                            width={600}
+                            height={300}
+                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute top-4 left-4">
+                            <Badge className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                              Link
+                            </Badge>
                           </div>
                         </div>
-                      ))}
+                        <div className="flex-1 flex flex-col p-6">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                              <Calendar className="h-3 w-3" />
+                              {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </span>
+                            {post.readingTime && (
+                              <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                                • {post.readingTime} min read
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {post.categories?.map((cat: any) => (
+                              <span key={cat.id} className="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs font-medium">
+                                {cat.name}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="mt-auto">
+                            <Button
+                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-5 py-2 rounded-full text-base font-semibold shadow-lg"
+                              asChild
+                            >
+                              <a href={post.blogLink || post.externalUrl} target="_blank" rel="noopener noreferrer">
+                                Visit Link <ExternalLink className="ml-2 h-4 w-4" />
+                              </a>
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </TabsContent>
 
@@ -425,8 +427,8 @@ export default async function BlogPage() {
                             <div className="relative aspect-[16/9] rounded-t-2xl overflow-hidden">
                               <Image
                                 src={
-                                  post.image
-                                    ? parseImages(post.image)[0] ||
+                                  post.featuredImage
+                                    ? parseImages(post.featuredImage)[0] ||
                                       "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                     : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 }

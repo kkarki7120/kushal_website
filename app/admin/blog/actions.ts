@@ -39,9 +39,9 @@ export async function createPost(data: any) {
         data: {
           title: data.title,
           slug: data.slug,
-          excerpt: data.excerpt,
+          description: data.description,
           content: data.content,
-          image: data.image,
+          featuredImage: data.featuredImage,
           type: data.type || "blog",
           published: data.published || false,
           categories: {
@@ -52,7 +52,8 @@ export async function createPost(data: any) {
             })),
           },
           featured: data.featured || false,
-          blogLink: data.link || null,
+          externalUrl: data.externalUrl || null,
+          isExternal: data.isExternal || false,
           userId: user?.id || "", 
         },
       })
