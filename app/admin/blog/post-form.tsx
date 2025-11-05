@@ -39,6 +39,7 @@ const postSchema = z.object({
   description: z.string().optional(),
   content: z.string().optional(),
   image: z.string().optional(),
+  featuredImage: z.string().optional(), // Add featured image field to schema
   type: z.string().default("blog"),
   categories: z.array(z.string()).optional(),
   published: z.boolean().default(false),
@@ -97,6 +98,7 @@ export function PostForm({ post }: PostFormProps) {
     description: post?.description || "",
     content: post?.content || "",
     image: post?.image || "",
+    featuredImage: post?.featuredImage || "", // Add featured image to defaultValues
     type: post?.type || "blog",
     categories: post?.categories || [],
     published: post?.published || false,
@@ -216,6 +218,7 @@ export function PostForm({ post }: PostFormProps) {
       const formData = {
         ...data,
         image: imageValue,
+        featuredImage: data.featuredImage || null,
       }
 
       if (post) {
@@ -226,6 +229,7 @@ export function PostForm({ post }: PostFormProps) {
           externalUrl: formData.isExternal ? (formData.externalUrl || "") : "",
           isExternal: !!formData.isExternal,
           tags: [],
+          featuredImage: formData.featuredImage,
         })
         toast.success("Post updated successfully.")
       } else {
@@ -462,6 +466,59 @@ export function PostForm({ post }: PostFormProps) {
 
                 <FormDescription>
                   Upload one or more images (max 1MB per image). The first image will be used as the main thumbnail.
+                </FormDescription>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="featuredImage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cover Image</FormLabel>
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-4">
+                  <UploadButton
+                    onUploadComplete={(url) => {
+                      field.onChange(url)
+                      toast.success("Cover image uploaded successfully.")
+                    }}
+                    variant="outline"
+                  >
+                    Upload Cover Image
+                  </UploadButton>
+                </div>
+
+                {/* Cover Image Preview */}
+                {field.value ? (
+                  <div className="relative group border rounded-md overflow-hidden">
+                    <img
+                      src={field.value}
+                      alt="Cover image"
+                      className="w-full h-64 object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-2 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        type="button"
+                        onClick={() => field.onChange("")}
+                        className="text-xs flex items-center gap-1 text-red-400"
+                      >
+                        <X className="h-3 w-3" /> Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border rounded-md p-8 flex flex-col items-center justify-center text-muted-foreground">
+                    <ImageIcon className="h-10 w-10 mb-2" />
+                    <p>No cover image set</p>
+                  </div>
+                )}
+
+                <FormDescription>
+                  Upload a cover image for the blog post (max 1MB). This will be displayed as the main cover image.
                 </FormDescription>
               </div>
               <FormMessage />

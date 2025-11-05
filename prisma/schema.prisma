@@ -65,6 +65,7 @@ model Post {
   published     Boolean    @default(false)
   focusKeyword  String?
   seoData       Json?
+  featuredImage String?    // Cover image for the blog post
 
   // Category (optional)
   categoryId    String?

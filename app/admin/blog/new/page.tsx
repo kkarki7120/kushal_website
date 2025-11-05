@@ -123,6 +123,8 @@ export default function CreatePostPage(): ReactElement {
   const [categoryInput, setCategoryInput] = useState("")
   const [categoryError, setCategoryError] = useState("")
 
+  console.log("featuredImage", featuredImage)
+
   const addCategory = async () => {
     if (!categoryInput.trim()) {
       setCategoryError("Category name cannot be empty");
@@ -382,6 +384,7 @@ export default function CreatePostPage(): ReactElement {
           tags: [...tags, ...seoData.tags],
           categories: selectedCategories,
           focusKeyword,
+          featuredImage,
           seoData,
         }),
       })

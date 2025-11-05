@@ -68,7 +68,8 @@ export async function GET() {
 // }
 export async function POST(request: NextRequest) {
   try {
-      const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData } = await request.json()
+     console.log("Request received to publish post", request.body);
+      const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData, featuredImage } = await request.json()
       const slug = createSlug(title)
   
       // Save to database
@@ -84,6 +85,7 @@ export async function POST(request: NextRequest) {
           focusKeyword,
           seoData: seoData as any,
           published: true,
+          featuredImage
         },
       })
   
@@ -102,6 +104,7 @@ export async function POST(request: NextRequest) {
         published: dbPost.published,
         focusKeyword: dbPost.focusKeyword || "",
         seoData: (dbPost.seoData as any) || {},
+        featuredImage: dbPost.featuredImage || "",
       })
   
    
