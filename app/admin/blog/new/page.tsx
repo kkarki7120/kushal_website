@@ -747,8 +747,8 @@ export default function CreatePostPage(): ReactElement {
                           <div key={category.id} className="flex items-center space-x-2">
                             <input
                               type="checkbox"
-                              id={`category-${category.id}`}
-                              checked={selectedCategories.includes(category.id)}
+                              id={`category-${category?.id}`}
+                              checked={selectedCategories.includes(category?.id)}
                               onChange={(e) => {
                                 if (e.target.checked) {
                                   addSelectedCategory(category.id);
