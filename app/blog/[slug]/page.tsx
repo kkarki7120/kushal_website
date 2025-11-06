@@ -137,7 +137,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
               <div className="lg:col-span-8 lg:col-start-3">
                 <div className="relative aspect-[16/9] mb-8 rounded-xl overflow-hidden">
-                  {/* <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover" /> */}
+                  <Image src={blog.featuredImage || "/placeholder.svg"} alt={blog.title} fill className="object-cover" />
                 </div>
 
                 <div
