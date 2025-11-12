@@ -185,28 +185,6 @@ export async function publishPost(data: PublishPostData) {
   }
 }
 
-// export async function deletePost(slug: string) {
-//   try {
-//     // Delete from database
-//     await prisma.post.delete({
-//       where: { slug },
-//     })
-
-//     // Also delete markdown file
-//     const postsDirectory = path.join(process.cwd(), "content", "posts")
-//     const filePath = path.join(postsDirectory, `${slug}.md`)
-
-//     if (fs.existsSync(filePath)) {
-//       fs.unlinkSync(filePath)
-//     }
-
-//     return { success: true }
-//   } catch (error) {
-//     console.error("Error deleting post:", error)
-//     return { success: false, error: "Failed to delete post" }
-//   }
-// }
-
 // export async function updatePost(slug: string, data: PublishPostData) {
 //   try {
 //     const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData } = data
@@ -292,6 +270,8 @@ export async function deletePost(slug: string) {
     // Also delete markdown file
     const postsDirectory = path.join(process.cwd(), "content", "posts")
     const filePath = path.join(postsDirectory, `${slug}.md`)
+
+    console.log("file path ::::::::", filePath);
 
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath)
