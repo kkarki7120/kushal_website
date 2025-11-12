@@ -122,8 +122,11 @@ export default function CreatePostPage(): ReactElement {
   const { categories, isLoading, error , setCategories} = useCategories()
   const [categoryInput, setCategoryInput] = useState("")
   const [categoryError, setCategoryError] = useState("")
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
+const [uploadProgress, setUploadProgress] = useState<number | null>(null)
+const fileInputRef = useRef<HTMLInputElement>(null)
 
-  console.log("featuredImage", featuredImage)
+  console.log("selected categories :", selectedCategories);
 
   const addCategory = async () => {
     if (!categoryInput.trim()) {
@@ -412,6 +415,49 @@ export default function CreatePostPage(): ReactElement {
     return "bg-red-50 border-red-200"
   }
 
+  async function uploadFeaturedImageFromFile(file: File) {
+    console.log("file", file);
+  try {
+    setIsUploadingImage(true)
+    setUploadProgress(0)
+
+    // 1) Ask our API for a presigned PUT URL
+    const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}&type=${encodeURIComponent(file.type)}`, {
+      method: "GET",
+    })
+    if (!res.ok) throw new Error("Failed to get upload URL")
+    const { uploadUrl, fileUrl } = await res.json() as { uploadUrl: string; fileUrl: string }
+
+    // 2) PUT to S3 (use XHR to track progress)
+    await new Promise<void>((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.open("PUT", uploadUrl)
+      xhr.setRequestHeader("Content-Type", file.type)
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const pct = Math.round((e.loaded / e.total) * 100)
+          setUploadProgress(pct)
+        }
+      }
+      xhr.onload = () => (xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error("Upload failed")))
+      xhr.onerror = () => reject(new Error("Network error during upload"))
+      xhr.send(file)
+    })
+
+    // 3) Save the final public URL into your form state
+    setFeaturedImage(fileUrl)
+    toast.success("Image uploaded!")
+  } catch (err) {
+    console.error(err)
+    toast.error("Image upload failed")
+  } finally {
+    setIsUploadingImage(false)
+    setUploadProgress(null)
+  }
+}
+
+
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-white">
@@ -419,7 +465,7 @@ export default function CreatePostPage(): ReactElement {
           <div className="px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <Link href="/dashboard/posts">
+                <Link href="/admin/blog">
                   <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 px-2">
                     <ArrowLeft className="w-4 h-4 mr-1" />
                     Posts
@@ -892,7 +938,7 @@ export default function CreatePostPage(): ReactElement {
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent className="space-y-3">
+                  {/* <CardContent className="space-y-3">
                     <Input
                       placeholder="Image URL"
                       value={featuredImage}
@@ -915,7 +961,72 @@ export default function CreatePostPage(): ReactElement {
                         />
                       </div>
                     )}
-                  </CardContent>
+                  </CardContent> */}
+                  <CardContent className="space-y-3">
+  <Input
+    placeholder="Image URL"
+    value={featuredImage}
+    onChange={(e) => setFeaturedImage(e.target.value)}
+    className="h-8 text-sm"
+  />
+
+  <div className="flex items-center gap-2">
+    <Button
+      variant="outline"
+      size="sm"
+      className="h-8 text-xs bg-transparent"
+      onClick={() => fileInputRef.current?.click()}
+      disabled={isUploadingImage}
+    >
+      <ImageIcon className="w-3 h-3 mr-1" />
+      {isUploadingImage ? "Uploading..." : "Upload from computer"}
+    </Button>
+
+    {uploadProgress !== null && (
+      <div className="flex-1">
+        <Progress value={uploadProgress} className="h-2" />
+      </div>
+    )}
+  </div>
+
+  <input
+    ref={fileInputRef}
+    type="file"
+    accept="image/*"
+    hidden
+    onChange={(e) => {
+      const file = e.target.files?.[0]
+      if (!file) return
+      // simple client-side validation
+      const allowed = ["image/png", "image/jpeg", "image/webp", "image/gif", "image/svg+xml"]
+      if (!allowed.includes(file.type)) {
+        toast.error("Unsupported file type")
+        return
+      }
+      if (file.size > 5 * 1024 * 1024) { // 5 MB
+        toast.error("File is too large (max 5 MB)")
+        return
+      }
+      uploadFeaturedImageFromFile(file)
+      e.currentTarget.value = ""
+    }}
+  />
+
+  {featuredImage && (
+    <div className="aspect-video bg-gray-100 rounded border overflow-hidden">
+      {/* You can switch to next/image later; this keeps it simple */}
+      <img
+        src={featuredImage || "/placeholder.svg"}
+        alt="Featured"
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          e.currentTarget.style.display = "none"
+        }}
+      />
+    </div>
+  )}
+</CardContent>
+
                 </CollapsibleContent>
               </Collapsible>
             </Card>

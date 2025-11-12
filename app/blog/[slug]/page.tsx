@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { db } from "@/lib/db"
 import { parseImages } from "@/utils"
 import { getSession } from "@/lib/auth"
+import { getPost, getAllPosts } from "@/lib/posts";
 
 // This is a more SEO-friendly approach using slug instead of id
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
@@ -14,6 +15,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const session = await getSession()
   
   const {slug} = await params;
+  const post = await getPost(slug);
+  console.log("Post Data:", post);
   const blog = await db.post.findFirst({
     where: { slug },
     include: {
@@ -125,7 +128,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       })}
                       <span className="mx-2">•</span>
                       <Clock className="h-3 w-3 mr-1" />
-                      {blog.content ? Math.ceil(blog.content.split(/\s+/).length / 200) : 0} min read
+                      {post?.contentHtml ? Math.ceil(post.contentHtml.split(/\s+/).length / 200) : 0} min read
                     </div>
                   </div>
                 </div>
@@ -142,7 +145,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
                 <div
                   className="prose prose-lg dark:prose-invert max-w-none mb-12"
-                  dangerouslySetInnerHTML={{ __html: blog.content || "" }}
+                  dangerouslySetInnerHTML={{ __html: post?.contentHtml || "" }}
                 />
 
                 <div className="flex flex-wrap gap-2 mb-8">
