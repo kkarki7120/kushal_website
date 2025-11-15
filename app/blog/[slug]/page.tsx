@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Github, Twitter, Linkedin, Calendar, Clock, Share2, Bookmark, ThumbsUp } from "lucide-react"
+import { ArrowLeft, Github, Twitter, Linkedin, Calendar, Clock, Share2, Bookmark, ThumbsUp  } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { db } from "@/lib/db"
@@ -13,8 +13,8 @@ import { getPost, getAllPosts } from "@/lib/posts";
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
 
   const session = await getSession()
-  
-  const {slug} = await params;
+
+  const { slug } = await params;
   const post = await getPost(slug);
   console.log("Post Data:", post);
   const blog = await db.post.findFirst({
@@ -28,7 +28,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       },
     },
   })
-  console.log("Blog Post:", blog)
+
+  const categories = await blog?.postCategories.map((pc) => ({
+    id: pc.category.id,
+    name: pc.category.name,
+  }));
+
+  console.log("blog :",blog);
   if (!blog) {
     return (
       <div className="container mx-auto py-16 text-center">
@@ -111,7 +117,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
                 <div className="flex items-center space-x-4 mb-8">
                   <Image
-                    src={  session?.user?.image || "/placeholder.svg"}
+                    src={session?.user?.image || "/placeholder.svg"}
                     alt={blog.title}
                     width={50}
                     height={50}
@@ -126,6 +132,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                         month: "long",
                         day: "numeric",
                       })}
+                      <ul className="flex gap-2 px-3">
+                        {categories && categories.map((pc) => (
+                          <Badge key={pc.id}>{pc.name}</Badge>
+                        ))}
+                      </ul>
                       <span className="mx-2">•</span>
                       <Clock className="h-3 w-3 mr-1" />
                       {post?.contentHtml ? Math.ceil(post.contentHtml.split(/\s+/).length / 200) : 0} min read

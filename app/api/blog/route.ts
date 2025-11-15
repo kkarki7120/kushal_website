@@ -19,61 +19,66 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-     console.log("Request received to publish post", request.body);
-      const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData, featuredImage, categories } = await request.json()
-      const slug = createSlug(title)
+    console.log("Request received to publish post", request.body);
+    const { title, description, content, externalUrl, isExternal, tags, focusKeyword, seoData, featuredImage, categories } = await request.json()
+    const slug = createSlug(title)
 
-      console.log("categories :", categories);
-  
-      // Save to database
-      const dbPost = await prisma.post.create({
-        data: {
-          slug,
-          title,
-          description,
-          content,
-          externalUrl: isExternal ? externalUrl : null,
-          isExternal,
-          tags,
-          focusKeyword,
-          seoData: seoData as any,
-          published: true,
-          featuredImage,
-        },
-      })
-  
-      // Also save to markdown file for serving
-      await savePostToMarkdown({
-        id: dbPost.id,
-        slug: dbPost.slug,
-        title: dbPost.title,
-        description: dbPost.description || "",
-        date: dbPost.createdAt.toISOString(),
-        updatedAt: dbPost.updatedAt.toISOString(),
-        tags: dbPost.tags,
-        content: dbPost.content || "",
-        externalUrl: dbPost.externalUrl || "",
-        isExternal: dbPost.isExternal,
-        published: dbPost.published,
-        focusKeyword: dbPost.focusKeyword || "",
-        seoData: (dbPost.seoData as any) || {},
-        featuredImage: dbPost.featuredImage || "",
-        created_at: dbPost.createdAt,
-        updated_at: dbPost.updatedAt,
-        categories
-      })
-  
-   
-      return NextResponse.json({ success: true, slug }, { status: 200 })
-    } catch (error) {
-      console.error("Error publishing post:", error)
-      return NextResponse.json({ success: false, error: error }, { status: 500 })
-    }
+    console.log("categories :", categories);
+
+    // Save to database
+    const dbPost = await prisma.post.create({
+      data: {
+        slug,
+        title,
+        description,
+        content,
+        externalUrl: isExternal ? externalUrl : null,
+        isExternal,
+        tags,
+        focusKeyword,
+        seoData: seoData as any,
+        published: true,
+        featuredImage,
+        postCategories: {
+          create: categories.map((categoryId: string) => ({
+            categoryId  // **use the foreign key field directly**
+          }))
+        }
+      },
+    })
+
+    // Also save to markdown file for serving
+    await savePostToMarkdown({
+      id: dbPost.id,
+      slug: dbPost.slug,
+      title: dbPost.title,
+      description: dbPost.description || "",
+      date: dbPost.createdAt.toISOString(),
+      updatedAt: dbPost.updatedAt.toISOString(),
+      tags: dbPost.tags,
+      content: dbPost.content || "",
+      externalUrl: dbPost.externalUrl || "",
+      isExternal: dbPost.isExternal,
+      published: dbPost.published,
+      focusKeyword: dbPost.focusKeyword || "",
+      seoData: (dbPost.seoData as any) || {},
+      featuredImage: dbPost.featuredImage || "",
+      created_at: dbPost.createdAt,
+      updated_at: dbPost.updatedAt,
+      categories
+    })
+
+
+    return NextResponse.json({ success: true, slug }, { status: 200 })
+  } catch (error) {
+    console.error("Error publishing post:", error)
+    return NextResponse.json({ success: false, error: error }, { status: 500 })
+  }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { id , slug } = await request.json()
+    const { id, slug } = await request.json()
 
     // Delete from database
     await prisma.post.deleteMany({
