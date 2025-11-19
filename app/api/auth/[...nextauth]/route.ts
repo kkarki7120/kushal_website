@@ -12,26 +12,19 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null
-        }
+        if (!credentials?.email || !credentials?.password) return null
 
         const user = await db.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
+          where: { email: credentials.email },
         })
 
-        if (!user) {
-          return null
-        }
+        if (!user) return null
 
-        const isPasswordValid = await compare(credentials.password, user.password)
-
-        if (!isPasswordValid) {
-          return null
-        }
-        console.log("user ",user)
+        const isPasswordValid = await compare(
+          credentials.password,
+          user.password
+        )
+        if (!isPasswordValid) return null
 
         return {
           id: user.id,
@@ -43,35 +36,53 @@ export const authOptions = {
       },
     }),
   ],
+
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id
-        token.role = user.role
-        token.profile_image = user.profile_image
+    async jwt({ token, trigger, session }) {
+      // On session update, merge new session into token
+      if (trigger === "update" && session) {
+        token.name = session.name ?? token.name
+        token.email = session.email ?? token.email
+        token.profile_image = session.profile_image ?? token.profile_image
       }
+
+      // Always fetch latest user data from DB
+      const user = await db.user.findUnique({
+        where: { id: token.id },
+      })
+
+      if (user) {
+        token.name = user.name
+        token.email = user.email
+        token.profile_image = user.profile_image
+        token.role = user.role
+      }
+
       return token
     },
+
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string
-        session.user.role = token.role as string
-        session.user.profile_image = token.profile_image as string
-
+        session.user.id = token.id
+        session.user.name = token.name
+        session.user.email = token.email
+        session.user.role = token.role
+        session.user.profile_image = token.profile_image
       }
       return session
     },
   },
+
   pages: {
     signIn: "/login",
   },
+
   session: {
     strategy: "jwt",
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 }
 
 const handler = NextAuth(authOptions)
-
 export { handler as GET, handler as POST }
-

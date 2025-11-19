@@ -126,7 +126,7 @@ export default function CreatePostPage(): ReactElement {
 const [uploadProgress, setUploadProgress] = useState<number | null>(null)
 const fileInputRef = useRef<HTMLInputElement>(null)
 
-  console.log("selected categories :", selectedCategories);
+  console.log("content :", content);
 
   const addCategory = async () => {
     if (!categoryInput.trim()) {

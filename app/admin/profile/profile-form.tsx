@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Upload, X, Camera } from "lucide-react"
 import { updatePassword, updateProfile } from "./action"
+import { getSession } from "next-auth/react"
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {
@@ -147,7 +148,17 @@ export function ProfileForm({ user }: ProfileFormProps) {
   async function onProfileSubmit(data: ProfileFormValues) {
     setIsLoading(true)
     try {
-      await updateProfile(user.id, data)
+      console.log("data :", data)
+       const response = await updateProfile(user.id, data)
+
+       console.log("update profile response :", response)
+
+       if(response.success){
+        await fetch("/api/auth/session?update", { method: "POST" })
+
+        // Then get the updated session
+        await getSession()
+       }
       toast({
         title: "Profile updated",
         description: "Your profile information has been updated successfully.",
