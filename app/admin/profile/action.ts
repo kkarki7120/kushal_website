@@ -47,33 +47,27 @@ async function processImageUpload(imageData: string | null | undefined): Promise
 
   return imageData
 }
+// data: { name?: string; email: string; profile_image: string },
 
-export async function updateProfile(
-  userId: string,
-  data: { name?: string; email: string; profile_image: string },
-) {
+export async function updateProfile(userId: string, data: { name?: string; email: string; profile_image: string }) {
   try {
-    // Process the image if it exists
     const imageUrl = await processImageUpload(data.profile_image)
-    console.log("imageUrl", imageUrl)
 
-    if (imageUrl) {
-      // Update the user profile
-      await db.user.update({
-        where: { id: userId },
-        data: {
-          name: data.name,
-          email: data.email,
-          profile_image: imageUrl,
-        },
-      })
-    }
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: {
+        name: data.name,
+        email: data.email,
+        profile_image: imageUrl,
+      },
+    })
 
     revalidatePath("/admin/profile")
-    return { success: true }
+
+    return { success: true, user: updatedUser }
   } catch (error) {
     console.error("Failed to update profile:", error)
-    // throw new Error("Failed to update profile")
+    return { success: false }
   }
 }
 
