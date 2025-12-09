@@ -48,7 +48,7 @@ export function CodeBlock({ className, children, ...props }: CodeBlockProps) {
                     )}
                 </button>
             </div>
-            <div className="overflow-x-auto py-4 px-4 bg-[#0d1117] dark:bg-[#0d1117]">
+            <div className="overflow-x-auto py-4 px-4">
                 <code
                     className={`font-mono text-sm leading-relaxed ${className || ""}`}
                     {...props}
