@@ -38,7 +38,18 @@ export const authOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, trigger, session }) {
+    async jwt({ token, user , trigger, session }) {
+
+        // Set token on first login
+  if (user) {
+    token.id = user.id
+    token.name = user.name
+    token.email = user.email
+    token.role = user.role
+    token.profile_image = user.profile_image
+  }
+
+
       // On session update, merge new session into token
       if (trigger === "update" && session) {
         token.name = session.name ?? token.name
@@ -46,16 +57,17 @@ export const authOptions = {
         token.profile_image = session.profile_image ?? token.profile_image
       }
 
-      // Always fetch latest user data from DB
-      const user = await db.user.findUnique({
-        where: { id: token.id },
-      })
+      if (token.id) {
+        const latestUser = await db.user.findUnique({
+          where: { id: token.id },
+        })
 
-      if (user) {
-        token.name = user.name
-        token.email = user.email
-        token.profile_image = user.profile_image
-        token.role = user.role
+        if (latestUser) {
+          token.name = latestUser.name
+          token.email = latestUser.email
+          token.profile_image = latestUser.profile_image
+          token.role = latestUser.role
+        }
       }
 
       return token
