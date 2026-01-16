@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
-import { Loader2 , Eye } from "lucide-react"
+import { Loader2, Eye, EyeOff } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -94,7 +94,12 @@ export function LoginForm() {
                 <FormControl>
                   <div className="relative">
                     <Input placeholder="••••••••" {...field} type={showPassword ? "text" : "password"} disabled={isLoading} />
-                    <Eye className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer" onClick={() => setShowPassword(!showPassword)} />
+                    <div
+                      className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
