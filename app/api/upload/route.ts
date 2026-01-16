@@ -32,11 +32,10 @@ export async function GET(req: NextRequest) {
       Bucket: BUCKET,
       Key: key,
       ContentType: type,
-      // ACL: "public-read", // optional; you can also serve via CloudFront with OAC and omit this
     })
 
     const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 60 }) // 60s
-    const base =  `https://${BUCKET}.s3.${REGION}.amazonaws.com`
+    const base = `https://${BUCKET}.s3.${REGION}.amazonaws.com`
     const fileUrl = `${base}/${key}`
 
     return NextResponse.json({ uploadUrl, fileUrl })
