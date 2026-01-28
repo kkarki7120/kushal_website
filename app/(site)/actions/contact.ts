@@ -51,3 +51,18 @@ export async function submitContactForm(prevState: any, formData: FormData) {
         return { success: false, message: "Something went wrong. Please try again later." }
     }
 }
+
+export async function toggleReadStatus(id: string, currentStatus: boolean) {
+    try {
+        await prisma.contact.update({
+            where: { id },
+            data: { read: !currentStatus }
+        })
+
+        revalidatePath("/admin/contacts")
+        return { success: true }
+    } catch (error) {
+        console.error("Error toggling read status:", error)
+        return { success: false, message: "Failed to update status" }
+    }
+}
