@@ -22,4 +22,4 @@ jobs:
           port: ${{ secrets.LIGHTSAIL_SSH_PORT }}
           script: |
             cd kushal_website
-            ./deploy.sh
+            ./script/deploy.sh
