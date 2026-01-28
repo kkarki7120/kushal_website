@@ -26,7 +26,7 @@ export function AdminNav() {
   console.log("session", session)
   const navItems = [
     {
-      title: "Dashboard",
+      title: "Admin",
       href: "/admin",
       icon: Home,
     },
@@ -49,6 +49,11 @@ export function AdminNav() {
     {
       title: "Leadership",
       href: "/admin/leadership",
+      icon: Users2,
+    },
+    {
+      title: "Contact",
+      href: "/admin/contacts",
       icon: Users2,
     },
     {
@@ -124,12 +129,12 @@ export function AdminNav() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="w-full justify-start px-2">
               <div className="flex items-center gap-2 h-10 w-10 relative">
-              <Avatar className="h-10 w-10">
-                              <AvatarImage src={(session?.user as any)?.profile_image || undefined} />
-                              <AvatarFallback className="text-lg">
-                                {session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email.charAt(0).toUpperCase()}
-                              </AvatarFallback>
-                            </Avatar>
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={(session?.user as any)?.profile_image || undefined} />
+                  <AvatarFallback className="text-lg">
+                    {session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="flex flex-col items-start text-sm">
                   <span className="font-medium truncate max-w-[120px]">{session?.user?.name || "User"}</span>
                   <span className="text-xs text-muted-foreground truncate max-w-[120px]">{session?.user?.email}</span>
