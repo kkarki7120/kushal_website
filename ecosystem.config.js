@@ -10,7 +10,6 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 3000
       },
-      post_update: "npm install && npx prisma generate && npm run build"
     }
   ]
 };
