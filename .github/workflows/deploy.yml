@@ -1,19 +1,34 @@
 name: Deploy portfolio into Lightsail
+
 on:
   push:
     branches:
       - main
-      
+
 jobs:
   deploy:
-    name: Deploy to Lightsail on main branch push
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
-      - name: Install SSH client
-        run: sudo apt-get install -y openssh-client
-      - name: SSH into Lightsail and Deploy
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Build application
+        run: npm run build
+
+      - name: Deploy to Lightsail
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.LIGHTSAIL_IP }}
@@ -21,5 +36,6 @@ jobs:
           key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
           port: ${{ secrets.LIGHTSAIL_SSH_PORT }}
           script: |
-            cd kushal_website
-            ./deploy.sh
+            set -e
+            cd /home/ubuntu/kushal_website
+            ./script/deploy.sh
