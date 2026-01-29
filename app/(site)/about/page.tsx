@@ -10,7 +10,7 @@ const experiences = [
   {
     title: "DevOps Engineer",
     company: "CloudLaya LLC",
-    duration: "August 2024 - Present",
+    duration: "May 2024 - Present",
     responsibilities: [
       "Collaborate directly with clients to gather requirements and architect secure, scalable cloud infrastructure solutions on AWS, ensuring alignment with business objectives.",
       "Design and deploy production-ready infrastructure using Docker containers, Nginx, Apache web servers, and comprehensive AWS services (EC2, S3, RDS, IAM, Lambda, CloudWatch).",
@@ -24,7 +24,7 @@ const experiences = [
     title: "DevOps Engineer (Contract)",
     company: "LophoPay Financial Ltd.",
     location: "Winnipeg, Manitoba, Canada (Remote)",
-    duration: "May 2024 - November 2024",
+    duration: "May 2025 - November 2025",
     responsibilities: [
       "Managed secure, scalable cloud infrastructure for fintech applications at LophoPay, ensuring compliance with financial industry security standards and regulations.",
       "Built and maintained automated CI/CD pipelines for continuous build, test, and deployment of financial services applications.",
@@ -32,19 +32,6 @@ const experiences = [
       "Implemented comprehensive monitoring solutions for system performance, uptime tracking, and log aggregation to maintain 99.9% availability SLA.",
       "Collaborated closely with development teams to improve deployment reliability, reduce release cycles, and strengthen application security posture.",
       "Conducted security audits and implemented DevSecOps practices including automated vulnerability scanning and compliance checks."
-    ]
-  },
-  {
-    title: "DevOps Engineer Trainee",
-    company: "CloudLaya LLC",
-    duration: "May 2024 - August 2024",
-    responsibilities: [
-      "Gained foundational DevOps experience through hands-on work with WHM (Web Host Manager) and cPanel server management for multiple client environments.",
-      "Performed email configuration, troubleshooting, and WordPress hosting support, resolving technical issues efficiently.",
-      "Learned AWS hosting fundamentals including EC2 instance management, S3 storage configuration, and basic networking setup.",
-      "Developed proficiency in Docker containerization, creating and managing containers for various applications and services.",
-      "Configured Nginx and Apache web servers for hosting environments, including SSL certificate installation and optimization.",
-      "Worked with DevOps tools for deployment automation, system monitoring, and configuration management under senior engineer guidance."
     ]
   },
   {
