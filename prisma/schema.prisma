@@ -67,6 +67,8 @@ model Post {
   seoData       Json?
   featuredImage String?    // Cover image for the blog post
 
+  views         Int        @default(0)
+
   // Category (optional)
   categoryId    String?
   category      Category?  @relation(fields: [categoryId], references: [id])
@@ -206,6 +208,7 @@ model Tutorial {
   id          String   @id
   title       String
   description String
+  content     String?  @db.Text
   difficulty  String
   duration    String
   image       String
@@ -213,8 +216,13 @@ model Tutorial {
   category    String
   tags        String[]
 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   authorId    String
   author      Author   @relation(fields: [authorId], references: [id])
+  
+  @@map("tutorials")
 }
 
 

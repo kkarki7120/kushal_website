@@ -38,7 +38,7 @@ async function getAllTutorials() {
         },
       },
       orderBy: {
-        id: 'desc',
+        createdAt: 'desc',
       },
     })
     return tutorials
@@ -55,7 +55,7 @@ function calculateTutorialStats(tutorials: any[]) {
   const beginnerTutorials = tutorials.filter(t => t.difficulty === 'beginner').length
   const intermediateTutorials = tutorials.filter(t => t.difficulty === 'intermediate').length
   const advancedTutorials = tutorials.filter(t => t.difficulty === 'advanced').length
-  
+
   // Calculate average duration (assuming duration is in format like "2 hours", "30 minutes")
   const totalMinutes = tutorials.reduce((acc, tutorial) => {
     const duration = tutorial.duration.toLowerCase()
@@ -68,12 +68,12 @@ function calculateTutorialStats(tutorials: any[]) {
     }
     return acc + 30 // default 30 minutes
   }, 0)
-  
+
   const avgDuration = totalTutorials > 0 ? Math.round(totalMinutes / totalTutorials) : 0
-  
+
   // Get unique categories
   const categories = [...new Set(tutorials.map(t => t.category))]
-  
+
   return {
     totalTutorials,
     featuredTutorials,
@@ -170,10 +170,11 @@ export default async function TutorialsPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="text-black">Title & Details</TableHead>
+                <TableHead className="text-black">Status & Views</TableHead>
                 <TableHead className="text-black">Difficulty & Duration</TableHead>
                 <TableHead className="text-black">Category & Tags</TableHead>
                 <TableHead className="text-black">Author</TableHead>
-                <TableHead className="text-black">Status</TableHead>
+                <TableHead className="text-black">Featured</TableHead>
                 <TableHead className="text-right text-black">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -193,15 +194,26 @@ export default async function TutorialsPage() {
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      <Badge 
+                      <Badge variant={tutorial.isPublished ? "default" : "secondary"} className={tutorial.isPublished ? "bg-green-600 hover:bg-green-700" : ""}>
+                        {tutorial.isPublished ? "Published" : "Draft"}
+                      </Badge>
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <Eye className="w-4 h-4" />
+                        {tutorial.views} views
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="space-y-1">
+                      <Badge
                         variant={
-                          tutorial.difficulty === 'beginner' ? 'default' : 
-                          tutorial.difficulty === 'intermediate' ? 'secondary' : 'destructive'
+                          tutorial.difficulty === 'beginner' ? 'default' :
+                            tutorial.difficulty === 'intermediate' ? 'secondary' : 'destructive'
                         }
                         className={
                           tutorial.difficulty === 'beginner' ? 'bg-green-100 text-green-800' :
-                          tutorial.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
+                            tutorial.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
                         }
                       >
                         {tutorial.difficulty}

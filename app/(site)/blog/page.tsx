@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Search, Calendar, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-// import { db } from "@/lib/db"
+// import { prisma } from "@/lib/prisma"
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
-import { db } from "@/lib/db"
+import { prisma } from "@/lib/prisma"
 import { parseImages } from "@/utils"
 
 export default async function BlogPage() {
   // Fetch featured blog posts (regular posts)
-  const featuredPosts = await db.post.findMany({
+  const featuredPosts = await prisma.post.findMany({
     where: {
       // featured: true,
       published: true,
@@ -26,7 +26,7 @@ export default async function BlogPage() {
   console.log("featuredPosts", featuredPosts)
 
   // fetch blog post with link
-  const blogPostWithLink = await db.post.findMany({
+  const blogPostWithLink = await prisma.post.findMany({
     where: {
       published: true,
     },
@@ -34,7 +34,7 @@ export default async function BlogPage() {
   console.log("blog post with link", blogPostWithLink)
 
   // Fetch regular blog posts
-  const regularPosts = await db.post.findMany({
+  const regularPosts = await prisma.post.findMany({
     where: {
       // featured: false,
       published: true,
@@ -46,7 +46,7 @@ export default async function BlogPage() {
 
 
   // fetch blog links 
-  const blogLinks = await db.post.findMany({
+  const blogLinks = await prisma.post.findMany({
     // where: {
     //   published: true,
     // },
@@ -56,7 +56,7 @@ export default async function BlogPage() {
   })
 
   // Fetch all categories for filtering
-  const categories = await db.category.findMany({
+  const categories = await prisma.category.findMany({
     orderBy: {
       name: "asc",
     },
@@ -66,7 +66,7 @@ export default async function BlogPage() {
   // Count posts by category for the category section
   const categoryCounts = await Promise.all(
     categories.map(async (category) => {
-      const postCount = await db.postCategory.count({
+      const postCount = await prisma.postCategory.count({
         where: {
           categoryId: category.id,
         },
@@ -83,11 +83,9 @@ export default async function BlogPage() {
       <Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
-          {/* Modern background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-100 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
           <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_20%_20%,#6366f1_0,transparent_40%),radial-gradient(circle_at_80%_80%,#a21caf_0,transparent_40%)] -z-10"></div>
           <div className="container">
-            {/* Header */}
             <div className="text-center mb-16 animate-fade-in">
               <Badge className="mb-2 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800">
                 Blog
@@ -216,7 +214,7 @@ export default async function BlogPage() {
                             src={
                               post.featuredImage
                                 ? parseImages(post.featuredImage)[0] ||
-                                  "/placeholder.svg?height=300&width=600&text=Blog+Post"
+                                "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                             }
                             alt={post.title}
@@ -284,7 +282,7 @@ export default async function BlogPage() {
                             src={
                               post.featuredImage
                                 ? parseImages(post.featuredImage)[0] ||
-                                  "/placeholder.svg?height=300&width=600&text=Blog+Post"
+                                "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                             }
                             alt={post.title}
@@ -354,60 +352,60 @@ export default async function BlogPage() {
                               src={
                                 post.image
                                   ? parseImages(post.image)[0] ||
-                                    "/placeholder.svg?height=300&width=600&text=Blog+Link"
+                                  "/placeholder.svg?height=300&width=600&text=Blog+Link"
                                   : "/placeholder.svg?height=300&width=600&text=Blog+Link"
-                            }
-                            alt={post.title}
-                            width={600}
-                            height={300}
-                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <Badge className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
-                              Link
-                            </Badge>
+                              }
+                              alt={post.title}
+                              width={600}
+                              height={300}
+                              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                                Link
+                              </Badge>
+                            </div>
+                          </div>
+                          <div className="flex-1 flex flex-col p-6">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                <Calendar className="h-3 w-3" />
+                                {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </span>
+                              {post.readingTime && (
+                                <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
+                                  • {post.readingTime} min read
+                                </span>
+                              )}
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
+                              {post.title}
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {post.categories?.map((cat: any) => (
+                                <span key={cat.id} className="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs font-medium">
+                                  {cat.name}
+                                </span>
+                              ))}
+                            </div>
+                            <div className="mt-auto">
+                              <Button
+                                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-5 py-2 rounded-full text-base font-semibold shadow-lg"
+                                asChild
+                              >
+                                <a href={post.blogLink || post.externalUrl} target="_blank" rel="noopener noreferrer">
+                                  Visit Link <ExternalLink className="ml-2 h-4 w-4" />
+                                </a>
+                              </Button>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex-1 flex flex-col p-6">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                              <Calendar className="h-3 w-3" />
-                              {new Date(post.createdAt as Date).toLocaleDateString(undefined, {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              })}
-                            </span>
-                            {post.readingTime && (
-                              <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
-                                • {post.readingTime} min read
-                              </span>
-                            )}
-                          </div>
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
-                            {post.title}
-                          </h3>
-                          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {post.categories?.map((cat: any) => (
-                              <span key={cat.id} className="bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs font-medium">
-                                {cat.name}
-                              </span>
-                            ))}
-                          </div>
-                          <div className="mt-auto">
-                            <Button
-                              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-5 py-2 rounded-full text-base font-semibold shadow-lg"
-                              asChild
-                            >
-                              <a href={post.blogLink || post.externalUrl} target="_blank" rel="noopener noreferrer">
-                                Visit Link <ExternalLink className="ml-2 h-4 w-4" />
-                              </a>
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </TabsContent>
 
@@ -429,7 +427,7 @@ export default async function BlogPage() {
                                 src={
                                   post.featuredImage
                                     ? parseImages(post.featuredImage)[0] ||
-                                      "/placeholder.svg?height=300&width=600&text=Blog+Post"
+                                    "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                     : "/placeholder.svg?height=300&width=600&text=Blog+Post"
                                 }
                                 alt={post.title}
@@ -485,12 +483,12 @@ export default async function BlogPage() {
                       {regularPosts.filter((post: any) =>
                         post.categories?.some((cat: any) => cat.name.toLowerCase() === category.name.toLowerCase())
                       ).length === 0 && (
-                        <div className="col-span-full text-center py-10">
-                          <p className="text-muted-foreground">
-                            No posts found in the <span className="font-semibold">{category.name}</span> category.
-                          </p>
-                        </div>
-                      )}
+                          <div className="col-span-full text-center py-10">
+                            <p className="text-muted-foreground">
+                              No posts found in the <span className="font-semibold">{category.name}</span> category.
+                            </p>
+                          </div>
+                        )}
                     </div>
                   </TabsContent>
                 ))}
@@ -555,9 +553,8 @@ export default async function BlogPage() {
                   <Link key={category.id} href={`/blog/category/${category.name.toLowerCase()}`} className="group">
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
                       <div
-                        className={`h-12 w-12 rounded-lg bg-gradient-to-r ${
-                          gradients[index % gradients.length]
-                        } flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}
+                        className={`h-12 w-12 rounded-lg bg-gradient-to-r ${gradients[index % gradients.length]
+                          } flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}
                       >
                         {/* Simple icon placeholder */}
                         <svg

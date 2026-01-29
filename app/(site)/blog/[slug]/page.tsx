@@ -1,13 +1,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Github, Twitter, Linkedin, Calendar, Clock, Share2, Bookmark, ThumbsUp  } from "lucide-react"
+import { ArrowLeft, Github, Twitter, Linkedin, Calendar, Clock, Share2, Bookmark, ThumbsUp, Eye } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { db } from "@/lib/db"
 import { getSession } from "@/lib/auth"
 import { getPost, getAllPosts } from "@/lib/posts";
 import { MarkdownRenderer } from "@/components/markdown-renderer"
+import { ViewCounter } from "@/components/blog/view-counter"
 
 // This is a more SEO-friendly approach using slug instead of id
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
@@ -111,6 +112,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-900">
                   {blog.postCategories?.map((pc: any) => pc.category.name).join(", ") || "Blog"}
                 </Badge>
+                <ViewCounter slug={slug} />
 
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in">{blog.title}</h1>
 
@@ -139,6 +141,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       <span className="mx-2">•</span>
                       <Clock className="h-3 w-3 mr-1" />
                       {post?.contentHtml ? Math.ceil(post.contentHtml.split(/\s+/).length / 200) : 0} min read
+                      <span className="mx-2">•</span>
+                      <Eye className="h-3 w-3 mr-1" />
+                      {blog.views} views
                     </div>
                   </div>
                 </div>

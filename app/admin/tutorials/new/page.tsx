@@ -19,11 +19,14 @@ export default function NewTutorialPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
     description: "",
-    difficulty: "",
+    content: "",
+    difficulty: "beginner",
     duration: "",
     image: "",
     featured: false,
+    isPublished: false,
     category: "",
     tags: [] as string[],
     authorId: "",
@@ -38,7 +41,7 @@ export default function NewTutorialPage() {
       try {
         const response = await fetch('/api/authors')
         const result = await response.json()
-        
+
         if (result.success) {
           setAuthors(result.data)
         } else {
@@ -57,6 +60,14 @@ export default function NewTutorialPage() {
       ...prev,
       [field]: value
     }))
+
+    // Auto-generate slug from title if slug is empty
+    if (field === 'title' && !formData.slug) {
+      setFormData(prev => ({
+        ...prev,
+        slug: value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+      }))
+    }
   }
 
   const handleAddTag = () => {
@@ -146,14 +157,39 @@ export default function NewTutorialPage() {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="slug">Slug *</Label>
+                <Input
+                  id="slug"
+                  value={formData.slug}
+                  onChange={(e) => handleInputChange('slug', e.target.value)}
+                  placeholder="enter-tutorial-slug"
+                  required
+                />
+                <p className="text-xs text-muted-foreground">URL friendly identifier (auto-generated from title)</p>
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
-                  placeholder="Enter tutorial description"
-                  rows={4}
+                  placeholder="Enter short description (for cards)"
+                  rows={3}
                   required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="content">Content (Markdown) *</Label>
+                <Textarea
+                  id="content"
+                  value={formData.content}
+                  onChange={(e) => handleInputChange('content', e.target.value)}
+                  placeholder="# Tutorial Content
+Write your tutorial content here using Markdown..."
+                  rows={10}
+                  className="font-mono text-sm"
                 />
               </div>
 
@@ -251,7 +287,7 @@ export default function NewTutorialPage() {
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-            
+
             {formData.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {formData.tags.map((tag, index) => (
@@ -288,6 +324,19 @@ export default function NewTutorialPage() {
               <Switch
                 checked={formData.featured}
                 onCheckedChange={(checked) => handleInputChange('featured', checked)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between mt-4">
+              <div className="space-y-0.5">
+                <Label>Publish Tutorial</Label>
+                <p className="text-sm text-muted-foreground">
+                  Make this tutorial visible to the public.
+                </p>
+              </div>
+              <Switch
+                checked={formData.isPublished}
+                onCheckedChange={(checked) => handleInputChange('isPublished', checked)}
               />
             </div>
           </CardContent>
