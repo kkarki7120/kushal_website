@@ -2,12 +2,12 @@ import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { updateTutorialSchema } from '@/@types/tutorial';
-import { 
-  successResponse, 
-  errorResponse, 
-  validationErrorResponse, 
-  notFoundResponse, 
-  handlePrismaError 
+import {
+  successResponse,
+  errorResponse,
+  validationErrorResponse,
+  notFoundResponse,
+  handlePrismaError
 } from '@/utils/api-response';
 
 // GET /api/tutorials/[id] - Get a single tutorial by ID
@@ -102,7 +102,7 @@ export async function PUT(
 
   } catch (error) {
     console.error('Error updating tutorial:', error);
-    
+
     if (error instanceof z.ZodError) {
       return validationErrorResponse(error.errors, 'Invalid request data');
     }

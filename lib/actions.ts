@@ -378,6 +378,24 @@ export async function requireAdmin() {
   return session
 }
 
+
+export async function incrementPostViews(slug: string) {
+  try {
+    await prisma.post.update({
+      where: { slug },
+      data: {
+        views: {
+          increment: 1,
+        },
+      },
+    })
+    return { success: true }
+  } catch (error) {
+    console.error("Error incrementing post views:", error)
+    return { success: false, error: "Failed to increment views" }
+  }
+}
+
 export async function getSession() {
   return await getServerSession(authOptions)
 }

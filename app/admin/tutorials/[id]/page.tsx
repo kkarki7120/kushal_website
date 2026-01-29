@@ -22,6 +22,8 @@ interface Tutorial {
   duration: string
   image: string
   featured: boolean
+  isPublished: boolean
+  views: number
   category: string
   tags: string[]
   authorId: string
@@ -44,6 +46,7 @@ export default function EditTutorialPage({ params }: { params: { id: string } })
     duration: "",
     image: "",
     featured: false,
+    isPublished: false,
     category: "",
     tags: [] as string[],
     authorId: "",
@@ -58,7 +61,7 @@ export default function EditTutorialPage({ params }: { params: { id: string } })
       try {
         const response = await fetch('/api/authors')
         const result = await response.json()
-        
+
         if (result.success) {
           setAuthors(result.data)
         } else {
@@ -87,6 +90,7 @@ export default function EditTutorialPage({ params }: { params: { id: string } })
             duration: result.data.duration,
             image: result.data.image,
             featured: result.data.featured,
+            isPublished: result.data.isPublished,
             category: result.data.category,
             tags: result.data.tags,
             authorId: result.data.authorId,
@@ -226,6 +230,17 @@ export default function EditTutorialPage({ params }: { params: { id: string } })
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="slug">Slug *</Label>
+                <Input
+                  id="slug"
+                  value={formData.slug}
+                  onChange={(e) => handleInputChange('slug', e.target.value)}
+                  placeholder="enter-tutorial-slug"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
@@ -331,7 +346,7 @@ export default function EditTutorialPage({ params }: { params: { id: string } })
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-            
+
             {formData.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {formData.tags.map((tag, index) => (
@@ -368,6 +383,19 @@ export default function EditTutorialPage({ params }: { params: { id: string } })
               <Switch
                 checked={formData.featured}
                 onCheckedChange={(checked) => handleInputChange('featured', checked)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between mt-4">
+              <div className="space-y-0.5">
+                <Label>Publish Tutorial</Label>
+                <p className="text-sm text-muted-foreground">
+                  Make this tutorial visible to the public.
+                </p>
+              </div>
+              <Switch
+                checked={formData.isPublished}
+                onCheckedChange={(checked) => handleInputChange('isPublished', checked)}
               />
             </div>
           </CardContent>
