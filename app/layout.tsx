@@ -18,59 +18,25 @@ const playfair = Playfair_Display({
 })
 
 export const metadata = {
-  title: "Kushal Karki | DevOps Engineer & Cloud Infrastructure Specialist",
-  description:
-    "Explore the portfolio of Kushal Karki — a DevOps Engineer passionate about AWS, Kubernetes, CI/CD automation, and scalable cloud infrastructure. Learn about projects, certifications, and case studies in modern cloud engineering.",
-  keywords: [
-    "Kushal Karki",
-    "DevOps Engineer",
-    "Cloud Engineer",
-    "AWS",
-    "Kubernetes",
-    "CI/CD",
-    "Terraform",
-    "Docker",
-    "Cloud Infrastructure",
-    "Portfolio",
-    "Nepal DevOps",
-  ],
-  authors: [{ name: "Kushal Karki", url: "https://kushal-karki.com.np" }],
-  creator: "Kushal Karki",
-  publisher: "Kushal Karki",
-  metadataBase: new URL("https://kushal-karki.com.np"),
+  title: 'Kushal Karki | DevOps Engineer Nepal | AWS & Kubernetes Expert',
+  description: 'AWS-certified DevOps engineer in Nepal. Expert in CI/CD automation, Kubernetes, Terraform & cloud infrastructure. Proven fintech & SaaS solutions. Free consultation.',
+  keywords: 'devops engineer nepal, aws devops engineer, kubernetes expert nepal, terraform specialist, ci/cd automation, cloud infrastructure engineer, devops freelancer kathmandu, docker kubernetes nepal, aws certified engineer nepal, infrastructure automation specialist, kushal karki',
   openGraph: {
-    title: "Kushal Karki | DevOps Engineer & Cloud Infrastructure Specialist",
-    description:
-      "Portfolio of Kushal Karki — DevOps Engineer specializing in AWS, Kubernetes, and CI/CD pipelines. Explore cloud projects and automation expertise.",
-    url: "https://kushal-karki.com.np",
-    siteName: "Kushal Karki Portfolio",
-    images: [
-      {
-        url: "/kushal.png",
-        width: 1200,
-        height: 630,
-        alt: "Kushal Karki - DevOps Engineer Portfolio",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
+    title: 'Kushal Karki | DevOps Engineer Nepal',
+    description: 'AWS-certified DevOps engineer specializing in cloud infrastructure, CI/CD pipelines, and Kubernetes orchestration.',
+    url: 'https://kushal-karki.com.np',
+    siteName: 'Kushal Karki Portfolio',
+    locale: 'en_US',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Kushal Karki | DevOps Engineer",
-    description:
-      "Official portfolio of Kushal Karki — DevOps Engineer specializing in AWS, Kubernetes, and cloud automation.",
-    creator: "@kushalkarki",
-    images: ["/kushal.png"],
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/kushal.png",
-    apple: "/apple-touch-icon.png",
+    card: 'summary_large_image',
+    title: 'Kushal Karki | DevOps Engineer Nepal',
+    description: 'AWS-certified DevOps engineer in Nepal. CI/CD automation, Kubernetes & cloud infrastructure expert.',
   },
   alternates: {
-    canonical: "https://kushal-karki.com.np",
-  },
+    canonical: 'https://kushal-karki.com.np',
+  }
 }
 
 

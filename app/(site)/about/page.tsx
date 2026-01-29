@@ -9,47 +9,67 @@ import { Footer } from "@/components/footer"
 const experiences = [
   {
     title: "DevOps Engineer",
-    company: "Cloudlaya LLC",
-    duration: "August 2024 - present",
+    company: "CloudLaya LLC",
+    duration: "August 2024 - Present",
     responsibilities: [
-      "Played a key role in SysOps tasks, including server provisioning, configuration management, and troubleshooting system-level issues to maintain optimal performance.",
-      "Designed and implemented projects leveraging Docker, Nginx, Apache, and AWS services such as EC2, IAM, and S3 within a Linux environment, ensuring scalability and reliability.",
-      "Gained hands-on experience with monitoring and visualization tools like Grafana, enabling proactive system performance tracking and issue resolution.",
-      "Ensured consistency, quality, and adherence to best practices across all projects, successfully integrating cloud technologies into business operations."
+      "Collaborate directly with clients to gather requirements and architect secure, scalable cloud infrastructure solutions on AWS, ensuring alignment with business objectives.",
+      "Design and deploy production-ready infrastructure using Docker containers, Nginx, Apache web servers, and comprehensive AWS services (EC2, S3, RDS, IAM, Lambda, CloudWatch).",
+      "Implement and maintain CI/CD pipelines using Jenkins and GitHub Actions, reducing deployment time by 70% and enabling multiple daily releases.",
+      "Develop infrastructure as code using Terraform and Ansible, ensuring reproducible, version-controlled infrastructure deployments.",
+      "Implement monitoring and alerting solutions with Grafana and Prometheus, achieving proactive issue detection and 99.9% uptime across all managed systems.",
+      "Establish DevOps best practices including automated testing, code reviews, and comprehensive documentation standards across all projects."
     ]
   },
   {
-    title: "Intern - DevOps Engineer",
-    company: "Cloudlaya LLC",
-    duration: "June 2024 - August 2024",
+    title: "DevOps Engineer (Contract)",
+    company: "LophoPay Financial Ltd.",
+    location: "Winnipeg, Manitoba, Canada (Remote)",
+    duration: "May 2024 - November 2024",
     responsibilities: [
-      "Played a key role in SysOps tasks, including server provisioning, configuration management, and troubleshooting system-level issues to maintain optimal performance.",
-      "Designed and implemented projects leveraging Docker, Nginx, Apache, and AWS services such as EC2, IAM, and S3 within a Linux environment, ensuring scalability and reliability.",
-      "Gained hands-on experience with monitoring and visualization tools like Grafana, enabling proactive system performance tracking and issue resolution.",
-      "Ensured consistency, quality, and adherence to best practices across all projects, successfully integrating cloud technologies into business operations."
+      "Managed secure, scalable cloud infrastructure for fintech applications at LophoPay, ensuring compliance with financial industry security standards and regulations.",
+      "Built and maintained automated CI/CD pipelines for continuous build, test, and deployment of financial services applications.",
+      "Deployed and managed containerized applications using Docker and AWS ECS, ensuring high availability and fault tolerance for mission-critical systems.",
+      "Implemented comprehensive monitoring solutions for system performance, uptime tracking, and log aggregation to maintain 99.9% availability SLA.",
+      "Collaborated closely with development teams to improve deployment reliability, reduce release cycles, and strengthen application security posture.",
+      "Conducted security audits and implemented DevSecOps practices including automated vulnerability scanning and compliance checks."
     ]
   },
   {
-    title: "Full-stack Web Developer",
+    title: "DevOps Engineer Trainee",
+    company: "CloudLaya LLC",
+    duration: "May 2024 - August 2024",
+    responsibilities: [
+      "Gained foundational DevOps experience through hands-on work with WHM (Web Host Manager) and cPanel server management for multiple client environments.",
+      "Performed email configuration, troubleshooting, and WordPress hosting support, resolving technical issues efficiently.",
+      "Learned AWS hosting fundamentals including EC2 instance management, S3 storage configuration, and basic networking setup.",
+      "Developed proficiency in Docker containerization, creating and managing containers for various applications and services.",
+      "Configured Nginx and Apache web servers for hosting environments, including SSL certificate installation and optimization.",
+      "Worked with DevOps tools for deployment automation, system monitoring, and configuration management under senior engineer guidance."
+    ]
+  },
+  {
+    title: "Junior Full-Stack Developer",
     company: "KSW Techzone",
-    duration: "October 2023 - February 2024",
+    duration: "October 2023 - May 2024",
     responsibilities: [
-      "Retained as a Junior Developer following the internship, recognizing consistent performance and contributions to project success.",
-      "Maintained code quality across front-end (HTML/CSS) and back-end (Django), ensuring CI/CD readiness and seamless integration.",
-      "Developed and maintained web applications using Python and Django, delivering scalable and efficient solutions.",
-      "Managed web hosting using shared hosting platforms, including domain configurations, email setup, and server maintenance.",
-      "Performed system administration tasks such as managing Linux servers, troubleshooting hosting issues, and ensuring server reliability."
+      "Promoted from internship to junior developer role based on consistent performance and valuable contributions to project success.",
+      "Developed and maintained full-stack web applications using Python, Django framework, JavaScript, HTML, and CSS, delivering scalable solutions.",
+      "Implemented RESTful APIs for frontend-backend communication, ensuring efficient data exchange and system integration.",
+      "Managed MySQL and PostgreSQL databases including schema design, query optimization, and data migration tasks.",
+      "Performed web hosting management using cPanel and shared hosting platforms, handling domain configurations, email setup, and SSL certificates.",
+      "Conducted Linux server administration tasks including server maintenance, security updates, troubleshooting, and performance monitoring."
     ]
   },
   {
-    title: "Intern - Web Development",
+    title: "Web Development Intern",
     company: "KSW Techzone Ltd.",
-    duration: "August 2023 - October 2024",
+    duration: "August 2023 - October 2023",
     responsibilities: [
-      "Maintained code quality across front-end (HTML/CSS) and back-end (Django).",
-      "Acted as project lead, managed tasks, and ensured timely completion of goals.",
-      "Collaborated with designers and developers to deliver cohesive design and functionality.",
-      "Used Git and GitHub for collaborative development and deployment practices, improving team workflow efficiency."
+      "Assisted in developing and managing web projects using Python and Django framework, contributing to both backend logic and frontend functionality.",
+      "Maintained code quality standards for HTML/CSS frontend and Django backend components throughout the development lifecycle.",
+      "Acted as project lead for assigned tasks, managing timelines and ensuring timely goal completion.",
+      "Collaborated with designers and developers to ensure design-functionality alignment and deliver cohesive user experiences.",
+      "Used Git and GitHub for collaborative development and version control, learning professional software development practices."
     ]
   }
 ];
@@ -118,8 +138,8 @@ export default function AboutPage() {
                 & Experience
               </h1>
               <p className="max-w-[700px] mx-auto text-muted-foreground">
-                Learn more about my background, skills, and the path that led me to where I am today.
-              </p>
+               AWS-certified DevOps engineer with 3+ years of specialized experience in cloud automation, CI/CD pipelines, and infrastructure optimization. Based in Nepal, serving clients globally.
+               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -139,72 +159,48 @@ export default function AboutPage() {
                 <div className="space-y-2">
                   <h2 className="text-3xl font-bold">Who Am I?</h2>
                   <p className="text-muted-foreground">
-                  "I'm Kushal Karki, a passionate DevOps Engineer with 1 year of experience in automation and infrastructure management, alongside 1 year as a full-stack developer. My journey in tech began as a web developer, where I created functional and engaging digital experiences, while also managing system administration tasks like Linux servers, shared hosting, emails, and domains. This combination of roles ignited my passion for automation and infrastructure as code, leading me to pursue a career in DevOps.
+                    I'm Kushal Karki, an AWS-certified DevOps Engineer based in Nepal with 3+ years of specialized experience in cloud infrastructure automation, CI/CD pipeline development, and containerized application deployment. Currently serving as a DevOps Engineer at CloudLaya LLC, I design and implement scalable, secure AWS solutions that streamline operations and reduce deployment time by up to 70%.
                   </p>
                   <p className="text-muted-foreground">
-                  In my DevOps journey, I’ve primarily worked on projects leveraging AWS, utilizing a wide range of its services to build and optimize cloud infrastructure. While I have minimal experience with GCP and Azure, the majority of my expertise lies in AWS, where I’ve implemented CI/CD pipelines, automated deployments, and enhanced system reliability. My hands-on experience spans services like EC2, S3, RDS, Lambda, and more, enabling me to deliver scalable and efficient solutions.
+                    My technical journey began in web development, where I spent a year building full-stack applications with Python and Django at KSW Techzone, while managing Linux servers, shared hosting environments, email systems, and domain configurations. This dual experience in both development and system administration naturally led me to DevOps—where I discovered my passion for infrastructure as code and automation. I've also managed fintech cloud infrastructure at LophoPay Financial Ltd., ensuring 99.9% uptime and implementing robust security best practices.
                   </p>
                   <p className="text-muted-foreground">
-                  What drives me is the opportunity to bridge the gap between development and operations, crafting reliable, scalable systems. I thrive on solving complex infrastructure challenges and empowering teams to deliver software faster and more effectively."
+                    Throughout my DevOps career, I've primarily focused on AWS cloud services, leveraging EC2, S3, RDS, Lambda, ECS, and CloudWatch to build production-ready infrastructure. I've implemented automated CI/CD pipelines using Jenkins and GitHub Actions, containerized applications with Docker, and orchestrated deployments using Kubernetes. Beyond technical work, I actively contribute to Nepal's tech community by conducting workshops on Git, GitHub, and portfolio development at Nagarjuna College of IT.
+                  </p>
+                  <p className="text-muted-foreground">
+                    What drives me is bridging the gap between development and operations teams, creating reliable, scalable systems that empower organizations to deliver software faster and more effectively. I thrive on solving complex infrastructure challenges, optimizing cloud costs, and implementing automation that transforms manual processes into seamless workflows.
                   </p>
                 </div>
 
                 <div className="flex flex-wrap gap-3 pt-2">
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    AWS
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Azure
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Terraform
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Kubernetes
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Docker
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Jenkins
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    GitHub Actions
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Ansible
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                  >
-                    Python
-                  </Badge>
-                </div>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      AWS Certified
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      Terraform
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      Kubernetes
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      Docker
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      Jenkins
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      GitHub Actions
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      Ansible
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      Python
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                      CI/CD
+                    </Badge>
+                   </div>
               </div>
             </div>
           </div>
@@ -222,7 +218,7 @@ export default function AboutPage() {
               </span>
             </h2>
             <p className="max-w-[700px] mx-auto text-muted-foreground">
-              A comprehensive overview of my technical skills and proficiencies.
+              Comprehensive overview of my technical skills spanning cloud platforms, infrastructure automation, containerization, and DevOps best practices developed through real-world projects.
             </p>
           </div>
 

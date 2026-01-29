@@ -32,9 +32,11 @@ export default function Home() {
                     Kushal Karki
                   </span>
                 </h1>
+                <h2 className="text-xl md:text-2xl font-semibold text-muted-foreground mt-2">
+                 DevOps Engineer in Nepal | AWS Certified Cloud Specialist
+                </h2>
                 <p className="text-lg text-muted-foreground max-w-[600px]">
-                  I architect and automate scalable, reliable infrastructure. Specializing in cloud technologies, CI/CD
-                  pipelines, and infrastructure as code.
+                 I architect and automate scalable, reliable cloud infrastructure. AWS-certified DevOps engineer specializing in CI/CD pipelines, Kubernetes orchestration, and Infrastructure as Code. Delivering secure, cost-effective solutions for fintech, SaaS, and enterprise clients across Nepal and globally.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 mt-2">
                   <Button
@@ -60,7 +62,7 @@ export default function Home() {
                 <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl animate-float">
                   <Image
                     src="/kushal.png"
-                    alt="Portrait of Kushal Karki"
+                    alt="Kushal Karki - DevOps Engineer in Nepal specializing in AWS and Kubernetes"
                     fill
                     className="object-cover"
                     priority
@@ -89,7 +91,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="max-w-[700px] mx-auto text-muted-foreground">
-            A passionate DevOps engineer with a focus on automation, scalability, and delivering seamless infrastructure solutions.
+              AWS-certified DevOps engineer with 3+ years of specialized experience in cloud automation, CI/CD pipelines, and infrastructure optimization. Based in Nepal, serving clients globally.
             </p>
           </div>
 
@@ -99,7 +101,7 @@ export default function Home() {
               <div className="relative">
                 <Image
                   src="/kushal_pic.JPG"
-                  alt="Kushal Karki"
+                  alt="Kushal Karki - AWS Certified DevOps Engineer"
                   width={500}
                   height={600}
                   className="rounded-lg object-cover w-full h-auto"
@@ -108,52 +110,80 @@ export default function Home() {
             </div>
             <div className="space-y-6">
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold">My Background</h3>
-                <p className="text-muted-foreground">
-                "I’m a DevOps Engineer with 1 year of experience in automation and infrastructure, paired with 1 year as a full-stack developer crafting seamless digital experiences. My love for technology began at 16 when I built my first website, and it continues to drive my work today."
-                </p>
-              </div>
+                 <h3 className="text-2xl font-bold">My Background</h3>
+                 <p className="text-muted-foreground">
+                   With 3+ years of dedicated DevOps engineering experience and a foundation in full-stack development, I bring comprehensive understanding of the complete software development lifecycle. Currently at CloudLaya, I collaborate with clients to architect secure, scalable AWS solutions. My contract role at LophoPay Financial Ltd. provided invaluable experience managing mission-critical fintech infrastructure with 99.9% uptime requirements.
+                 </p>
+                 <p className="text-muted-foreground mt-2">
+                   Beyond engineering, I actively contribute to Nepal's tech community by conducting workshops on Git, GitHub, and portfolio development at Nagarjuna College of IT, helping shape the next generation of developers.
+                 </p>
+               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-2xl font-bold">My Expertise</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-start space-x-2">
-                    <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                      01
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Cloud Infrastructure</h4>
-                      <p className="text-sm text-muted-foreground">AWS, Azure, GCP</p>
-                    </div>
+            <div className="space-y-4">
+               <h3 className="text-2xl font-bold">My Expertise</h3>
+               <div className="grid grid-cols-2 gap-4">
+                 
+                 <div className="flex items-start space-x-2">
+                   <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                     01
+                   </div>
+                   <div>
+                     <h4 className="font-semibold">Cloud Infrastructure</h4>
+                     <p className="text-sm text-muted-foreground">AWS, Azure, GCP deployment & optimization</p>
+                   </div>
+                 </div>
+             
+                 <div className="flex items-start space-x-2">
+                   <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                     02
+                   </div>
+                   <div>
+                     <h4 className="font-semibold">CI/CD Automation</h4>
+                     <p className="text-sm text-muted-foreground">Jenkins, GitHub Actions, GitLab CI/CD</p>
+                   </div>
+                 </div>
+             
+                 <div className="flex items-start space-x-2">
+                   <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                     03
+                   </div>
+                   <div>
+                     <h4 className="font-semibold">Infrastructure as Code</h4>
+                     <p className="text-sm text-muted-foreground">Terraform, Ansible, CloudFormation</p>
+                   </div>
+                 </div>
+             
+                 <div className="flex items-start space-x-2">
+                   <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                     04
+                   </div>
+                   <div>
+                     <h4 className="font-semibold">Container Orchestration</h4>
+                     <p className="text-sm text-muted-foreground">Docker, Kubernetes, Helm charts</p>
+                   </div>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                      02
+
+                    <div className="flex items-start space-x-2">
+                      <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                        05
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Monitoring & Logging</h4>
+                        <p className="text-sm text-muted-foreground">Prometheus, Grafana, ELK Stack</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold">CI/CD Pipelines</h4>
-                      <p className="text-sm text-muted-foreground">Jenkins, GitHub Actions, GitLab CI</p>
+                
+                    <div className="flex items-start space-x-2">
+                      <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                        06
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Web Server Management</h4>
+                        <p className="text-sm text-muted-foreground">Nginx, Apache, load balancing</p>
+                      </div>
                     </div>
+                
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                      03
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Infrastructure as Code</h4>
-                      <p className="text-sm text-muted-foreground">Terraform, CloudFormation, Ansible</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                      04
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Containerization</h4>
-                      <p className="text-sm text-muted-foreground">Docker, Kubernetes, Helm</p>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div className="pt-4">
@@ -365,7 +395,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="max-w-[700px] mx-auto text-muted-foreground">
-              Thoughts, insights, and updates about web development, design, and technology.
+              Insights on DevOps, cloud infrastructure, automation, and best practices for modern software delivery.
             </p>
           </div>
 
@@ -451,7 +481,7 @@ export default function Home() {
                 Let's Work <span className="text-blue-200">Together</span>
               </h2>
               <p className="max-w-[700px] mx-auto text-blue-100">
-                Have a project in mind or just want to chat? Feel free to reach out!
+                Looking for a DevOps engineer in Nepal? Let's discuss how I can help optimize your infrastructure, automate deployments, and scale your applications efficiently.
               </p>
             </div>
 
@@ -549,9 +579,8 @@ export default function Home() {
                 <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 shadow-lg">
                   <h3 className="text-2xl font-bold mb-6">Let's Connect</h3>
                   <p className="text-blue-100 mb-6">
-                    I'm always open to discussing new projects, creative ideas or opportunities to be part of your
-                    vision.
-                  </p>
+                     I'm available for DevOps consulting, cloud infrastructure projects, and CI/CD implementations. Whether you're a startup or enterprise, let's explore how automation can accelerate your development workflow.
+                  </p> 
                   <Button
                     className="w-full bg-white text-blue-600 hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
                     asChild
