@@ -65,49 +65,6 @@ const experiences = [
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-          <div className="flex gap-6 md:gap-10">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-1.5 rounded-md">
-                <span className="font-bold text-sm">KK</span>
-              </div>
-              <span className="inline-block font-bold">Kushal Karki</span>
-            </Link>
-            <nav className="hidden md:flex gap-6">
-              <Link href="/" className="flex items-center text-sm font-medium text-muted-foreground relative group">
-                Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/about" className="flex items-center text-sm font-medium text-foreground relative group">
-                About
-                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600"></span>
-              </Link>
-              <Link
-                href="/projects"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                Projects
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/blog" className="flex items-center text-sm font-medium text-muted-foreground relative group">
-                Blog
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/contact"
-                className="flex items-center text-sm font-medium text-muted-foreground relative group"
-              >
-                Contact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center">
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
@@ -630,7 +587,6 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-    < Footer/>
     </div>
   )
 }

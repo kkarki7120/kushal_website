@@ -11,7 +11,6 @@ import { ContactForm } from "@/components/contact-form"
 export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      < Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
@@ -246,7 +245,6 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   )
 }
