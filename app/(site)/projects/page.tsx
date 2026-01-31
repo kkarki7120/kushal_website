@@ -2,8 +2,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Github, ExternalLink, Eye } from "lucide-react"
-import { Footer } from "@/components/footer"
-import { Navbar } from "@/components/navbar"
 import { db } from "@/lib/db"
 import { parseImages } from "@/utils"
 
@@ -20,7 +18,6 @@ export default async function ProjectsPage() {
   console.log("projects", projects)
   return (
     <div className="flex flex-col min-h-screen">
-     < Navbar/>
       <main className="flex-1">
         <section className="container py-12 md:py-16 lg:py-20">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
@@ -89,7 +86,6 @@ export default async function ProjectsPage() {
           </div>
         </section>
       </main>
-      < Footer/>
     </div>
   )
 }

@@ -258,7 +258,6 @@ const benefits = [
 export default function DevOpsServicesPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden py-20 md:py-32">
@@ -654,7 +653,6 @@ export default function DevOpsServicesPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   )
 }

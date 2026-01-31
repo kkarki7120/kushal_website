@@ -80,7 +80,6 @@ export default async function BlogPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-100 dark:from-blue-950 dark:to-purple-950 -z-10"></div>
@@ -646,7 +645,6 @@ export default async function BlogPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   )
 }
