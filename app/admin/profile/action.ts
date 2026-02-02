@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db"
-import { hash, compare } from "bcrypt"
+import { hash, compare } from "bcryptjs"
 import { revalidatePath } from "next/cache"
 import { put } from "@vercel/blob"
 

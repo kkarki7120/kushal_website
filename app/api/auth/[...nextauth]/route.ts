@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { compare } from "bcrypt"
+import { compare } from "bcryptjs"
 import { db } from "@/lib/db"
 
 export const authOptions = {
@@ -38,16 +38,16 @@ export const authOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user , trigger, session }) {
+    async jwt({ token, user, trigger, session }) {
 
-        // Set token on first login
-  if (user) {
-    token.id = user.id
-    token.name = user.name
-    token.email = user.email
-    token.role = user.role
-    token.profile_image = user.profile_image
-  }
+      // Set token on first login
+      if (user) {
+        token.id = user.id
+        token.name = user.name
+        token.email = user.email
+        token.role = user.role
+        token.profile_image = user.profile_image
+      }
 
 
       // On session update, merge new session into token
