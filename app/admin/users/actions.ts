@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { hash } from "bcrypt"
+import { hash } from "bcryptjs"
 import { db } from "@/lib/db"
 
 export async function getUsers() {
